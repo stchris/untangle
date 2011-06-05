@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
- untangle 
+ untangle
 
  Converts xml to python objects.
 
@@ -10,6 +10,7 @@
 
 from xml.sax import make_parser, handler
 from StringIO import StringIO
+
 
 class Element():
     def __init__(self, name, attributes):
@@ -46,13 +47,16 @@ class Element():
             raise IndexError('Unknown key <%s>' % key)
 
     def __str__(self):
-        return "Element <%s> with attributes %s and children %s" % (self.name, self.attributes, self.children)
+        return "Element <%s> with attributes %s and children %s" % \
+                (self.name, self.attributes, self.children)
 
     def __repr__(self):
-        return "Element(name = %s, attributes = %s)" % (self.name, self.attributes)
+        return "Element(name = %s, attributes = %s)" % \
+                (self.name, self.attributes)
 
     def __nonzero__(self):
         return self.name is not None
+
 
 class Handler(handler.ContentHandler):
     def __init__(self):
@@ -61,7 +65,7 @@ class Handler(handler.ContentHandler):
 
     def startElement(self, name, attributes):
         attrs = dict()
-        for k,v in attributes.items():
+        for k, v in attributes.items():
             attrs[k] = v
         element = Element(name, attrs)
         if len(self.elements) > 0:
@@ -73,13 +77,14 @@ class Handler(handler.ContentHandler):
     def endElement(self, name):
         self.elements.pop()
 
+
 def parse(filename):
     parser = make_parser()
     handler = Handler()
     parser.setContentHandler(handler)
     try:
         parser.parse(filename)
-    except IOError as e:
+    except IOError:
         # try to see if the passed string is valid XML before giving up
         parser.parse(StringIO(filename))
 

@@ -3,6 +3,7 @@
 import unittest
 import untangle
 
+
 class GoogleWeatherTestCase(unittest.TestCase):
     url = 'http://www.google.com/ig/api?weather=Berlin'
 
@@ -24,6 +25,7 @@ class GoogleWeatherTestCase(unittest.TestCase):
             self.assert_(f.day_of_week['data'])
             self.assert_(f.low['data'])
             self.assert_(f.high['data'])
+
 
 class FromStringTestCase(unittest.TestCase):
     def test_basic(self):
