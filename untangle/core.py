@@ -9,8 +9,9 @@
  License: MIT License - http://www.opensource.org/licenses/mit-license.php
 """
 
-from xml.sax import make_parser, handler
+from xml.sax import make_parser, handler, SAXParseException
 from StringIO import StringIO
+from exceptions import ParseException
 
 __version__ = '0.1'
 
@@ -81,6 +82,14 @@ class Handler(handler.ContentHandler):
 
 
 def parse(filename):
+    """
+    Interprets the given string as a filename, URL or XML data string,
+    parses it and returns a Python object which represents the given
+    document.
+
+    Throws untangled.exceptions.ParseException if something goes wrong
+    during parsing.
+    """
     parser = make_parser()
     handler = Handler()
     parser.setContentHandler(handler)
@@ -88,7 +97,12 @@ def parse(filename):
         parser.parse(filename)
     except IOError:
         # try to see if the passed string is valid XML before giving up
-        parser.parse(StringIO(filename))
+        try:
+            parser.parse(StringIO(filename))
+        except SAXParseException as e:
+            raise ParseException(e)
+    except SAXParseException as e:
+        raise ParseException(e)
 
     return handler.root
 

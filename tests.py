@@ -86,6 +86,11 @@ class FromStringTestCase(unittest.TestCase):
         self.assertEquals('sub2', children[2].subchild[0]['name'])
 
 
+class InvalidTestCase(unittest.TestCase):
+    def test_invalid_xml(self):
+        self.assertRaises(untangle.exceptions.ParseException, untangle.parse, '<unclosed>')
+
+
 if __name__ == '__main__':
     unittest.main()
 
