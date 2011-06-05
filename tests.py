@@ -88,8 +88,13 @@ class FromStringTestCase(unittest.TestCase):
 
 class InvalidTestCase(unittest.TestCase):
     def test_invalid_xml(self):
-        self.assertRaises(untangle.exceptions.ParseException, untangle.parse, '<unclosed>')
+        self.assertRaises(untangle.ParseException, untangle.parse, '<unclosed>')
 
+    def test_empty_xml(self):
+        self.assertRaises(ValueError, untangle.parse, '')
+
+    def test_none_xml(self):
+        self.assertRaises(ValueError, untangle.parse, None)
 
 if __name__ == '__main__':
     unittest.main()

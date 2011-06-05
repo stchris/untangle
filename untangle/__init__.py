@@ -1,1 +1,1 @@
-from core import parse, __version__
+from core import parse, ParseException, __version__

@@ -16,9 +16,15 @@
 
 from xml.sax import make_parser, handler, SAXParseException
 from StringIO import StringIO
-from exceptions import ParseException
 
 __version__ = '0.1'
+
+
+class ParseException(Exception):
+	"""
+	Something happened while parsing the XML data.
+	"""
+
 
 class Element():
     """
@@ -101,6 +107,8 @@ def parse(filename):
     Throws ``untangled.exceptions.ParseException`` if something goes wrong
     during parsing.
     """
+    if filename is None or filename.strip() == '':
+        raise ValueError('parse() takes a filename, URL or XML string')
     parser = make_parser()
     handler = Handler()
     parser.setContentHandler(handler)
