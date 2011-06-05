@@ -16,7 +16,7 @@ python setup.py test
 python setup.py install
 ```
 
-Tested on Python 2.6 only so far.
+Works on Python 2.6, 2.7 and Pypy so far.
 
 Usage
 -----
