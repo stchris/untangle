@@ -10,9 +10,11 @@ untangle
 Installation
 ------------
 
-``git clone git://github.com/stchris/untangle.git``
-``python setup.py test``
-``python setup.py install``
+```
+git clone git://github.com/stchris/untangle.git
+python setup.py test
+python setup.py install
+```
 
 Tested on Python 2.6 only so far.
 
