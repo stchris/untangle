@@ -12,8 +12,8 @@ Usage
 (See and run <a href="https://github.com/stchris/untangle/blob/master/examples.py">examples.py</a> for more info)
 
 ```python
-import untangled
-obj = untangled.parse(resource)
+import untangle
+obj = untangle.parse(resource)
 ```
 
 ``resource`` can be:
@@ -30,7 +30,7 @@ This XML:
 	<child name="child1">
 </root>
 ```
-can be navigated from the untangled object like this:
+can be navigated from the ``untangle``d object like this:
 
 ```python
 obj.root.child['name'] # u'child1'
