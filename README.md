@@ -1,8 +1,6 @@
 untangle 
 ========
 
-What it does
-------------
 * Converts XML to a Python object. 
 * Siblings with similar names are grouped into a list. 
 * Children can be accessed with ``parent.child``, attributes with ``element['attribute']``.
