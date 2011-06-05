@@ -6,6 +6,7 @@
  Converts xml to python objects.
 
  Author: Christian Stefanescu (http://0chris.com)
+ License: MIT License - http://www.opensource.org/licenses/mit-license.php
 """
 
 from xml.sax import make_parser, handler
