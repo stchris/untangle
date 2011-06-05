@@ -39,5 +39,5 @@ can be navigated from the untangled object like this:
 obj.root.child['name'] # u'child1'
 ```
 
-Also: see examples.py
+Also: see <a href="https://github.com/stchris/untangle/blob/master/examples.py">examples.py</a>
 
