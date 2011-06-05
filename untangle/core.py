@@ -12,6 +12,7 @@
 from xml.sax import make_parser, handler
 from StringIO import StringIO
 
+__version__ = '0.1'
 
 class Element():
     def __init__(self, name, attributes):
