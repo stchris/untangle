@@ -1,10 +1,8 @@
 untangle 
 ========
-version 0.1
-by Christian Stefanescu (http://0chris.com)
 
 What it does
-============
+------------
 * Converts XML to a Python object. 
 * Siblings with similar names are grouped into a list. 
 * Children can be accessed with ``parent.child``, attributes with ``element['attribute']``.
@@ -12,7 +10,8 @@ What it does
 * Substitutes ``-`` with ``_`` so ``<foobar><foo-bar/></foobar>`` can be accessed with ``foobar.foo_bar``
 
 Usage
-=====
+-----
+(See and run <a href="https://github.com/stchris/untangle/blob/master/examples.py">examples.py</a> for more info)
 
 ```python
 import untangled
@@ -38,6 +37,4 @@ can be navigated from the untangled object like this:
 ```python
 obj.root.child['name'] # u'child1'
 ```
-
-Also: see <a href="https://github.com/stchris/untangle/blob/master/examples.py">examples.py</a>
 
