@@ -20,6 +20,7 @@ obj = untangled.parse(resource)
 ```
 
 ``resource`` can be:
+
 * an URL
 * a filename
 * an XML string
