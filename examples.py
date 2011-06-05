@@ -4,15 +4,17 @@ import untangle
 
 
 def access():
-	o = untangle.parse('''<?xml version="1.0"?>
-							<node id="5"><subnode value="abc"/></node>
-					''')
+	o = untangle.parse('<?xml version="1.0"?><node id="5"><subnode value="abc"/></node>')
 	return "Node id = %s, subnode value = %s" % (o.node['id'], o.node.subnode['value'])
 
 def siblings_list():
 	o = untangle.parse('''<?xml version="1.0"?>
-		<root><child name="child1"/><child name="child2"/><child name="child3"/></root>
-					''')
+		<root>
+			<child name="child1"/>
+			<child name="child2"/>
+			<child name="child3"/>
+		</root>
+		''')
 	return ','.join([child['name'] for child in o.root.child])
 
 
