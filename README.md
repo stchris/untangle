@@ -7,6 +7,13 @@ untangle
 * You can call the ``parse()`` method with a filename, an URL or an XML string.
 * Substitutes ``-`` with ``_`` so ``<foobar><foo-bar/></foobar>`` can be accessed with ``foobar.foo_bar``
 
+Installation
+------------
+
+``python setup.py install``
+
+Tested on Python 2.6 only so far.
+
 Usage
 -----
 (See and run <a href="https://github.com/stchris/untangle/blob/master/examples.py">examples.py</a> for more info)
