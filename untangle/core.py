@@ -5,6 +5,11 @@
 
  Converts xml to python objects.
 
+ The only method you need to call is parse()
+ 
+ Partially inspired by xml2obj 
+ (http://code.activestate.com/recipes/149368-xml2obj/)
+
  Author: Christian Stefanescu (http://0chris.com)
  License: MIT License - http://www.opensource.org/licenses/mit-license.php
 """
@@ -16,6 +21,9 @@ from exceptions import ParseException
 __version__ = '0.1'
 
 class Element():
+    """
+    Representation of an XML element.
+    """
     def __init__(self, name, attributes):
         self.name = name
         self.attributes = attributes
@@ -62,6 +70,9 @@ class Element():
 
 
 class Handler(handler.ContentHandler):
+    """
+    SAX handler which creates the Python object structure out of ``Element``s
+    """
     def __init__(self):
         self.root = Element(None, None)
         self.elements = []
@@ -87,7 +98,7 @@ def parse(filename):
     parses it and returns a Python object which represents the given
     document.
 
-    Throws untangled.exceptions.ParseException if something goes wrong
+    Throws ``untangled.exceptions.ParseException`` if something goes wrong
     during parsing.
     """
     parser = make_parser()
