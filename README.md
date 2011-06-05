@@ -33,7 +33,7 @@ This XML:
 	<child name="child1">
 </root>
 ```
-allows you to access the following:
+can be navigated from the untangled object like this:
 
 ```python
 obj.root.child['name'] # u'child1'
