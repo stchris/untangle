@@ -104,7 +104,9 @@ def parse(filename):
     parses it and returns a Python object which represents the given
     document.
 
-    Throws ``untangled.exceptions.ParseException`` if something goes wrong
+    Raises ``ValueError`` if the argument is None / empty string.
+
+    Raises ``untangle.ParseException`` if something goes wrong
     during parsing.
     """
     if filename is None or filename.strip() == '':
