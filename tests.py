@@ -85,6 +85,9 @@ class FromStringTestCase(unittest.TestCase):
         self.assertEquals(2, len(children[2].subchild))
         self.assertEquals('sub2', children[2].subchild[0]['name'])
 
+    def test_single_root(self):
+        self.assert_(untangle.parse('<single_root_node/>'))
+
 
 class InvalidTestCase(unittest.TestCase):
     def test_invalid_xml(self):

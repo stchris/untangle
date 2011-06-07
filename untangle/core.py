@@ -34,6 +34,7 @@ class Element():
         self.name = name
         self.attributes = attributes
         self.children = []
+        self.is_root = False
 
     def add_child(self, element):
         element.name = element.name.replace('-', '_')
@@ -72,7 +73,7 @@ class Element():
                 (self.name, self.attributes)
 
     def __nonzero__(self):
-        return self.name is not None
+        return self.is_root or self.name is not None
 
 
 class Handler(handler.ContentHandler):
@@ -81,6 +82,7 @@ class Handler(handler.ContentHandler):
     """
     def __init__(self):
         self.root = Element(None, None)
+        self.root.is_root = True
         self.elements = []
 
     def startElement(self, name, attributes):
