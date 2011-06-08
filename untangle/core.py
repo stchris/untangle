@@ -17,7 +17,7 @@
 from xml.sax import make_parser, handler, SAXParseException
 from StringIO import StringIO
 
-__version__ = '0.2'
+__version__ = '0.3'
 
 
 class ParseException(Exception):
