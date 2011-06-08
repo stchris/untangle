@@ -5,8 +5,8 @@ untangle
 * Siblings with similar names are grouped into a list. 
 * Children can be accessed with ``parent.child``, attributes with ``element['attribute']``.
 * You can call the ``parse()`` method with a filename, an URL or an XML string.
-* Substitutes ``-`` with ``_`` so ``<foobar><foo-bar/></foobar>`` can be accessed with ``foobar.foo_bar``
-
+* Substitutes ``-`` with ``_`` and ``.`` with ``_`` so ``<foobar><foo-bar/></foobar>`` can be accessed with ``foobar.foo_bar``
+ and ``<foo.bar.baz/>`` can be accessed with ``foo_bar_baz``
 Installation
 ------------
 

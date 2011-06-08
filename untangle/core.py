@@ -39,6 +39,7 @@ class Element():
 
     def add_child(self, element):
         element._name = element._name.replace('-', '_')
+        element._name = element._name.replace('.', '_')
         self.children.append(element)
 
     def add_cdata(self, cdata):
