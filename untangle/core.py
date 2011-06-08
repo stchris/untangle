@@ -16,15 +16,14 @@
 
 from xml.sax import make_parser, handler, SAXParseException
 from StringIO import StringIO
-import os
 
 __version__ = '0.2'
 
 
 class ParseException(Exception):
-	"""
-	Something happened while parsing the XML data.
-	"""
+    """
+    Something happened while parsing the XML data.
+    """
 
 
 class Element():
