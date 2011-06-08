@@ -108,7 +108,22 @@ class PomXmlTestCase(unittest.TestCase):
         self.o = untangle.parse('tests/res/pom.xml')
 
     def test_parent(self):
-        self.assert_(self.o.project.parent)
+        project = self.o.project
+        self.assert_(project)
+
+        parent = project.parent
+        self.assert_(parent)
+        self.assertEquals('com.atlassian.confluence.plugin.base', parent.groupId)
+        self.assertEquals('confluence-plugin-base', parent.artifactId)
+        self.assertEquals('17', parent.version)
+
+        self.assertEquals('4.0.0', project.modelVersion)
+        self.assertEquals('com.this.that.groupId', project.groupId)
+
+        self.assertEquals('', project.name)
+        self.assertEquals('${pom.groupId}.${pom.artifactId}', project.properties.atlassian_plugin_key)
+        self.assertEquals('1.4.1', project.properties.atlassian_product_test_lib_version)
+        self.assertEquals('2.9', project.properties.atlassian_product_data_version)
 
 if __name__ == '__main__':
     unittest.main()
