@@ -35,10 +35,14 @@ class Element():
         self.attributes = attributes
         self.children = []
         self.is_root = False
+        self.cdata = ''
 
     def add_child(self, element):
         element.name = element.name.replace('-', '_')
         self.children.append(element)
+
+    def add_cdata(self, cdata):
+        self.cdata = self.cdata + cdata
 
     def get_attribute(self, key):
         return self.attributes.get(key)
@@ -69,11 +73,15 @@ class Element():
                 (self.name, self.attributes, self.children)
 
     def __repr__(self):
-        return "Element(name = %s, attributes = %s)" % \
-                (self.name, self.attributes)
+        return "Element(name = %s, attributes = %s, cdata = %s)" % \
+                (self.name, self.attributes, self.cdata)
 
     def __nonzero__(self):
         return self.is_root or self.name is not None
+
+    def __eq__(self, val):
+        return self.cdata == val
+
 
 
 class Handler(handler.ContentHandler):
@@ -98,6 +106,9 @@ class Handler(handler.ContentHandler):
 
     def endElement(self, name):
         self.elements.pop()
+
+    def characters(self, cdata):
+        self.elements[-1].add_cdata(cdata)
 
 
 def parse(filename):
