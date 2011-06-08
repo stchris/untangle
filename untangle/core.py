@@ -16,6 +16,7 @@
 
 from xml.sax import make_parser, handler, SAXParseException
 from StringIO import StringIO
+import os
 
 __version__ = '0.2'
 
@@ -118,14 +119,11 @@ def parse(filename):
     parser.setContentHandler(handler)
     try:
         parser.parse(filename)
-    except IOError:
-        # try to see if the passed string is valid XML before giving up
+    except IOError as e:
         try:
             parser.parse(StringIO(filename))
-        except SAXParseException as e:
-            raise ParseException(e)
-    except SAXParseException as e:
-        raise ParseException(e)
+        except SAXParseException as ex:
+            raise ParseException(ex)
 
     return handler.root
 

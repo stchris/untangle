@@ -99,6 +99,13 @@ class InvalidTestCase(unittest.TestCase):
     def test_none_xml(self):
         self.assertRaises(ValueError, untangle.parse, None)
 
+class PomXmlTestCase(unittest.TestCase):
+    def setUp(self):
+        self.o = untangle.parse('tests/res/pom.xml')
+
+    def test_parent(self):
+        self.assert_(self.o.project.parent)
+
 if __name__ == '__main__':
     unittest.main()
 
