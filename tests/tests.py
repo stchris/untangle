@@ -5,6 +5,7 @@ import untangle
 
 
 class GoogleWeatherTestCase(unittest.TestCase):
+    """ Tests parsing an XML from a URL """
     url = 'http://www.google.com/ig/api?weather=Berlin'
 
     def setUp(self):
@@ -28,6 +29,7 @@ class GoogleWeatherTestCase(unittest.TestCase):
 
 
 class FromStringTestCase(unittest.TestCase):
+    """ Basic parsing tests with input as string """
     def test_basic(self):
         o = untangle.parse("<a><b/><c/></a>")
         self.assert_(o is not None)
@@ -90,6 +92,7 @@ class FromStringTestCase(unittest.TestCase):
 
 
 class InvalidTestCase(unittest.TestCase):
+    """ Test corner cases """
     def test_invalid_xml(self):
         self.assertRaises(untangle.ParseException, untangle.parse, '<unclosed>')
 
@@ -100,6 +103,7 @@ class InvalidTestCase(unittest.TestCase):
         self.assertRaises(ValueError, untangle.parse, None)
 
 class PomXmlTestCase(unittest.TestCase):
+    """ Tests parsing a Maven pom.xml """
     def setUp(self):
         self.o = untangle.parse('tests/res/pom.xml')
 
