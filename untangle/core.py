@@ -31,21 +31,21 @@ class Element():
     Representation of an XML element.
     """
     def __init__(self, name, attributes):
-        self.name = name
-        self.attributes = attributes
+        self._name = name
+        self._attributes = attributes
         self.children = []
         self.is_root = False
         self.cdata = ''
 
     def add_child(self, element):
-        element.name = element.name.replace('-', '_')
+        element._name = element._name.replace('-', '_')
         self.children.append(element)
 
     def add_cdata(self, cdata):
         self.cdata = self.cdata + cdata
 
     def get_attribute(self, key):
-        return self.attributes.get(key)
+        return self._attributes.get(key)
 
     def get_elements(self, name=None):
         if name:
@@ -57,7 +57,7 @@ class Element():
         return self.get_attribute(key)
 
     def __getattr__(self, key):
-        l = [x for x in self.children if x.name == key]
+        l = [x for x in self.children if x._name == key]
         if l:
             if len(l) == 1:
                 self.__dict__[key] = l[0]
@@ -70,14 +70,14 @@ class Element():
 
     def __str__(self):
         return "Element <%s> with attributes %s and children %s" % \
-                (self.name, self.attributes, self.children)
+                (self._name, self._attributes, self.children)
 
     def __repr__(self):
         return "Element(name = %s, attributes = %s, cdata = %s)" % \
-                (self.name, self.attributes, self.cdata)
+                (self._name, self._attributes, self.cdata)
 
     def __nonzero__(self):
-        return self.is_root or self.name is not None
+        return self.is_root or self._name is not None
 
     def __eq__(self, val):
         return self.cdata == val
