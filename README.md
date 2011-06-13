@@ -39,7 +39,7 @@ Running the above code and passing this XML:
 ```xml
 <?xml version="1.0"?>
 <root>
-	<child name="child1">
+	<child name="child1"/>
 </root>
 ```
 allows it to be navigated from the ``untangle``d object like this:

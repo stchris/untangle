@@ -1,6 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+untangle
+--------
+
+untangle XML to Python objects.
+
+Example:
+
+::
+	import untangle
+	obj = untangle.parse('<root><child name="child1"/></root>')
+	assert obj.root.child['name'] == u'child1'
+"""
+
 import os
 import sys
 import untangle
@@ -16,7 +30,7 @@ setup(
     name='untangle',
     version=untangle.__version__,
     description='Convert XML documents into Python objects',
-    long_description=open('README.md').read(),
+    long_description=__doc__,
     author='Christian Stefanescu',
     author_email='chris@0chris.com',
     url='https://github.com/stchris/untangle',
