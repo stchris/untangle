@@ -9,7 +9,6 @@ untangle XML to Python objects.
 
 Example:
 
-::
 	import untangle
 	obj = untangle.parse('<root><child name="child1"/></root>')
 	assert obj.root.child['name'] == u'child1'
