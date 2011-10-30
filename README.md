@@ -21,7 +21,7 @@ Works on Python 2.6, 2.7 and Pypy so far. Doesn't (completely) work on 2.4, 2.5,
 
 Usage
 -----
-(See and run <a href="https://github.com/stchris/untangle/blob/master/examples.py">examples.py</a> for more info)
+(See and run <a href="https://github.com/stchris/untangle/blob/master/examples.py">examples.py</a> or this blog post: [Read XML painlessly](http://pythonadventures.wordpress.com/2011/10/30/read-xml-painlessly/) for more info)
 
 ```python
 import untangle
