@@ -14,16 +14,18 @@
  License: MIT License - http://www.opensource.org/licenses/mit-license.php
 """
 
+import os
 from xml.sax import make_parser, handler, SAXParseException
 from StringIO import StringIO
 
-__version__ = '0.3.1'
+__version__ = '0.4.0'
 
 
 class ParseException(Exception):
     """
     Something happened while parsing the XML data.
     """
+    pass
 
 
 class Element():
@@ -130,13 +132,16 @@ def parse(filename):
     handler = Handler()
     parser.setContentHandler(handler)
     try:
-        parser.parse(filename)
-    except IOError, e:
-        try:
+        if os.path.exists(filename) or is_url(filename):
+            parser.parse(filename)
+        else:
             parser.parse(StringIO(filename))
-        except SAXParseException, ex:
-            raise ParseException(ex)
+    except SAXParseException, e:
+        raise ParseException(e)
 
     return handler.root
+
+def is_url(s):
+    return s.startswith('http://') or s.startswith('https://')
 
 # vim: set expandtab ts=4 sw=4:
