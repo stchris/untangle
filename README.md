@@ -12,12 +12,8 @@ Installation
 ------------
 
 ```
-git clone git://github.com/stchris/untangle.git
-python setup.py test
-python setup.py install
+pip install untangle
 ```
-
-Works on Python 2.6, 2.7 and Pypy so far. Doesn't (completely) work on 2.4, 2.5, 3.x yet.
 
 Usage
 -----
