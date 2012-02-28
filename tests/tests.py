@@ -125,6 +125,32 @@ class PomXmlTestCase(unittest.TestCase):
         self.assertEquals('1.4.1', project.properties.atlassian_product_test_lib_version)
         self.assertEquals('2.9', project.properties.atlassian_product_data_version)
 
+class NamespaceTestCase(unittest.TestCase):
+    """ Tests for XMLs with namespaces """
+    def setUp(self):
+        self.o = untangle.parse('tests/res/some.xslt')
+
+    def test_namespace(self):
+        self.assert_(self.o)
+        
+        stylesheet = self.o.xsl_stylesheet
+        self.assert_(stylesheet)
+        self.assertEquals('1.0', stylesheet['version']) 
+
+        template = stylesheet.xsl_template[0]
+        self.assert_(template)
+        self.assertEquals('math', template['match']) 
+        self.assertEquals('compact', template.table['class'])
+        self.assertEquals('compact vam', template.table.tr.xsl_for_each.td['class'])
+        self.assert_(template.table.tr.xsl_for_each.td.xsl_apply_templates)
+
+        last_template = stylesheet.xsl_template[-1]
+        self.assert_(last_template)
+        self.assertEquals('m_var', last_template['match'])
+        self.assertEquals('compact tac formula italic', last_template.p['class'])
+        self.assert_(last_template.p.xsl_apply_templates)
+
+
 if __name__ == '__main__':
     unittest.main()
 
