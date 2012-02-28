@@ -40,6 +40,7 @@ class Element():
     def add_child(self, element):
         element._name = element._name.replace('-', '_')
         element._name = element._name.replace('.', '_')
+        element._name = element._name.replace(':', '_')
         self.children.append(element)
 
     def add_cdata(self, cdata):
@@ -130,10 +131,10 @@ def parse(filename):
     parser.setContentHandler(handler)
     try:
         parser.parse(filename)
-    except IOError as e:
+    except IOError, e:
         try:
             parser.parse(StringIO(filename))
-        except SAXParseException as ex:
+        except SAXParseException, ex:
             raise ParseException(ex)
 
     return handler.root
