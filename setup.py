@@ -18,12 +18,8 @@ import os
 import sys
 import untangle
 
-from distutils.core import setup
+from setuptools import setup
 
-
-if sys.argv[-1] == "test":
-    os.system("python tests/tests.py")
-    sys.exit()
 
 setup(
     name='untangle',
@@ -49,5 +45,6 @@ setup(
         # 'Programming Language :: Python :: 3.0',
         # 'Programming Language :: Python :: 3.1',
     ),
+    test_suite = 'nose.collector'
 )
 
