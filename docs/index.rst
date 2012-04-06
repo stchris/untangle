@@ -44,6 +44,8 @@ and assuming it's available in a variable called `xml`, we could use untangle li
     doc = untangle.parse(xml)
     child_name = doc.root.child['name'] # 'child1'
 
+For more examples, have a look at (and launch) `examples.py <https://github.com/stchris/untangle/blob/master/examples.py/>`_.
+
 Installation
 ------------
 
