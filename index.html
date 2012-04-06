@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>untangle by stchris</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>untangle</h1>
+        <p>Convert XML to Python objects</p>
+        <p class="view"><a href="https://github.com/stchris/untangle">View the Project on GitHub <small>stchris/untangle</small></a></p>
+        <ul>
+          <li><a href="https://github.com/stchris/untangle/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/stchris/untangle/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/stchris/untangle">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>untangle - <a href="http://travis-ci.org/stchris/untangle"><img src="https://secure.travis-ci.org/stchris/untangle.png?branch=master" alt="Build Status"></a>
+</h3>
+
+<ul>
+<li>Converts XML to a Python object. </li>
+<li>Siblings with similar names are grouped into a list. </li>
+<li>Children can be accessed with <code>parent.child</code>, attributes with <code>element['attribute']</code>.</li>
+<li>You can call the <code>parse()</code> method with a filename, an URL or an XML string.</li>
+<li>Substitutes <code>-</code>, <code>.</code> and <code>:</code> with <code>_</code> <code>&lt;foobar&gt;&lt;foo-bar/&gt;&lt;/foobar&gt;</code> can be accessed with <code>foobar.foo_bar</code>, <code>&lt;foo.bar.baz/&gt;</code> can be accessed with <code>foo_bar_baz</code> and <code>&lt;foo:bar&gt;&lt;foo:baz/&gt;&lt;/foo:bar&gt;</code> can be accessed with <code>foo_bar.foo_baz</code>
+</li>
+</ul><h3>Installation</h3>
+
+<pre><code>pip install untangle
+</code></pre>
+
+<h3>Usage</h3>
+
+<p>(See and run <a href="https://github.com/stchris/untangle/blob/master/examples.py">examples.py</a> or this blog post: <a href="http://pythonadventures.wordpress.com/2011/10/30/read-xml-painlessly/">Read XML painlessly</a> for more info)</p>
+
+<div class="highlight">
+<pre><span class="kn">import</span> <span class="nn">untangle</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">untangle</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p><code>resource</code> can be:</p>
+
+<ul>
+<li>a URL</li>
+<li>a filename</li>
+<li>an XML string</li>
+</ul><p>Running the above code and passing this XML:</p>
+
+<div class="highlight">
+<pre><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;root&gt;</span>
+    <span class="nt">&lt;child</span> <span class="na">name=</span><span class="s">"child1"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/root&gt;</span>
+</pre>
+</div>
+
+
+<p>allows it to be navigated from the <code>untangle</code>d object like this:</p>
+
+<div class="highlight">
+<pre><span class="n">obj</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">child</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span> <span class="c"># u'child1'</span>
+</pre>
+</div>
+
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/stchris">stchris</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+  </body>
+</html>
