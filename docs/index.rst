@@ -6,7 +6,7 @@
 untangle: Convert XML to Python objects
 =======================================
 
-untangle is a tiny Python library which converts an XML
+`untangle <https://stchris.github.com/untangle/>`_ is a tiny Python library which converts an XML
 document to a Python object. It is available under the `MIT license <https://github.com/stchris/untangle/blob/master/LICENSE/>`_.
 
 .. contents::
