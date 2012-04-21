@@ -62,7 +62,6 @@ class FromStringTestCase(unittest.TestCase):
         self.assertEquals('Tomato soup', o.Soup['name'])
         self.assertEquals(1, int(o.Soup['version']))
         self.assertEquals('1l', o.Soup.Ingredients.Water['qty'])
-        self.assertEquals(u'1l', o.Soup.Ingredients.Water['qty'])
         self.assert_(o.Soup.Instructions.add_ingredients is not None)
 
     def test_grouping(self):

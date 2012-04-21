@@ -16,7 +16,10 @@
 
 import os
 from xml.sax import make_parser, handler, SAXParseException
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 __version__ = '0.4.0'
 
@@ -136,7 +139,7 @@ def parse(filename):
             parser.parse(filename)
         else:
             parser.parse(StringIO(filename))
-    except SAXParseException, e:
+    except SAXParseException as e:
         raise ParseException(e)
 
     return sax_handler.root

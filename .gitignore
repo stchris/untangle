@@ -1,6 +1,7 @@
 build/**
 dist/**
 **/*.pyc
+*.pyc
 *.DS_Store
 MANIFEST
 untangle.egg-info
