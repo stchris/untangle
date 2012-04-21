@@ -24,8 +24,7 @@ can be:
 * a URL
 
 .. autofunction:: parse
-If you are looking for information on a specific function, class or method,
-this part of the documentation is for you.
+If you are looking for information on a specific function, class or method, this part of the documentation is for you.
 
 The object you get back represents the complete XML document. Child elements can be accessed with ``parent.child``, attributes with ``element['attribute']``. Siblings with similar names are grouped into a list.
 
