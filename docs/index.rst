@@ -53,6 +53,8 @@ It is recommended to use pip, which will always download the latest stable relea
 
     pip install untangle
 
+untangle works with Python versions 2.4, 2.5, 2.6, 2.7, 3.0, 3.1, 3.2 and pypy
+
 Motivation
 ----------
 
