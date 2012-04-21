@@ -2,6 +2,7 @@
 
 import unittest
 import untangle
+import xml
 
 
 class GoogleWeatherTestCase(unittest.TestCase):
@@ -93,7 +94,7 @@ class FromStringTestCase(unittest.TestCase):
 class InvalidTestCase(unittest.TestCase):
     """ Test corner cases """
     def test_invalid_xml(self):
-        self.assertRaises(untangle.ParseException, untangle.parse, '<unclosed>')
+        self.assertRaises(xml.sax.SAXParseException, untangle.parse, '<unclosed>')
 
     def test_empty_xml(self):
         self.assertRaises(ValueError, untangle.parse, '')

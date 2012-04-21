@@ -24,13 +24,6 @@ except ImportError:
 __version__ = '0.4.0'
 
 
-class ParseException(Exception):
-    """
-    Something happened while parsing the XML data.
-    """
-    pass
-
-
 class Element():
     """
     Representation of an XML element.
@@ -126,7 +119,7 @@ def parse(filename):
 
     Raises ``ValueError`` if the argument is None / empty string.
 
-    Raises ``untangle.ParseException`` if something goes wrong
+    Raises ``xml.sax.SAXParseException`` if something goes wrong
     during parsing.s
     """
     if filename is None or filename.strip() == '':
@@ -134,13 +127,10 @@ def parse(filename):
     parser = make_parser()
     sax_handler = Handler()
     parser.setContentHandler(sax_handler)
-    try:
-        if os.path.exists(filename) or is_url(filename):
-            parser.parse(filename)
-        else:
-            parser.parse(StringIO(filename))
-    except SAXParseException as e:
-        raise ParseException(e)
+    if os.path.exists(filename) or is_url(filename):
+        parser.parse(filename)
+    else:
+        parser.parse(StringIO(filename))
 
     return sax_handler.root
 
