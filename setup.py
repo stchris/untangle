@@ -24,7 +24,7 @@ import os
 import sys
 import untangle
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 if sys.argv[-1] == 'test':
     os.system('nosetests tests/tests.py')
@@ -38,7 +38,7 @@ setup(
     author='Christian Stefanescu',
     author_email='st.chris@gmail.com',
     url='http://stchris.github.com/untangle',
-    packages= find_packages(),
+    py_modules=['untangle'],
     license='MIT',
     classifiers=(
         'Development Status :: 5 - Production/Stable',
