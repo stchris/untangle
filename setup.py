@@ -37,7 +37,7 @@ setup(
     long_description=__doc__,
     author='Christian Stefanescu',
     author_email='st.chris@gmail.com',
-    url='http://stchris.github.com/untangle',
+	url='http://0chris.com/untangle',
     py_modules=['untangle'],
     license='MIT',
     classifiers=(
