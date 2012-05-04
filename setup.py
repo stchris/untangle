@@ -17,7 +17,7 @@ Example:
     obj = untangle.parse('<root><child name="child1"/></root>')
     assert obj.root.child['name'] == u'child1'
 
-See http://stchris.github.com/untangle and http://readthedocs.org/docs/untangle/en/latest/
+See http://0chris.com/untangle and http://readthedocs.org/docs/untangle/en/latest/
 """
 
 import os
