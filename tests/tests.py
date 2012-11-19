@@ -150,6 +150,25 @@ class NamespaceTestCase(unittest.TestCase):
         self.assertEquals('compact tac formula italic', last_template.p['class'])
         self.assert_(last_template.p.xsl_apply_templates)
 
+class IterationTestCase(unittest.TestCase):
+    """ Tests various cases of iteration over child nodes. """
+    def test_multiple_children(self):
+        """ Regular case of iteration. """
+        o = untangle.parse("<a><b/><b/></a>")
+        cnt = 0
+        for i in o.a.b:
+            cnt += 1
+        self.assertEquals(2, cnt)
+
+    def test_single_child(self):
+        """ Special case when there is only a single child element.
+            Does not work without an __iter__ implemented.
+        """
+        o = untangle.parse("<a><b/></a>")
+        cnt = 0
+        for i in o.a.b:
+            cnt += 1
+        self.assertEquals(1, cnt)
 
 if __name__ == '__main__':
     unittest.main()

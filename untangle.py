@@ -65,6 +65,9 @@ class Element():
         else:
             raise IndexError('Unknown key <%s>' % key)
 
+    def __iter__(self):
+        yield self
+
     def __str__(self):
         return "Element <%s> with attributes %s and children %s" % \
                 (self._name, self._attributes, self.children)
