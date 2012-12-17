@@ -5,30 +5,6 @@ import untangle
 import xml
 
 
-class GoogleWeatherTestCase(unittest.TestCase):
-    """ Tests parsing an XML from a URL """
-    url = 'http://www.google.com/ig/api?weather=Berlin'
-
-    def setUp(self):
-        self.o = untangle.parse(self.url).xml_api_reply
-
-    def test_city_name(self):
-        city = self.o.weather.forecast_information.city['data']
-        self.assertEquals('Berlin, Berlin', city)
-
-    def test_current_temp(self):
-        crt_temp = int(self.o.weather.current_conditions.temp_c['data'])
-        self.assert_(crt_temp)
-
-    def test_forecast(self):
-        fc = self.o.weather.forecast_conditions
-        self.assert_(len(fc) == 4)
-        for f in fc:
-            self.assert_(f.day_of_week['data'])
-            self.assert_(f.low['data'])
-            self.assert_(f.high['data'])
-
-
 class FromStringTestCase(unittest.TestCase):
     """ Basic parsing tests with input as string """
     def test_basic(self):
