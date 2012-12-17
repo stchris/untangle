@@ -6,8 +6,8 @@
  Converts xml to python objects.
 
  The only method you need to call is parse()
- 
- Partially inspired by xml2obj 
+
+ Partially inspired by xml2obj
  (http://code.activestate.com/recipes/149368-xml2obj/)
 
  Author: Christian Stefanescu (http://0chris.com)
@@ -15,13 +15,13 @@
 """
 
 import os
-from xml.sax import make_parser, handler, SAXParseException
+from xml.sax import make_parser, handler
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 
 class Element():
@@ -69,12 +69,16 @@ class Element():
         yield self
 
     def __str__(self):
-        return "Element <%s> with attributes %s and children %s" % \
-                (self._name, self._attributes, self.children)
+        return (
+            "Element <%s> with attributes %s and children %s" %
+            (self._name, self._attributes, self.children)
+        )
 
     def __repr__(self):
-        return "Element(name = %s, attributes = %s, cdata = %s)" % \
-                (self._name, self._attributes, self.cdata)
+        return (
+            "Element(name = %s, attributes = %s, cdata = %s)" %
+            (self._name, self._attributes, self.cdata)
+        )
 
     def __nonzero__(self):
         return self.is_root or self._name is not None
@@ -85,7 +89,6 @@ class Element():
     def __dir__(self):
         children_names = [x._name for x in self.children]
         return children_names
-
 
 
 class Handler(handler.ContentHandler):
@@ -140,6 +143,7 @@ def parse(filename):
         parser.parse(StringIO(filename))
 
     return sax_handler.root
+
 
 def is_url(string):
     return string.startswith('http://') or string.startswith('https://')

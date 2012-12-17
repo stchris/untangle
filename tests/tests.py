@@ -70,13 +70,18 @@ class FromStringTestCase(unittest.TestCase):
 class InvalidTestCase(unittest.TestCase):
     """ Test corner cases """
     def test_invalid_xml(self):
-        self.assertRaises(xml.sax.SAXParseException, untangle.parse, '<unclosed>')
+        self.assertRaises(
+            xml.sax.SAXParseException,
+            untangle.parse,
+            '<unclosed>'
+        )
 
     def test_empty_xml(self):
         self.assertRaises(ValueError, untangle.parse, '')
 
     def test_none_xml(self):
         self.assertRaises(ValueError, untangle.parse, None)
+
 
 class PomXmlTestCase(unittest.TestCase):
     """ Tests parsing a Maven pom.xml """
@@ -89,7 +94,10 @@ class PomXmlTestCase(unittest.TestCase):
 
         parent = project.parent
         self.assert_(parent)
-        self.assertEquals('com.atlassian.confluence.plugin.base', parent.groupId)
+        self.assertEquals(
+            'com.atlassian.confluence.plugin.base',
+            parent.groupId
+        )
         self.assertEquals('confluence-plugin-base', parent.artifactId)
         self.assertEquals('17', parent.version)
 
@@ -97,9 +105,19 @@ class PomXmlTestCase(unittest.TestCase):
         self.assertEquals('com.this.that.groupId', project.groupId)
 
         self.assertEquals('', project.name)
-        self.assertEquals('${pom.groupId}.${pom.artifactId}', project.properties.atlassian_plugin_key)
-        self.assertEquals('1.4.1', project.properties.atlassian_product_test_lib_version)
-        self.assertEquals('2.9', project.properties.atlassian_product_data_version)
+        self.assertEquals(
+            '${pom.groupId}.${pom.artifactId}',
+            project.properties.atlassian_plugin_key
+        )
+        self.assertEquals(
+            '1.4.1',
+            project.properties.atlassian_product_test_lib_version
+        )
+        self.assertEquals(
+            '2.9',
+            project.properties.atlassian_product_data_version
+        )
+
 
 class NamespaceTestCase(unittest.TestCase):
     """ Tests for XMLs with namespaces """
@@ -108,23 +126,32 @@ class NamespaceTestCase(unittest.TestCase):
 
     def test_namespace(self):
         self.assert_(self.o)
-        
+
         stylesheet = self.o.xsl_stylesheet
         self.assert_(stylesheet)
-        self.assertEquals('1.0', stylesheet['version']) 
+        self.assertEquals('1.0', stylesheet['version'])
 
         template = stylesheet.xsl_template[0]
         self.assert_(template)
-        self.assertEquals('math', template['match']) 
+        self.assertEquals('math', template['match'])
         self.assertEquals('compact', template.table['class'])
-        self.assertEquals('compact vam', template.table.tr.xsl_for_each.td['class'])
-        self.assert_(template.table.tr.xsl_for_each.td.xsl_apply_templates)
+        self.assertEquals(
+            'compact vam',
+            template.table.tr.xsl_for_each.td['class']
+        )
+        self.assert_(
+            template.table.tr.xsl_for_each.td.xsl_apply_templates
+        )
 
         last_template = stylesheet.xsl_template[-1]
         self.assert_(last_template)
         self.assertEquals('m_var', last_template['match'])
-        self.assertEquals('compact tac formula italic', last_template.p['class'])
+        self.assertEquals(
+            'compact tac formula italic',
+            last_template.p['class']
+        )
         self.assert_(last_template.p.xsl_apply_templates)
+
 
 class IterationTestCase(unittest.TestCase):
     """ Tests various cases of iteration over child nodes. """
@@ -146,12 +173,14 @@ class IterationTestCase(unittest.TestCase):
             cnt += 1
         self.assertEquals(1, cnt)
 
+
 class TwimlTestCase(unittest.TestCase):
     """ Github Issue #5: can't dir the parsed object """
     def test_twiml_dir(self):
         xml = """<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Gather action="http://example.com/calls/1/twiml?event=start" numDigits="1" timeout="0">
+  <Gather action="http://example.com/calls/1/twiml?event=start"
+  numDigits="1" timeout="0">
     <Play>http://example.com/barcall_message_url.wav</Play>
   </Gather>
   <Redirect>http://example.com/calls/1/twiml?event=start</Redirect>
@@ -165,8 +194,10 @@ class TwimlTestCase(unittest.TestCase):
         redir = resp.Redirect
         self.assertEquals([u'Play'], dir(gather))
         self.assertEquals([], dir(redir))
-        self.assertEquals(u'http://example.com/calls/1/twiml?event=start',
-                o.Response.Redirect.cdata)
+        self.assertEquals(
+            u'http://example.com/calls/1/twiml?event=start',
+            o.Response.Redirect.cdata
+        )
 
 if __name__ == '__main__':
     unittest.main()

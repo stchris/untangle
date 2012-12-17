@@ -49,3 +49,13 @@ allows it to be navigated from the ``untangle``d object like this:
 obj.root.child['name'] # u'child1'
 ```
 
+Changelog
+---------
+
+1.1.0
+- __dir__ support for untangled objects
+- code cleanups
+
+1.0.0
+- first official release
+

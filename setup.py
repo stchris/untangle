@@ -17,7 +17,8 @@ Example:
     obj = untangle.parse('<root><child name="child1"/></root>')
     assert obj.root.child['name'] == u'child1'
 
-See http://0chris.com/untangle and http://readthedocs.org/docs/untangle/en/latest/
+See http://0chris.com/untangle and
+    http://readthedocs.org/docs/untangle/en/latest/
 """
 
 import os
@@ -37,7 +38,7 @@ setup(
     long_description=__doc__,
     author='Christian Stefanescu',
     author_email='st.chris@gmail.com',
-	url='http://0chris.com/untangle',
+    url='http://0chris.com/untangle',
     py_modules=['untangle'],
     license='MIT',
     classifiers=(
