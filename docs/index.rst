@@ -71,6 +71,17 @@ untangle trades features for a simple API, which is why untangle substitutes ``-
 * ``<foo.bar.baz/>`` can be accessed with ``foo_bar_baz``
 * ``<foo:bar><foo:baz/></foo:bar>`` can be accessed with ``foo_bar.foo_baz``
 
+Changelog
+---------
+
+1.1.0
+- __dir__ support for untangled objects
+- code cleanups
+
+1.0.0
+- first official release
+
+
 
 Indices and tables
 ==================
