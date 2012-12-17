@@ -146,6 +146,28 @@ class IterationTestCase(unittest.TestCase):
             cnt += 1
         self.assertEquals(1, cnt)
 
+class TwimlTestCase(unittest.TestCase):
+    """ Github Issue #5: can't dir the parsed object """
+    def test_twiml_dir(self):
+        xml = """<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Gather action="http://example.com/calls/1/twiml?event=start" numDigits="1" timeout="0">
+    <Play>http://example.com/barcall_message_url.wav</Play>
+  </Gather>
+  <Redirect>http://example.com/calls/1/twiml?event=start</Redirect>
+</Response>
+        """
+        o = untangle.parse(xml)
+        self.assertEquals([u'Response'], dir(o))
+        resp = o.Response
+        self.assertEquals([u'Gather', u'Redirect'], dir(resp))
+        gather = resp.Gather
+        redir = resp.Redirect
+        self.assertEquals([u'Play'], dir(gather))
+        self.assertEquals([], dir(redir))
+        self.assertEquals(u'http://example.com/calls/1/twiml?event=start',
+                o.Response.Redirect.cdata)
+
 if __name__ == '__main__':
     unittest.main()
 

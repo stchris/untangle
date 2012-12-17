@@ -82,6 +82,10 @@ class Element():
     def __eq__(self, val):
         return self.cdata == val
 
+    def __dir__(self):
+        children_names = [x._name for x in self.children]
+        return children_names
+
 
 
 class Handler(handler.ContentHandler):
