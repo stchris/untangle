@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import unittest
 import untangle
@@ -203,7 +204,7 @@ class UnicodeTestCase(unittest.TestCase):
     """ Github issue #8: UnicodeEncodeError """
     def test_unicode_file(self):
         o = untangle.parse('tests/res/unicode.xml')
-        print o.page.menu.name
+        self.assertEquals(u'ðÒÉ×ÅÔ ÍÉÒ', o.page.menu.name)
 
 if __name__ == '__main__':
     unittest.main()
