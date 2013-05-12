@@ -5,3 +5,5 @@ dist/**
 *.DS_Store
 MANIFEST
 untangle.egg-info
+.tox/
+tox.init
