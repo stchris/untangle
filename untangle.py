@@ -20,6 +20,7 @@ try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
+from types import StringTypes
 
 __version__ = '1.1.0'
 
@@ -132,20 +133,30 @@ def parse(filename):
     Raises ``xml.sax.SAXParseException`` if something goes wrong
     during parsing.s
     """
-    if filename is None or filename.strip() == '':
+    if (
+        filename is None
+        or (is_string(filename) and filename.strip()) == ''
+    ):
         raise ValueError('parse() takes a filename, URL or XML string')
     parser = make_parser()
     sax_handler = Handler()
     parser.setContentHandler(sax_handler)
-    if os.path.exists(filename) or is_url(filename):
+    if is_string(filename) and (os.path.exists(filename) or is_url(filename)):
         parser.parse(filename)
     else:
-        parser.parse(StringIO(filename))
+        if hasattr(filename, 'read'):
+            parser.parse(filename)
+        else:
+            parser.parse(StringIO(filename))
 
     return sax_handler.root
 
 
 def is_url(string):
     return string.startswith('http://') or string.startswith('https://')
+
+
+def is_string(x):
+    return isinstance(x, StringTypes)
 
 # vim: set expandtab ts=4 sw=4:

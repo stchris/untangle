@@ -200,11 +200,31 @@ class TwimlTestCase(unittest.TestCase):
             o.Response.Redirect.cdata
         )
 
+
 class UnicodeTestCase(unittest.TestCase):
     """ Github issue #8: UnicodeEncodeError """
     def test_unicode_file(self):
         o = untangle.parse('tests/res/unicode.xml')
         self.assertEquals(u'ðÒÉ×ÅÔ ÍÉÒ', o.page.menu.name)
+
+
+class FileObjects(unittest.TestCase):
+    """ Test reading from file-like objects """
+    def test_file_object(self):
+        with open('tests/res/pom.xml') as pom_file:
+            o = untangle.parse(pom_file)
+            project = o.project
+            self.assert_(project)
+
+            parent = project.parent
+            self.assert_(parent)
+            self.assertEquals(
+                'com.atlassian.confluence.plugin.base',
+                parent.groupId
+            )
+            self.assertEquals('confluence-plugin-base', parent.artifactId)
+            self.assertEquals('17', parent.version)
+
 
 if __name__ == '__main__':
     unittest.main()
