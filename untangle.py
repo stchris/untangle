@@ -20,7 +20,11 @@ try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
-from types import StringTypes
+try:
+    from types import StringTypes
+    is_string = lambda x: isinstance(x, StringTypes)
+except ImportError:
+    is_string = lambda x: isinstance(x, str)
 
 __version__ = '1.1.0'
 
@@ -154,9 +158,5 @@ def parse(filename):
 
 def is_url(string):
     return string.startswith('http://') or string.startswith('https://')
-
-
-def is_string(x):
-    return isinstance(x, StringTypes)
 
 # vim: set expandtab ts=4 sw=4:
