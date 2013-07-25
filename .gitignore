@@ -1,5 +1,7 @@
 build/**
 dist/**
+deb_dist/**
+debian/**
 **/*.pyc
 *.pyc
 *.DS_Store
