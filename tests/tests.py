@@ -226,6 +226,20 @@ class FileObjects(unittest.TestCase):
             self.assertEquals('17', parent.version)
 
 
+class Foo(object):
+    """ Used in UntangleInObjectsTestCase """
+    def __init__(self):
+        self.doc = untangle.parse('<a><b x="1">foo</b></a>')
+
+
+class UntangleInObjectsTestCase(unittest.TestCase):
+    """ tests usage of untangle in classes """
+    def test_object(self):
+        foo = Foo()
+        self.assertEquals('1', foo.doc.a.b['x'])
+        self.assertEquals('foo', foo.doc.a.b.cdata)
+
+
 if __name__ == '__main__':
     unittest.main()
 
