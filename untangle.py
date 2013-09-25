@@ -75,8 +75,8 @@ class Element():
 
     def __str__(self):
         return (
-            "Element <%s> with attributes %s and children %s" %
-            (self._name, self._attributes, self.children)
+            "Element <%s> with attributes %s, children %s and cdata %s" %
+            (self._name, self._attributes, self.children, self.cdata)
         )
 
     def __repr__(self):
