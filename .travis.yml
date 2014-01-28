@@ -6,5 +6,4 @@ python:
     - 3.2
     - 3.3
     - pypy
-script: python setup.py test
-
+script: coverage run --source=untangle python setup.py test
