@@ -6,7 +6,10 @@ python:
     - 3.2
     - 3.3
     - pypy
-script: coverage run --source=untangle python setup.py test
+install:
+  - pip install coveralls
+script: 
+  coverage run --source=untangle python setup.py test
 
 after_success:
   coveralls
