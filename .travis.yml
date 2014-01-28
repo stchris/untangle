@@ -8,7 +8,7 @@ python:
 install:
   - pip install coveralls
 script: 
-  coverage run --source=untangle python setup.py test
+  coverage run --source=untangle ./setup.py test
 
 after_success:
   coveralls
