@@ -7,3 +7,6 @@ python:
     - 3.3
     - pypy
 script: coverage run --source=untangle python setup.py test
+
+after_success:
+  coveralls
