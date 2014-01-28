@@ -157,6 +157,9 @@ def parse(filename):
 
 
 def is_url(string):
-    return string.startswith('http://') or string.startswith('https://')
+    try:
+        return string.startswith('http://') or string.startswith('https://')
+    except:
+        return False
 
 # vim: set expandtab ts=4 sw=4:

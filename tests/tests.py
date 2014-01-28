@@ -239,6 +239,13 @@ class UntangleInObjectsTestCase(unittest.TestCase):
         self.assertEquals('1', foo.doc.a.b['x'])
         self.assertEquals('foo', foo.doc.a.b.cdata)
 
+class UrlStringTestCase(unittest.TestCase):
+    """ tests is_url() function """
+    def test_is_url(self):
+        self.assertFalse(untangle.is_url('foo'))
+        self.assertFalse(untangle.is_url('httpfoo'))
+        self.assertFalse(untangle.is_url(7))
+
 
 if __name__ == '__main__':
     unittest.main()
