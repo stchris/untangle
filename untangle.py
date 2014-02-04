@@ -29,7 +29,7 @@ except ImportError:
 __version__ = '1.1.0'
 
 
-class Element():
+class Element(object):
     """
     Representation of an XML element.
     """
@@ -94,6 +94,9 @@ class Element():
     def __dir__(self):
         children_names = [x._name for x in self.children]
         return children_names
+
+    def __len__(self):
+        return len(self.children)
 
 
 class Handler(handler.ContentHandler):

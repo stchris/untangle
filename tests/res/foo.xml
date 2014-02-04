@@ -1,0 +1,27 @@
+<root>
+
+<!-- SUT (system under test) definition, they are called target hereafter-->
+<testtargets>
+
+ <target>
+	<targetname>Target-1</targetname>
+	<targetip>0.0.0.0</targetip>
+	<targetuserlogin>cody</targetuserlogin>
+	<targetuserpass>cody</targetuserpass>
+    <targetrootlogin>cody</targetrootlogin>
+	<targetrootpass>cody</targetrootpass>
+	<!-- how many sec to wait before stopping the command -->
+	<defaultcommanddelaytime>2</defaultcommanddelaytime>
+ </target>
+
+<target>
+	<targetname>Target-2</targetname>
+	<targetip>0.0.0.0</targetip>
+	<targetuserlogin>cody</targetuserlogin>
+	<targetuserpass>cody</targetuserpass>
+    <targetrootlogin>cody</targetrootlogin>
+	<targetrootpass>cody</targetrootpass>
+	<defaultcommanddelaytime>2</defaultcommanddelaytime>
+</target>
+</testtargets>
+</root>

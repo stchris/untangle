@@ -119,6 +119,12 @@ class PomXmlTestCase(unittest.TestCase):
             project.properties.atlassian_product_data_version
         )
 
+    def test_lengths(self):
+        self.assertEquals(1, len(self.o))
+        self.assertEquals(8, len(self.o.project))
+        self.assertEquals(3, len(self.o.project.parent))
+        self.assertEquals(4, len(self.o.project.properties))
+
 
 class NamespaceTestCase(unittest.TestCase):
     """ Tests for XMLs with namespaces """
@@ -206,6 +212,16 @@ class UnicodeTestCase(unittest.TestCase):
     def test_unicode_file(self):
         o = untangle.parse('tests/res/unicode.xml')
         self.assertEquals(u'ðÒÉ×ÅÔ ÍÉÒ', o.page.menu.name)
+
+    def test_lengths(self):
+        o = untangle.parse('tests/res/unicode.xml')
+        self.assertEquals(1, len(o))
+        self.assertEquals(1, len(o.page))
+        self.assertEquals(2, len(o.page.menu))
+        self.assertEquals(2, len(o.page.menu.items))
+        self.assertEquals(2, len(o.page.menu.items.item))
+        self.assertEquals(0, len(o.page.menu.items.item[0].name))
+        self.assertEquals(0, len(o.page.menu.items.item[1].name))
 
 
 class FileObjects(unittest.TestCase):
