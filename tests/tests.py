@@ -262,6 +262,26 @@ class UrlStringTestCase(unittest.TestCase):
         self.assertFalse(untangle.is_url('httpfoo'))
         self.assertFalse(untangle.is_url(7))
 
+class TestSaxHandler(unittest.TestCase):
+    """ Tests the SAX ContentHandler """
+
+    def test_empty_handler(self):
+        h = untangle.Handler()
+        self.assertRaises(IndexError, h.endElement, 'foo')
+        self.assertRaises(IndexError, h.characters, 'bar')
+
+    def test_handler(self):
+        h = untangle.Handler()
+        h.startElement('foo', {})
+        h.endElement('foo')
+        self.assertEquals('foo', h.root.children[0]._name)
+
+    def test_cdata(self):
+        h = untangle.Handler()
+        h.startElement('foo', {})
+        h.characters('baz')
+        self.assertEquals('baz', h.root.children[0].cdata)
+
 
 if __name__ == '__main__':
     unittest.main()
