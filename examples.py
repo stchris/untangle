@@ -21,7 +21,7 @@ def siblings_list():
 
 def access_cdata():
     o = untangle.parse('<node id="5">This is cdata<subnode value="abc"/></node>')
-    return ("CDATA = %s" % (o.node.cdata))
+    return ("%s" % (o.node.cdata))
 
 examples = [
     ('Access children with parent.children and'
