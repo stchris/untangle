@@ -4,7 +4,7 @@ import untangle
 
 
 def access():
-    o = untangle.parse('<node id="5"><subnode value="abc"/></node>')
+    o = untangle.parse('<node id="5">This is cdata<subnode value="abc"/></node>')
     return ("Node id = %s, subnode value = %s" %
             (o.node['id'], o.node.subnode['value']))
 
@@ -19,11 +19,15 @@ def siblings_list():
         ''')
     return ','.join([child['name'] for child in o.root.child])
 
+def access_cdata():
+    o = untangle.parse('<node id="5">This is cdata<subnode value="abc"/></node>')
+    return ("%s" % (o.node.cdata))
 
 examples = [
     ('Access children with parent.children and'
      ' attributes with element["attribute"]', access),
     ('Access siblings as list', siblings_list),
+    ('Access cdata text or other data', access_cdata),
 ]
 
 if __name__ == '__main__':

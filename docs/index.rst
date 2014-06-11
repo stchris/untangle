@@ -42,6 +42,8 @@ and assuming it's available in a variable called `xml`, we could use untangle li
 
     doc = untangle.parse(xml)
     child_name = doc.root.child['name'] # 'child1'
+    
+For text/data inbetween tags, this is described as cdata. After specifying the relevant element as explained above, the data/cdata can be accessed by adding ".cdata" (without the quotes) to the end of your dictionary call.
 
 For more examples, have a look at (and launch) `examples.py <https://github.com/stchris/untangle/blob/master/examples.py/>`_.
 
