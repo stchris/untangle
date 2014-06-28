@@ -138,7 +138,7 @@ def parse(filename):
     Raises ``ValueError`` if the argument is None / empty string.
 
     Raises ``xml.sax.SAXParseException`` if something goes wrong
-    during parsing.s
+    during parsing.
     """
     if (
         filename is None
