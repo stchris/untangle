@@ -14,3 +14,5 @@ package_deb:
 clean:
 	rm -rf deb_dist/
 	rm -rf debian/
+	rm -rf dist/
+	rm -f untangle-*.tar.gz
