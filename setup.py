@@ -37,8 +37,8 @@ setup(
     description='Convert XML documents into Python objects',
     long_description=__doc__,
     author='Christian Stefanescu',
-    author_email='st.chris@gmail.com',
-    url='http://0chris.com/untangle',
+    author_email='chris@0chris.com',
+    url='http://github.com/stchris//untangle',
     py_modules=['untangle'],
     license='MIT',
     classifiers=(
