@@ -261,6 +261,8 @@ class UrlStringTestCase(unittest.TestCase):
         self.assertFalse(untangle.is_url('foo'))
         self.assertFalse(untangle.is_url('httpfoo'))
         self.assertFalse(untangle.is_url(7))
+        self.assertTrue(untangle.is_url('http://foobar'))
+        self.assertTrue(untangle.is_url('https://foobar'))
 
 class TestSaxHandler(unittest.TestCase):
     """ Tests the SAX ContentHandler """
