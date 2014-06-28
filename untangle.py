@@ -152,9 +152,7 @@ def parse(filename):
     Raises ``xml.sax.SAXParseException`` if something goes wrong
     during parsing.
     """
-    if ( filename is None
-        or (is_string(filename) and filename.strip()) == ''
-    ):
+    if (filename is None or (is_string(filename) and filename.strip()) == ''):
         raise ValueError('parse() takes a filename, URL or XML string')
     parser = make_parser()
     sax_handler = Handler()
