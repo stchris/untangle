@@ -41,15 +41,27 @@ class Element(object):
         self.cdata = ''
 
     def add_child(self, element):
+        """
+        Store child elements.
+        """
         self.children.append(element)
 
     def add_cdata(self, cdata):
+        """
+        Store cdata
+        """
         self.cdata = self.cdata + cdata
 
     def get_attribute(self, key):
+        """
+        Get attributes by key
+        """
         return self._attributes.get(key)
 
     def get_elements(self, name=None):
+        """
+        Find a child element by name
+        """
         if name:
             return [e for e in self.children if e._name == name]
         else:
@@ -140,8 +152,7 @@ def parse(filename):
     Raises ``xml.sax.SAXParseException`` if something goes wrong
     during parsing.
     """
-    if (
-        filename is None
+    if ( filename is None
         or (is_string(filename) and filename.strip()) == ''
     ):
         raise ValueError('parse() takes a filename, URL or XML string')
@@ -160,9 +171,12 @@ def parse(filename):
 
 
 def is_url(string):
+    """
+    Checks if the given string starts with 'http(s)'.
+    """
     try:
         return string.startswith('http://') or string.startswith('https://')
-    except:
+    except AttributeError:
         return False
 
 # vim: set expandtab ts=4 sw=4:
