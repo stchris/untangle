@@ -76,11 +76,12 @@ untangle trades features for a simple API, which is why untangle substitutes ``-
 Encoding
 ---------
 
-Be aware that with certain characters or maybe also depending on the python version you might get an error on accessing specific attributes, such as "UnicodeEncodeError: 'ascii' codec can't encode character u'\xfc' in position 385: ordinal not in range(128)"
-In most cases it should be enough to import the sys module, and set utf-8 as encoding, with:
-* import sys
-* reload(sys) # just to be sure
-* sys.setdefaultencoding('utf-8')
+Be aware that with certain characters or maybe also depending on the python version you might get an error on accessing specific attributes, such as ``UnicodeEncodeError: 'ascii' codec can't encode character u'\xfc' in position 385: ordinal not in range(128)``
+In most cases it should be enough to import the sys module, and set utf-8 as encoding, with: ::
+
+   import sys
+   reload(sys) # just to be sure
+   sys.setdefaultencoding('utf-8')
 
 Changelog
 ---------
