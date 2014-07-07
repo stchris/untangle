@@ -1,7 +1,7 @@
 untangle 
 ========
 
-[![Build Status](https://secure.travis-ci.org/stchris/untangle.png?branch=master)](http://travis-ci.org/stchris/untangle) [![Code Quality](https://landscape.io/github/stchris/untangle/master/landscape.png)](https://landscape.io/github/stchris/untangle/master) [![Coverage Status](https://coveralls.io/repos/stchris/untangle/badge.png)](https://coveralls.io/r/stchris/untangle)
+[![Build Status](https://secure.travis-ci.org/stchris/untangle.png?branch=master)](http://travis-ci.org/stchris/untangle) [![Build Status (mirror)](https://api.shippable.com/projects/53ba44a5cfe8c6d101a6dd66/badge/master)](https://www.shippable.com/projects/53ba44a5cfe8c6d101a6dd66) [![Code Quality](https://landscape.io/github/stchris/untangle/master/landscape.png)](https://landscape.io/github/stchris/untangle/master) [![Coverage Status](https://coveralls.io/repos/stchris/untangle/badge.png)](https://coveralls.io/r/stchris/untangle)
 
 [Complete documentation at readthedocs.org](http://readthedocs.org/docs/untangle/en/latest/)
 [Website](http://0chris.com/untangle)
