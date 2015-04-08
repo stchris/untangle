@@ -4,7 +4,9 @@ untangle
 [![Build Status](https://secure.travis-ci.org/stchris/untangle.png?branch=master)](http://travis-ci.org/stchris/untangle) [![Code Quality](https://landscape.io/github/stchris/untangle/master/landscape.png)](https://landscape.io/github/stchris/untangle/master) [![Coverage Status](https://coveralls.io/repos/stchris/untangle/badge.png)](https://coveralls.io/r/stchris/untangle) [![PyPi version](https://img.shields.io/pypi/v/untangle.svg)](https://pypi.python.org/pypi/untangle) [![PyPi downloads](https://img.shields.io/pypi/dm/untangle.svg)](https://pypi.python.org/pypi/untangle)
 
 [Documentation](http://readthedocs.org/docs/untangle/en/latest/)
+
 [![Join the chat at https://gitter.im/stchris/untangle](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stchris/untangle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [Website](http://0chris.com/untangle)
 
 * Converts XML to a Python object. 
