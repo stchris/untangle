@@ -8,7 +8,6 @@ untangle
 
 [Documentation](http://readthedocs.org/docs/untangle/en/latest/)
 
-[Website](http://0chris.com/untangle)
 
 * Converts XML to a Python object. 
 * Siblings with similar names are grouped into a list. 
