@@ -80,7 +80,14 @@ class Element(object):
                 self.__dict__[key] = matching_children
                 return matching_children
         else:
-            raise IndexError('Unknown key <%s>' % key)
+            raise AttributeError(
+                "'%s' has no attribute '%s'" % (self._name, key)
+            )
+
+    def __hasattribute__(self, name):
+        if name in self.__dict__:
+            return True
+        return any(self.children, lambda x: x._name == name)
 
     def __iter__(self):
         yield self
