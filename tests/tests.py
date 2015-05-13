@@ -67,6 +67,32 @@ class FromStringTestCase(unittest.TestCase):
     def test_single_root(self):
         self.assert_(untangle.parse('<single_root_node/>'))
 
+    def test_attribute_protocol(self):
+        o = untangle.parse('''
+                    <root>
+                     <child name="child1">
+                        <subchild name="sub1"/>
+                     </child>
+                     <child name="child2"/>
+                     <child name="child3">
+                        <subchild name="sub2"/>
+                        <subchild name="sub3"/>
+                     </child>
+                    </root>
+                     ''')
+        try:
+            self.assertEquals(None, o.root.child.inexistent)
+            self.fail('Was able to access inexistent child as None')
+        except AttributeError:
+            pass  # this is the expected error
+        except IndexError:
+            self.fail('Caught IndexError quen expecting AttributeError')
+
+        self.assertTrue(hasattr(o.root, 'child'))
+        self.assertFalse(hasattr(o.root, 'inexistent'))
+
+        self.assertEqual('child1', getattr(o.root, 'child')[0]['name'])
+
 
 class InvalidTestCase(unittest.TestCase):
     """ Test corner cases """
@@ -255,6 +281,7 @@ class UntangleInObjectsTestCase(unittest.TestCase):
         self.assertEquals('1', foo.doc.a.b['x'])
         self.assertEquals('foo', foo.doc.a.b.cdata)
 
+
 class UrlStringTestCase(unittest.TestCase):
     """ tests is_url() function """
     def test_is_url(self):
@@ -263,6 +290,7 @@ class UrlStringTestCase(unittest.TestCase):
         self.assertFalse(untangle.is_url(7))
         self.assertTrue(untangle.is_url('http://foobar'))
         self.assertTrue(untangle.is_url('https://foobar'))
+
 
 class TestSaxHandler(unittest.TestCase):
     """ Tests the SAX ContentHandler """
