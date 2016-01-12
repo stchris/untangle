@@ -313,6 +313,21 @@ class TestSaxHandler(unittest.TestCase):
         self.assertEquals('baz', h.root.children[0].cdata)
 
 
+class FigsTestCase(unittest.TestCase):
+    def test_figs(self):
+        doc = untangle.parse('tests/res/figs.xml')
+        expected_pairs = [
+            ('key1', 'value1'),
+            ('key2', 'value2'),
+            ('key', 'value')
+        ]
+        pairs = []
+        for group in doc.props.children:
+            for prop in group.children:
+                pairs.append((prop['key'], prop.cdata))
+        assert expected_pairs == pairs
+
+
 if __name__ == '__main__':
     unittest.main()
 

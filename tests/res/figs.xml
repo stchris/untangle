@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<props>
+    <group id="SECTION_ONE">
+        <prop key="key1">value1</prop>
+        <prop key="key2">value2</prop>
+    </group>
+    <group id="SECTION_TWO">
+        <prop key="key">value</prop>
+    </group>
+</props>
+
