@@ -11,7 +11,9 @@ def access():
     """
     Shows basic attribute access and node navigation.
     """
-    o = untangle.parse('<node id="5">This is cdata<subnode value="abc"/></node>')
+    o = untangle.parse(
+        '<node id="5">This is cdata<subnode value="abc"/></node>'
+    )
     return ("Node id = %s, subnode value = %s" %
             (o.node['id'], o.node.subnode['value']))
 
@@ -29,11 +31,14 @@ def siblings_list():
         ''')
     return ','.join([child['name'] for child in o.root.child])
 
+
 def access_cdata():
     """
     Shows how to handle CDATA elements
     """
-    o = untangle.parse('<node id="5">This is cdata<subnode value="abc"/></node>')
+    o = untangle.parse(
+        '<node id="5">This is cdata<subnode value="abc"/></node>'
+    )
     return ("%s" % (o.node.cdata))
 
 examples = [
