@@ -1,4 +1,4 @@
-untangle 
+untangle
 ========
 
 [![Build Status](https://secure.travis-ci.org/stchris/untangle.png?branch=master)](http://travis-ci.org/stchris/untangle) [![Code Quality](https://landscape.io/github/stchris/untangle/master/landscape.png)](https://landscape.io/github/stchris/untangle/master) [![Coverage Status](https://coveralls.io/repos/stchris/untangle/badge.png)](https://coveralls.io/r/stchris/untangle) [![PyPi version](https://img.shields.io/pypi/v/untangle.svg)](https://pypi.python.org/pypi/untangle) [![PyPi downloads](https://img.shields.io/pypi/dm/untangle.svg)](https://pypi.python.org/pypi/untangle)
@@ -9,12 +9,12 @@ untangle
 [Documentation](http://readthedocs.org/docs/untangle/en/latest/)
 
 
-* Converts XML to a Python object. 
-* Siblings with similar names are grouped into a list. 
+* Converts XML to a Python object.
+* Siblings with similar names are grouped into a list.
 * Children can be accessed with ``parent.child``, attributes with ``element['attribute']``.
 * You can call the ``parse()`` method with a filename, an URL or an XML string.
 * Substitutes ``-``, ``.`` and ``:`` with ``_`` ``<foobar><foo-bar/></foobar>`` can be accessed with ``foobar.foo_bar``, ``<foo.bar.baz/>`` can be accessed with ``foo_bar_baz`` and ``<foo:bar><foo:baz/></foo:bar>`` can be accessed with ``foo_bar.foo_baz``
-* Works with Python 2.4-3.2 and pypy
+* Works with Python 2.5, 2.6, 2.7 and 3.3, 3.4, 3.5 and pypy
 
 Installation
 ------------
