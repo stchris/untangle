@@ -13,6 +13,7 @@
  Author: Christian Stefanescu (http://0chris.com)
  License: MIT License - http://www.opensource.org/licenses/mit-license.php
 """
+from __future__ import unicode_literals
 
 import os
 from xml.sax import make_parser, handler
