@@ -5,7 +5,7 @@ compile:
 	python -m compileall -q untangle.py tests/tests.py
 
 test:
-	nosetests --exe tests/
+	tox
 
 # needs python-stdeb
 package_deb:
