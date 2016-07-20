@@ -172,7 +172,8 @@ class NamespaceTestCase(unittest.TestCase):
             'compact vam',
             template.table.tr.xsl_for_each.td['class']
         )
-        self.assert_(
+        self.assertEquals(
+            untangle.Element('',''),
             template.table.tr.xsl_for_each.td.xsl_apply_templates
         )
 
@@ -183,7 +184,10 @@ class NamespaceTestCase(unittest.TestCase):
             'compact tac formula italic',
             last_template.p['class']
         )
-        self.assert_(last_template.p.xsl_apply_templates)
+        self.assertEquals(
+            untangle.Element('xsl_apply_templates',''),
+            last_template.p.xsl_apply_templates
+        )
 
 
 class IterationTestCase(unittest.TestCase):
