@@ -10,3 +10,4 @@ untangle.egg-info
 .tox/
 tox.init
 untangle-*.tar.gz
+.cache/*
