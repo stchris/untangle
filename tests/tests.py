@@ -335,23 +335,24 @@ class FigsTestCase(unittest.TestCase):
 class ParserFeatureTestCase(unittest.TestCase):
     """Tests adding xml.sax parser features via parse()"""
 
-    xml_str = """<?xml version="1.0" standalone="no" ?>
+    # External DTD that will never be loadable (invalid address)
+    bad_dtd_xml = """<?xml version="1.0" standalone="no" ?>
         <!DOCTYPE FOO PUBLIC "foo" "http://256.0.0.1/foo.dtd">
         <foo bar="baz" />"""
 
     def test_valid_feature(self):
         # xml.sax.handler.feature_external_ges -> load external general (text)
         # entities, such as DTDs
-        doc = untangle.parse(self.xml_str, feature_external_ges=False)
+        doc = untangle.parse(self.bad_dtd_xml, feature_external_ges=False)
         self.assertEqual(doc.foo['bar'], 'baz')
 
     def test_invalid_feature(self):
         with self.assertRaises(AttributeError):
-            untangle.parse(self.xml_str, invalid_feature=True)
+            untangle.parse(self.bad_dtd_xml, invalid_feature=True)
 
     def test_invalid_external_dtd(self):
         with self.assertRaises(IOError):
-            untangle.parse(self.xml_str, feature_external_ges=True)
+            untangle.parse(self.bad_dtd_xml, feature_external_ges=True)
 
 
 if __name__ == '__main__':
