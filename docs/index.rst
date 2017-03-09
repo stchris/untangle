@@ -83,6 +83,15 @@ In most cases it should be enough to import the sys module, and set utf-8 as enc
    reload(sys) # just to be sure
    sys.setdefaultencoding('utf-8')
 
+SAX features
+------------
+
+It is possible to pass specific SAX features to the handler used by untangle, for instance: ::
+
+    untangle.parse(my_xml, feature_external_ges=False)
+
+This will toggle the SAX handler feature described `here <https://docs.python.org/2/library/xml.sax.handler.html#xml.sax.handler.feature_external_ges>`
+
 Changelog
 ---------
 
@@ -101,4 +110,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
