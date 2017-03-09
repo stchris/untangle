@@ -90,7 +90,7 @@ It is possible to pass specific SAX features to the handler used by untangle, fo
 
     untangle.parse(my_xml, feature_external_ges=False)
 
-This will toggle the SAX handler feature described `here <https://docs.python.org/2/library/xml.sax.handler.html#xml.sax.handler.feature_external_ges>`
+This will toggle the SAX handler feature described `here <https://docs.python.org/2/library/xml.sax.handler.html#xml.sax.handler.feature_external_ges>`_.
 
 Changelog
 ---------
