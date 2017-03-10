@@ -253,6 +253,10 @@ class UnicodeTestCase(unittest.TestCase):
         self.assertEquals(0, len(o.page.menu.items.item[0].name))
         self.assertEquals(0, len(o.page.menu.items.item[1].name))
 
+    def test_unicode_string(self):
+        o = untangle.parse('<Element>valüé ◔‿◔</Element>')
+        self.assertEquals(u'valüé ◔‿◔', o.Element.cdata)
+
 
 class FileObjects(unittest.TestCase):
     """ Test reading from file-like objects """
