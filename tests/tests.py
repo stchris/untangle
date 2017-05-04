@@ -253,6 +253,10 @@ class UnicodeTestCase(unittest.TestCase):
         self.assertEquals(0, len(o.page.menu.items.item[0].name))
         self.assertEquals(0, len(o.page.menu.items.item[1].name))
 
+    def test_unicode_string(self):
+        o = untangle.parse('<Element>valüé ◔‿◔</Element>')
+        self.assertEquals(u'valüé ◔‿◔', o.Element.cdata)
+
 
 class FileObjects(unittest.TestCase):
     """ Test reading from file-like objects """
@@ -330,6 +334,29 @@ class FigsTestCase(unittest.TestCase):
             for prop in group.children:
                 pairs.append((prop['key'], prop.cdata))
         assert expected_pairs == pairs
+
+
+class ParserFeatureTestCase(unittest.TestCase):
+    """Tests adding xml.sax parser features via parse()"""
+
+    # External DTD that will never be loadable (invalid address)
+    bad_dtd_xml = """<?xml version="1.0" standalone="no" ?>
+        <!DOCTYPE FOO PUBLIC "foo" "http://256.0.0.1/foo.dtd">
+        <foo bar="baz" />"""
+
+    def test_valid_feature(self):
+        # xml.sax.handler.feature_external_ges -> load external general (text)
+        # entities, such as DTDs
+        doc = untangle.parse(self.bad_dtd_xml, feature_external_ges=False)
+        self.assertEqual(doc.foo['bar'], 'baz')
+
+    def test_invalid_feature(self):
+        with self.assertRaises(AttributeError):
+            untangle.parse(self.bad_dtd_xml, invalid_feature=True)
+
+    def test_invalid_external_dtd(self):
+        with self.assertRaises(IOError):
+            untangle.parse(self.bad_dtd_xml, feature_external_ges=True)
 
 
 if __name__ == '__main__':

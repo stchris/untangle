@@ -146,13 +146,21 @@ class Handler(handler.ContentHandler):
     def characters(self, cdata):
         self.elements[-1].add_cdata(cdata)
 
-def parse(filename):
+def parse(filename, **parser_features):
     """
     Interprets the given string as a filename, URL or XML data string,
     parses it and returns a Python object which represents the given
     document.
 
-    Raises ``ValueError`` if the argument is None / empty string.
+    Extra arguments to this function are treated as feature values to pass
+    to ``parser.setFeature()``. For example, ``feature_external_ges=False``
+    will set ``xml.sax.handler.feature_external_ges`` to False, disabling
+    the parser's inclusion of external general (text) entities such as DTDs.
+
+    Raises ``ValueError`` if the first argument is None / empty string.
+
+    Raises ``AttributeError`` if a requested xml.sax feature is not found in
+    ``xml.sax.handler``.
 
     Raises ``xml.sax.SAXParseException`` if something goes wrong
     during parsing.
@@ -160,6 +168,8 @@ def parse(filename):
     if (filename is None or (is_string(filename) and filename.strip()) == ''):
         raise ValueError('parse() takes a filename, URL or XML string')
     parser = make_parser()
+    for feature, value in parser_features.items():
+        parser.setFeature(getattr(handler, feature), value)
     sax_handler = Handler()
     parser.setContentHandler(sax_handler)
     if is_string(filename) and (os.path.exists(filename) or is_url(filename)):
