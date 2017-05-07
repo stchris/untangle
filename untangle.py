@@ -21,9 +21,12 @@ except ImportError:
     from io import StringIO
 try:
     from types import StringTypes
-    is_string = lambda x: isinstance(x, StringTypes)
+
+    def is_string(x):
+        return isinstance(x, StringTypes)
 except ImportError:
-    is_string = lambda x: isinstance(x, str)
+    def is_string(x):
+        return isinstance(x, str)
 
 __version__ = '1.1.1'
 

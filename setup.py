@@ -28,7 +28,7 @@ import untangle
 from setuptools import setup
 
 if sys.argv[-1] == 'test':
-    os.system('nosetests tests/tests.py')
+    os.system('tox')
     sys.exit()
 
 setup(
@@ -54,7 +54,6 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
     ),
-    test_suite = 'nose.collector'
 )
 
 # vim: set expandtab ts=4 sw=4:

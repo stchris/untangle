@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+Unreleased
+- flake8 now runs as part of the unit tests. Fully replaced nose with tox as a test runner.
+
 1.1.1
 - addded generic SAX feature toggle ([#26](https://github.com/stchris/untangle/pull/26))
 - added support for `hasattribute`/`getattribute` ([#15](https://github.com/stchris/untangle/pull/15))

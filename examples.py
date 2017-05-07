@@ -41,6 +41,7 @@ def access_cdata():
     )
     return ("%s" % (o.node.cdata))
 
+
 examples = [
     ('Access children with parent.children and'
      ' attributes with element["attribute"]', access),
