@@ -173,7 +173,7 @@ class NamespaceTestCase(unittest.TestCase):
             template.table.tr.xsl_for_each.td['class']
         )
         self.assertEquals(
-            untangle.Element('',''),
+            untangle.Element('', ''),
             template.table.tr.xsl_for_each.td.xsl_apply_templates
         )
 
@@ -185,7 +185,7 @@ class NamespaceTestCase(unittest.TestCase):
             last_template.p['class']
         )
         self.assertEquals(
-            untangle.Element('xsl_apply_templates',''),
+            untangle.Element('xsl_apply_templates', ''),
             last_template.p.xsl_apply_templates
         )
 
