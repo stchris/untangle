@@ -42,7 +42,7 @@ and assuming it's available in a variable called `xml`, we could use untangle li
 
     doc = untangle.parse(xml)
     child_name = doc.root.child['name'] # 'child1'
-    
+
 For text/data inbetween tags, this is described as cdata. After specifying the relevant element as explained above, the data/cdata can be accessed by adding ".cdata" (without the quotes) to the end of your dictionary call.
 
 For more examples, have a look at (and launch) `examples.py <https://github.com/stchris/untangle/blob/master/examples.py/>`_.
@@ -54,7 +54,7 @@ It is recommended to use pip, which will always download the latest stable relea
 
     pip install untangle
 
-untangle works with Python versions 2.6, 2.7, 3.2, 3.3, 3.4, 3.5, 3.6 and pypy
+untangle works with Python versions 2.6, 2.7, 3.3, 3.4, 3.5, 3.6 and pypy
 
 Motivation
 ----------
@@ -95,13 +95,7 @@ This will toggle the SAX handler feature described `here <https://docs.python.or
 Changelog
 ---------
 
-1.1.0
-- __dir__ support for untangled objects
-- code cleanups
-
-1.0.0
-- first official release
-
+see https://github.com/stchris/untangle/blob/master/CHANGELOG.md
 
 
 Indices and tables

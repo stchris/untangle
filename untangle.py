@@ -25,7 +25,7 @@ try:
 except ImportError:
     is_string = lambda x: isinstance(x, str)
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 
 
 class Element(object):
