@@ -14,6 +14,10 @@ class FromStringTestCase(unittest.TestCase):
         self.assert_(o.a is not None)
         self.assert_(o.a.b is not None)
         self.assert_(o.a.c is not None)
+        self.assert_('a' in o)
+        self.assert_('b' in o.a)
+        self.assert_('c' in o.a)
+        self.assert_('d' not in o.a)
 
     def test_basic_with_decl(self):
         o = untangle.parse("<?xml version='1.0'?><a><b/><c/></a>")
@@ -21,6 +25,10 @@ class FromStringTestCase(unittest.TestCase):
         self.assert_(o.a is not None)
         self.assert_(o.a.b is not None)
         self.assert_(o.a.c is not None)
+        self.assert_('a' in o)
+        self.assert_('b' in o.a)
+        self.assert_('c' in o.a)
+        self.assert_('d' not in o.a)
 
     def test_with_attributes(self):
         o = untangle.parse('''
