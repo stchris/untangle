@@ -14,6 +14,7 @@
  License: MIT License - http://www.opensource.org/licenses/mit-license.php
 """
 import os
+from copy import copy
 from xml.sax import make_parser, handler
 try:
     from StringIO import StringIO
@@ -41,6 +42,14 @@ class Element(object):
         self.children = []
         self.is_root = False
         self.cdata = ''
+        
+    @property
+    def attributes(self):
+        """
+        Access the element attributes as a dict.
+        Returns a copy of the dict to avoid mutation.
+        """
+        return copy(self._attributes)
 
     def add_child(self, element):
         """
