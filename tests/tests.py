@@ -93,6 +93,14 @@ class FromStringTestCase(unittest.TestCase):
 
         self.assertEqual('child1', getattr(o.root, 'child')[0]['name'])
 
+    def test_python_keyword(self):
+        o = untangle.parse("<class><return/><pass/><None/></class>")
+        self.assert_(o is not None)
+        self.assert_(o.class_ is not None)
+        self.assert_(o.class_.return_ is not None)
+        self.assert_(o.class_.pass_ is not None)
+        self.assert_(o.class_.None_ is not None)
+
 
 class InvalidTestCase(unittest.TestCase):
     """ Test corner cases """
