@@ -347,16 +347,30 @@ class ParserFeatureTestCase(unittest.TestCase):
     def test_valid_feature(self):
         # xml.sax.handler.feature_external_ges -> load external general (text)
         # entities, such as DTDs
-        doc = untangle.parse(self.bad_dtd_xml, feature_external_ges=False)
+        feats = {'feature_external_ges': False}
+        doc = untangle.parse(self.bad_dtd_xml, parser_features=feats)
         self.assertEqual(doc.foo['bar'], 'baz')
 
     def test_invalid_feature(self):
+        feats = {'invalid_feature': True}
         with self.assertRaises(AttributeError):
-            untangle.parse(self.bad_dtd_xml, invalid_feature=True)
+            untangle.parse(self.bad_dtd_xml, parser_features=feats)
 
     def test_invalid_external_dtd(self):
+        feats = {'feature_external_ges': True}
         with self.assertRaises(IOError):
-            untangle.parse(self.bad_dtd_xml, feature_external_ges=True)
+            untangle.parse(self.bad_dtd_xml, parser_features=feats)
+
+
+class KeywordTestCase(unittest.TestCase):
+    def test_aliases(self):
+        doc = untangle.parse(
+            '<?xml version="1.0" ?><class>yes</class>',
+            aliases={
+                'class': 'clazz'
+            }
+        )
+        self.assertEqual(doc.clazz, 'yes')
 
 
 if __name__ == '__main__':

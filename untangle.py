@@ -124,12 +124,15 @@ class Handler(handler.ContentHandler):
     """
     SAX handler which creates the Python object structure out of ``Element``s
     """
-    def __init__(self):
+    def __init__(self, aliases={}):
         self.root = Element(None, None)
         self.root.is_root = True
         self.elements = []
+        self.aliases = aliases
 
     def startElement(self, name, attributes):
+        if name in self.aliases:
+            name = self.aliases[name]
         name = name.replace('-', '_')
         name = name.replace('.', '_')
         name = name.replace(':', '_')
@@ -150,7 +153,7 @@ class Handler(handler.ContentHandler):
         self.elements[-1].add_cdata(cdata)
 
 
-def parse(filename, **parser_features):
+def parse(filename, aliases={}, parser_features={}):
     """
     Interprets the given string as a filename, URL or XML data string,
     parses it and returns a Python object which represents the given
@@ -174,7 +177,7 @@ def parse(filename, **parser_features):
     parser = make_parser()
     for feature, value in parser_features.items():
         parser.setFeature(getattr(handler, feature), value)
-    sax_handler = Handler()
+    sax_handler = Handler(aliases)
     parser.setContentHandler(sax_handler)
     if is_string(filename) and (os.path.exists(filename) or is_url(filename)):
         parser.parse(filename)
