@@ -1,8 +1,9 @@
 Changelog
 ---------
 
-Unreleased
+2.0.0
 - flake8 now runs as part of the unit tests. Fully replaced nose with tox as a test runner.
+- dropped support for Python 2.6
 
 1.1.1
 - addded generic SAX feature toggle ([#26](https://github.com/stchris/untangle/pull/26))
