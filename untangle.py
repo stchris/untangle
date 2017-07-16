@@ -14,6 +14,7 @@
  License: MIT License - http://www.opensource.org/licenses/mit-license.php
 """
 import os
+import keyword
 from xml.sax import make_parser, handler
 try:
     from StringIO import StringIO
@@ -133,6 +134,11 @@ class Handler(handler.ContentHandler):
         name = name.replace('-', '_')
         name = name.replace('.', '_')
         name = name.replace(':', '_')
+
+        # adding trailing _ for keywords
+        if keyword.iskeyword(name):
+            name += '_'
+
         attrs = dict()
         for k, v in attributes.items():
             attrs[k] = v
