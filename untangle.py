@@ -158,7 +158,6 @@ class Handler(handler.ContentHandler):
     def characters(self, cdata):
         self.elements[-1].add_cdata(cdata)
 
-
 def parse(filename, **parser_features):
     """
     Interprets the given string as a filename, URL or XML data string,
@@ -195,6 +194,27 @@ def parse(filename, **parser_features):
 
     return sax_handler.root
 
+
+def parse_raw(xml):
+    """
+    Parses the given string as an XML data string, returning a Python
+    object which represents the document.
+
+    Raises ``ValueError`` if the argument is None / empty string.
+
+    Raises ``xml.sax.SAXParseException`` if something goes wrong
+    during parsing.
+    """
+    if (xml is None or not is_string(xml) or xml.strip() == ''):
+        raise ValueError('parse_raw() takes an XML string')
+
+    parser = make_parser()
+    sax_handler = Handler()
+    parser.setContentHandler(sax_handler)
+
+    parser.parse(StringIO(xml))
+
+    return sax_handler.root
 
 def is_url(string):
     """
