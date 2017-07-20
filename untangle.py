@@ -120,6 +120,9 @@ class Element(object):
     def __len__(self):
         return len(self.children)
 
+    def __contains__(self, key):
+        return key in dir(self)
+
 
 class Handler(handler.ContentHandler):
     """
