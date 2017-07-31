@@ -27,10 +27,6 @@ import untangle
 
 from setuptools import setup
 
-if sys.argv[-1] == 'test':
-    os.system('tox')
-    sys.exit()
-
 setup(
     name='untangle',
     version=untangle.__version__,
@@ -54,6 +50,8 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
     ),
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
 )
 
 # vim: set expandtab ts=4 sw=4:

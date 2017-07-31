@@ -11,3 +11,4 @@ untangle.egg-info
 tox.init
 untangle-*.tar.gz
 .cache/*
+.eggs/

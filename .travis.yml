@@ -9,7 +9,6 @@ python:
     - pypy
 install:
   - pip install coveralls
-  - pip install tox
 script:
   coverage run --source=untangle ./setup.py test
 
