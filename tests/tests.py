@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import xml
+import six
 import unittest
 import untangle
-import xml
 
 
 class FromStringTestCase(unittest.TestCase):
@@ -102,12 +103,25 @@ class FromStringTestCase(unittest.TestCase):
         self.assertEqual('child1', getattr(o.root, 'child')[0]['name'])
 
     def test_python_keyword(self):
-        o = untangle.parse("<class><return/><pass/><None/></class>")
+        o = untangle.parse('''
+            <class>
+                <return/>
+                <pass/>
+                <None/>
+                <print/>
+                <exec/>
+                <True/>
+            </class>''')
         self.assert_(o is not None)
         self.assert_(o.class_ is not None)
         self.assert_(o.class_.return_ is not None)
         self.assert_(o.class_.pass_ is not None)
-        self.assert_(o.class_.None_ is not None)
+        if six.PY2:
+            self.assert_(o.class_.print_ is not None)
+            self.assert_(o.class_.exec_ is not None)
+        if six.PY3:
+            self.assert_(o.class_.None_ is not None)
+            self.assert_(o.class_.True_ is not None)
 
 
 class InvalidTestCase(unittest.TestCase):
@@ -367,12 +381,14 @@ class ParserFeatureTestCase(unittest.TestCase):
         self.assertEqual(doc.foo['bar'], 'baz')
 
     def test_invalid_feature(self):
-        with self.assertRaises(AttributeError):
-            untangle.parse(self.bad_dtd_xml, invalid_feature=True)
+        self.assertRaises(
+            AttributeError, untangle.parse,
+            self.bad_dtd_xml, invalid_feature=True)
 
     def test_invalid_external_dtd(self):
-        with self.assertRaises(IOError):
-            untangle.parse(self.bad_dtd_xml, feature_external_ges=True)
+        self.assertRaises(
+            IOError, untangle.parse,
+            self.bad_dtd_xml, feature_external_ges=True)
 
 
 if __name__ == '__main__':
