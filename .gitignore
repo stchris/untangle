@@ -12,3 +12,4 @@ tox.init
 untangle-*.tar.gz
 .cache/*
 .eggs/
+.coverage
