@@ -2,7 +2,7 @@
 .DEFAULT_GOAL=compile
 
 compile:
-	python -m compileall -q untangle.py tests/tests.py
+	python -m compileall -q untangle.py tests/test_untangle.py
 
 test:
 	tox
