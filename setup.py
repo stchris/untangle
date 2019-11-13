@@ -27,27 +27,27 @@ import untangle
 
 from setuptools import setup
 
-if sys.argv[-1] == 'test':
-    os.system('tox')
+if sys.argv[-1] == "test":
+    os.system("tox")
     sys.exit()
 
 setup(
-    name='untangle',
+    name="untangle",
     version=untangle.__version__,
-    description='Convert XML documents into Python objects',
+    description="Convert XML documents into Python objects",
     long_description=__doc__,
-    author='Christian Stefanescu',
-    author_email='chris@0chris.com',
-    url='http://github.com/stchris//untangle',
-    py_modules=['untangle'],
-    license='MIT',
+    author="Christian Stefanescu",
+    author_email="chris@0chris.com",
+    url="http://github.com/stchris//untangle",
+    py_modules=["untangle"],
+    license="MIT",
     classifiers=(
-        'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Developers',
-        'Natural Language :: English',
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+        "Natural Language :: English",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
