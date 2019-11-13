@@ -6,6 +6,7 @@ Unreleased
 - support for python keywords as element names ([#43](https://github.com/stchris/untangle/pull/43))
 - dropped support for Python 2.6, 3.3
 - fixed support for Python 3.6 ([#57](https://github.com/stchris/untangle/pull/57))
+- formatted code with black
 
 1.1.1
 - addded generic SAX feature toggle ([#26](https://github.com/stchris/untangle/pull/26))
