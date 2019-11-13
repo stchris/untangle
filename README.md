@@ -1,7 +1,7 @@
 untangle
 ========
 
-[![Build Status](https://secure.travis-ci.org/stchris/untangle.png?branch=master)](http://travis-ci.org/stchris/untangle) [![Code Quality](https://landscape.io/github/stchris/untangle/master/landscape.png)](https://landscape.io/github/stchris/untangle/master) [![Coverage Status](https://coveralls.io/repos/stchris/untangle/badge.png)](https://coveralls.io/r/stchris/untangle) [![PyPi version](https://img.shields.io/pypi/v/untangle.svg)](https://pypi.python.org/pypi/untangle)
+[![Build Status](https://secure.travis-ci.org/stchris/untangle.png?branch=master)](http://travis-ci.org/stchris/untangle) [![Coverage Status](https://coveralls.io/repos/stchris/untangle/badge.png)](https://coveralls.io/r/stchris/untangle) [![PyPi version](https://img.shields.io/pypi/v/untangle.svg)](https://pypi.python.org/pypi/untangle)
 
 [Documentation](http://readthedocs.org/docs/untangle/en/latest/)
 
