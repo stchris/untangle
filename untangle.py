@@ -90,7 +90,7 @@ class Element(object):
     def __hasattribute__(self, name):
         if name in self.__dict__:
             return True
-        return any(self.children, lambda x: x._name == name)
+        return any(x._name == name for x in self.children)
 
     def __iter__(self):
         yield self
