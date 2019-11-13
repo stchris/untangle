@@ -10,7 +10,7 @@ untangle
 * Children can be accessed with ``parent.child``, attributes with ``element['attribute']``.
 * You can call the ``parse()`` method with a filename, an URL or an XML string.
 * Substitutes ``-``, ``.`` and ``:`` with ``_`` ``<foobar><foo-bar/></foobar>`` can be accessed with ``foobar.foo_bar``, ``<foo.bar.baz/>`` can be accessed with ``foo_bar_baz`` and ``<foo:bar><foo:baz/></foo:bar>`` can be accessed with ``foo_bar.foo_baz``
-* Works with Python 2.6, 2.7 and 3.3, 3.4, 3.5, 3.6 and pypy
+* Works with Python 2.7 and 3.4, 3.5, 3.6, 3.7, 3.8 and pypy
 
 Installation
 ------------
