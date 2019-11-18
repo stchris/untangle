@@ -366,6 +366,16 @@ class ParserFeatureTestCase(unittest.TestCase):
             untangle.parse(self.bad_dtd_xml, feature_external_ges=True)
 
 
+class FailsOnWindowsTestCase(unittest.TestCase):
+    def test_aws_xml_filepath(self):
+        untangle.parse("tests/res/aws.xml")
+
+    def test_aws_xml_readfile(self):
+        with open("tests/res/aws.xml", "r") as input_file:
+            data = input_file.read()
+            self.assertEqual(untangle.parse(str(data)), "")
+
+
 if __name__ == "__main__":
     unittest.main()
 
