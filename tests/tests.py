@@ -366,6 +366,21 @@ class ParserFeatureTestCase(unittest.TestCase):
             untangle.parse(self.bad_dtd_xml, feature_external_ges=True)
 
 
+class TestEquals(unittest.TestCase):
+
+    def test_equals(self):
+        a = untangle.Element('a', '1')
+        b = untangle.Element('b', '1')
+        self.assertTrue(a == b)
+
+    def test_list_equals(self):
+        a = untangle.Element('a', '1')
+        b = untangle.Element('b', '1')
+        listA = [a, b]
+        c = untangle.Element('c', '1')
+        self.assertTrue(c in listA)
+
+
 if __name__ == "__main__":
     unittest.main()
 
