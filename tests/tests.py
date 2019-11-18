@@ -11,25 +11,25 @@ class FromStringTestCase(unittest.TestCase):
 
     def test_basic(self):
         o = untangle.parse("<a><b/><c/></a>")
-        self.assert_(o is not None)
-        self.assert_(o.a is not None)
-        self.assert_(o.a.b is not None)
-        self.assert_(o.a.c is not None)
-        self.assert_("a" in o)
-        self.assert_("b" in o.a)
-        self.assert_("c" in o.a)
-        self.assert_("d" not in o.a)
+        self.assertTrue(o is not None)
+        self.assertTrue(o.a is not None)
+        self.assertTrue(o.a.b is not None)
+        self.assertTrue(o.a.c is not None)
+        self.assertTrue("a" in o)
+        self.assertTrue("b" in o.a)
+        self.assertTrue("c" in o.a)
+        self.assertTrue("d" not in o.a)
 
     def test_basic_with_decl(self):
         o = untangle.parse("<?xml version='1.0'?><a><b/><c/></a>")
-        self.assert_(o is not None)
-        self.assert_(o.a is not None)
-        self.assert_(o.a.b is not None)
-        self.assert_(o.a.c is not None)
-        self.assert_("a" in o)
-        self.assert_("b" in o.a)
-        self.assert_("c" in o.a)
-        self.assert_("d" not in o.a)
+        self.assertTrue(o is not None)
+        self.assertTrue(o.a is not None)
+        self.assertTrue(o.a.b is not None)
+        self.assertTrue(o.a.c is not None)
+        self.assertTrue("a" in o)
+        self.assertTrue("b" in o.a)
+        self.assertTrue("c" in o.a)
+        self.assertTrue("d" not in o.a)
 
     def test_with_attributes(self):
         o = untangle.parse(
@@ -48,10 +48,10 @@ class FromStringTestCase(unittest.TestCase):
                     </Soup>
                      """
         )
-        self.assertEquals("Tomato soup", o.Soup["name"])
-        self.assertEquals(1, int(o.Soup["version"]))
-        self.assertEquals("1l", o.Soup.Ingredients.Water["qty"])
-        self.assert_(o.Soup.Instructions.add_ingredients is not None)
+        self.assertEqual("Tomato soup", o.Soup["name"])
+        self.assertEqual(1, int(o.Soup["version"]))
+        self.assertEqual("1l", o.Soup.Ingredients.Water["qty"])
+        self.assertTrue(o.Soup.Instructions.add_ingredients is not None)
 
     def test_grouping(self):
         o = untangle.parse(
@@ -68,17 +68,17 @@ class FromStringTestCase(unittest.TestCase):
                     </root>
                      """
         )
-        self.assert_(o.root)
+        self.assertTrue(o.root)
 
         children = o.root.child
-        self.assertEquals(3, len(children))
-        self.assertEquals("child1", children[0]["name"])
-        self.assertEquals("sub1", children[0].subchild["name"])
-        self.assertEquals(2, len(children[2].subchild))
-        self.assertEquals("sub2", children[2].subchild[0]["name"])
+        self.assertEqual(3, len(children))
+        self.assertEqual("child1", children[0]["name"])
+        self.assertEqual("sub1", children[0].subchild["name"])
+        self.assertEqual(2, len(children[2].subchild))
+        self.assertEqual("sub2", children[2].subchild[0]["name"])
 
     def test_single_root(self):
-        self.assert_(untangle.parse("<single_root_node/>"))
+        self.assertTrue(untangle.parse("<single_root_node/>"))
 
     def test_attribute_protocol(self):
         o = untangle.parse(
@@ -96,7 +96,7 @@ class FromStringTestCase(unittest.TestCase):
                      """
         )
         try:
-            self.assertEquals(None, o.root.child.inexistent)
+            self.assertEqual(None, o.root.child.inexistent)
             self.fail("Was able to access inexistent child as None")
         except AttributeError:
             pass  # this is the expected error
@@ -110,11 +110,11 @@ class FromStringTestCase(unittest.TestCase):
 
     def test_python_keyword(self):
         o = untangle.parse("<class><return/><pass/><None/></class>")
-        self.assert_(o is not None)
-        self.assert_(o.class_ is not None)
-        self.assert_(o.class_.return_ is not None)
-        self.assert_(o.class_.pass_ is not None)
-        self.assert_(o.class_.None_ is not None)
+        self.assertTrue(o is not None)
+        self.assertTrue(o.class_ is not None)
+        self.assertTrue(o.class_.return_ is not None)
+        self.assertTrue(o.class_.pass_ is not None)
+        self.assertTrue(o.class_.None_ is not None)
 
 
 class InvalidTestCase(unittest.TestCase):
@@ -138,31 +138,29 @@ class PomXmlTestCase(unittest.TestCase):
 
     def test_parent(self):
         project = self.o.project
-        self.assert_(project)
+        self.assertTrue(project)
 
         parent = project.parent
-        self.assert_(parent)
-        self.assertEquals("com.atlassian.confluence.plugin.base", parent.groupId)
-        self.assertEquals("confluence-plugin-base", parent.artifactId)
-        self.assertEquals("17", parent.version)
+        self.assertTrue(parent)
+        self.assertEqual("com.atlassian.confluence.plugin.base", parent.groupId)
+        self.assertEqual("confluence-plugin-base", parent.artifactId)
+        self.assertEqual("17", parent.version)
 
-        self.assertEquals("4.0.0", project.modelVersion)
-        self.assertEquals("com.this.that.groupId", project.groupId)
+        self.assertEqual("4.0.0", project.modelVersion)
+        self.assertEqual("com.this.that.groupId", project.groupId)
 
-        self.assertEquals("", project.name)
-        self.assertEquals(
+        self.assertEqual("", project.name)
+        self.assertEqual(
             "${pom.groupId}.${pom.artifactId}", project.properties.atlassian_plugin_key
         )
-        self.assertEquals(
-            "1.4.1", project.properties.atlassian_product_test_lib_version
-        )
-        self.assertEquals("2.9", project.properties.atlassian_product_data_version)
+        self.assertEqual("1.4.1", project.properties.atlassian_product_test_lib_version)
+        self.assertEqual("2.9", project.properties.atlassian_product_data_version)
 
     def test_lengths(self):
-        self.assertEquals(1, len(self.o))
-        self.assertEquals(8, len(self.o.project))
-        self.assertEquals(3, len(self.o.project.parent))
-        self.assertEquals(4, len(self.o.project.properties))
+        self.assertEqual(1, len(self.o))
+        self.assertEqual(8, len(self.o.project))
+        self.assertEqual(3, len(self.o.project.parent))
+        self.assertEqual(4, len(self.o.project.properties))
 
 
 class NamespaceTestCase(unittest.TestCase):
@@ -172,27 +170,27 @@ class NamespaceTestCase(unittest.TestCase):
         self.o = untangle.parse("tests/res/some.xslt")
 
     def test_namespace(self):
-        self.assert_(self.o)
+        self.assertTrue(self.o)
 
         stylesheet = self.o.xsl_stylesheet
-        self.assert_(stylesheet)
-        self.assertEquals("1.0", stylesheet["version"])
+        self.assertTrue(stylesheet)
+        self.assertEqual("1.0", stylesheet["version"])
 
         template = stylesheet.xsl_template[0]
-        self.assert_(template)
-        self.assertEquals("math", template["match"])
-        self.assertEquals("compact", template.table["class"])
-        self.assertEquals("compact vam", template.table.tr.xsl_for_each.td["class"])
-        self.assertEquals(
+        self.assertTrue(template)
+        self.assertEqual("math", template["match"])
+        self.assertEqual("compact", template.table["class"])
+        self.assertEqual("compact vam", template.table.tr.xsl_for_each.td["class"])
+        self.assertEqual(
             untangle.Element("", ""),
             template.table.tr.xsl_for_each.td.xsl_apply_templates,
         )
 
         last_template = stylesheet.xsl_template[-1]
-        self.assert_(last_template)
-        self.assertEquals("m_var", last_template["match"])
-        self.assertEquals("compact tac formula italic", last_template.p["class"])
-        self.assertEquals(
+        self.assertTrue(last_template)
+        self.assertEqual("m_var", last_template["match"])
+        self.assertEqual("compact tac formula italic", last_template.p["class"])
+        self.assertEqual(
             untangle.Element("xsl_apply_templates", ""),
             last_template.p.xsl_apply_templates,
         )
@@ -207,7 +205,7 @@ class IterationTestCase(unittest.TestCase):
         cnt = 0
         for i in o.a.b:
             cnt += 1
-        self.assertEquals(2, cnt)
+        self.assertEqual(2, cnt)
 
     def test_single_child(self):
         """ Special case when there is only a single child element.
@@ -217,7 +215,7 @@ class IterationTestCase(unittest.TestCase):
         cnt = 0
         for i in o.a.b:
             cnt += 1
-        self.assertEquals(1, cnt)
+        self.assertEqual(1, cnt)
 
 
 class TwimlTestCase(unittest.TestCase):
@@ -234,14 +232,14 @@ class TwimlTestCase(unittest.TestCase):
 </Response>
         """
         o = untangle.parse(xml)
-        self.assertEquals([u"Response"], dir(o))
+        self.assertEqual([u"Response"], dir(o))
         resp = o.Response
-        self.assertEquals([u"Gather", u"Redirect"], dir(resp))
+        self.assertEqual([u"Gather", u"Redirect"], dir(resp))
         gather = resp.Gather
         redir = resp.Redirect
-        self.assertEquals([u"Play"], dir(gather))
-        self.assertEquals([], dir(redir))
-        self.assertEquals(
+        self.assertEqual([u"Play"], dir(gather))
+        self.assertEqual([], dir(redir))
+        self.assertEqual(
             u"http://example.com/calls/1/twiml?event=start", o.Response.Redirect.cdata
         )
 
@@ -251,21 +249,21 @@ class UnicodeTestCase(unittest.TestCase):
 
     def test_unicode_file(self):
         o = untangle.parse("tests/res/unicode.xml")
-        self.assertEquals(u"ðÒÉ×ÅÔ ÍÉÒ", o.page.menu.name)
+        self.assertEqual(u"ðÒÉ×ÅÔ ÍÉÒ", o.page.menu.name)
 
     def test_lengths(self):
         o = untangle.parse("tests/res/unicode.xml")
-        self.assertEquals(1, len(o))
-        self.assertEquals(1, len(o.page))
-        self.assertEquals(2, len(o.page.menu))
-        self.assertEquals(2, len(o.page.menu.items))
-        self.assertEquals(2, len(o.page.menu.items.item))
-        self.assertEquals(0, len(o.page.menu.items.item[0].name))
-        self.assertEquals(0, len(o.page.menu.items.item[1].name))
+        self.assertEqual(1, len(o))
+        self.assertEqual(1, len(o.page))
+        self.assertEqual(2, len(o.page.menu))
+        self.assertEqual(2, len(o.page.menu.items))
+        self.assertEqual(2, len(o.page.menu.items.item))
+        self.assertEqual(0, len(o.page.menu.items.item[0].name))
+        self.assertEqual(0, len(o.page.menu.items.item[1].name))
 
     def test_unicode_string(self):
         o = untangle.parse("<Element>valüé ◔‿◔</Element>")
-        self.assertEquals(u"valüé ◔‿◔", o.Element.cdata)
+        self.assertEqual(u"valüé ◔‿◔", o.Element.cdata)
 
 
 class FileObjects(unittest.TestCase):
@@ -275,13 +273,13 @@ class FileObjects(unittest.TestCase):
         with open("tests/res/pom.xml") as pom_file:
             o = untangle.parse(pom_file)
             project = o.project
-            self.assert_(project)
+            self.assertTrue(project)
 
             parent = project.parent
-            self.assert_(parent)
-            self.assertEquals("com.atlassian.confluence.plugin.base", parent.groupId)
-            self.assertEquals("confluence-plugin-base", parent.artifactId)
-            self.assertEquals("17", parent.version)
+            self.assertTrue(parent)
+            self.assertEqual("com.atlassian.confluence.plugin.base", parent.groupId)
+            self.assertEqual("confluence-plugin-base", parent.artifactId)
+            self.assertEqual("17", parent.version)
 
 
 class Foo(object):
@@ -296,8 +294,8 @@ class UntangleInObjectsTestCase(unittest.TestCase):
 
     def test_object(self):
         foo = Foo()
-        self.assertEquals("1", foo.doc.a.b["x"])
-        self.assertEquals("foo", foo.doc.a.b.cdata)
+        self.assertEqual("1", foo.doc.a.b["x"])
+        self.assertEqual("foo", foo.doc.a.b.cdata)
 
 
 class UrlStringTestCase(unittest.TestCase):
@@ -323,13 +321,13 @@ class TestSaxHandler(unittest.TestCase):
         h = untangle.Handler()
         h.startElement("foo", {})
         h.endElement("foo")
-        self.assertEquals("foo", h.root.children[0]._name)
+        self.assertEqual("foo", h.root.children[0]._name)
 
     def test_cdata(self):
         h = untangle.Handler()
         h.startElement("foo", {})
         h.characters("baz")
-        self.assertEquals("baz", h.root.children[0].cdata)
+        self.assertEqual("baz", h.root.children[0].cdata)
 
 
 class FigsTestCase(unittest.TestCase):
@@ -367,17 +365,16 @@ class ParserFeatureTestCase(unittest.TestCase):
 
 
 class TestEquals(unittest.TestCase):
-
     def test_equals(self):
-        a = untangle.Element('a', '1')
-        b = untangle.Element('b', '1')
+        a = untangle.Element("a", "1")
+        b = untangle.Element("b", "1")
         self.assertTrue(a == b)
 
     def test_list_equals(self):
-        a = untangle.Element('a', '1')
-        b = untangle.Element('b', '1')
+        a = untangle.Element("a", "1")
+        b = untangle.Element("b", "1")
         listA = [a, b]
-        c = untangle.Element('c', '1')
+        c = untangle.Element("c", "1")
         self.assertTrue(c in listA)
 
 
