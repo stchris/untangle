@@ -31,6 +31,13 @@ class FromStringTestCase(unittest.TestCase):
         self.assertTrue("c" in o.a)
         self.assertTrue("d" not in o.a)
 
+    def test_truthiness(self):
+        o = untangle.parse("<a><b/><c/></a>")
+        self.assertTrue(o)
+        self.assertTrue(o.a)
+        self.assertTrue(o.a.b)
+        self.assertTrue(o.a.c)
+
     def test_with_attributes(self):
         o = untangle.parse(
             """
