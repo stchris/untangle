@@ -13,7 +13,7 @@ Unreleased
 - dropped support for Python 3.4-3.6 and pypy
 
 1.1.1
-- addded generic SAX feature toggle ([#26](https://github.com/stchris/untangle/pull/26))
+- added generic SAX feature toggle ([#26](https://github.com/stchris/untangle/pull/26))
 - added support for `hasattribute`/`getattribute` ([#15](https://github.com/stchris/untangle/pull/15))
 - added support for `len()` on parsed objects ([https://github.com/stchris/untangle/commit/31f3078]())
 - fixed a potential bug when trying to detect URLs ([https://github.com/stchris/untangle/commit/cfa11d16]())
