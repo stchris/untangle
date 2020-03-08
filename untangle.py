@@ -197,7 +197,7 @@ def parse(filename, **parser_features):
         parse_directly = is_string(filename) and (os.path.exists(filename) or
                                                   is_url(filename))
     except ValueError:  # Can only occur when is_string(filename) == True
-        parse_directly = is_url(filename)
+        parse_directly = is_string(filename) and is_url(filename)
     finally:
         parse_directly = parse_directly or hasattr(filename, "read")
         parser.parse(filename if parse_directly else StringIO(filename))
