@@ -193,13 +193,14 @@ def parse(filename, **parser_features):
         parser.setFeature(getattr(handler, feature), value)
     sax_handler = Handler()
     parser.setContentHandler(sax_handler)
-    if is_string(filename) and (os.path.exists(filename) or is_url(filename)):
-        parser.parse(filename)
-    else:
-        if hasattr(filename, "read"):
-            parser.parse(filename)
-        else:
-            parser.parse(StringIO(filename))
+    try:  # Workaround for when Path (or XML string) too long on Windows
+        parse_directly = is_string(filename) and (os.path.exists(filename) or
+                                                  is_url(filename))
+    except ValueError:  # Can only occur when is_string(filename) == True
+        parse_directly = is_url(filename)
+    finally:
+        parse_directly = parse_directly or hasattr(filename, "read")
+        parser.parse(filename if parse_directly else StringIO(filename))
 
     return sax_handler.root
 
