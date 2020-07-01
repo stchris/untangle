@@ -27,6 +27,8 @@ With conda:
 conda install -c conda-forge untangle
 ```
 
+Conda feedstock maintained by @htenkanen. Issues and questions about conda-forge packaging / installation can be done [here](https://github.com/conda-forge/untangle-feedstock/issues).
+
 Usage
 -----
 (See and run <a href="https://github.com/stchris/untangle/blob/master/examples.py">examples.py</a> or this blog post: [Read XML painlessly](http://pythonadventures.wordpress.com/2011/10/30/read-xml-painlessly/) for more info)
