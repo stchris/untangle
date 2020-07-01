@@ -22,7 +22,7 @@ With pip:
 pip install untangle
 ```
 
-Installation with conda:
+With conda:
 ```
 conda install -c conda-forge untangle
 ```
