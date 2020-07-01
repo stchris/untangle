@@ -56,7 +56,7 @@ It is recommended to use pip, which will always download the latest stable relea
 
 untangle works with Python versions 2.6, 2.7, 3.3, 3.4, 3.5, 3.6 and pypy.
 
-Alternatively, you can install untangle with conda-forge: ::
+Alternatively, you can install untangle with conda from conda-forge: ::
 
     conda install -c conda-forge untangle
 
