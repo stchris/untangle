@@ -17,9 +17,7 @@ untangle
 Installation
 ------------
 
-Untangle can be easily installed with pip and conda package managers. 
-
-Installation with pip:
+With pip:
 ```
 pip install untangle
 ```
