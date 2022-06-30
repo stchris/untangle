@@ -1,35 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-untangle
---------
-.. image:: https://secure.travis-ci.org/stchris/untangle.png?branch=main
-
-untangle parses an XML document and returns a Python object which makes it
-easy to access the data you want.
-
-Example:
-
-::
-
-    import untangle
-    obj = untangle.parse('<root><child name="child1"/></root>')
-    assert obj.root.child['name'] == u'child1'
-
-See http://github.com/stchris/untangle and
-    http://readthedocs.org/docs/untangle/en/latest/
-"""
-
 import untangle
 
 from setuptools import setup
+from pathlib import Path
+
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="untangle",
     version=untangle.__version__,
     description="Convert XML documents into Python objects",
-    long_description=__doc__,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author="Christian Stefanescu",
     author_email="hello@stchris.net",
     url="http://github.com/stchris//untangle",
