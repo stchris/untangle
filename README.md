@@ -1,7 +1,7 @@
 untangle
 ========
 
-[![Build Status](https://secure.travis-ci.org/stchris/untangle.png?branch=master)](http://travis-ci.org/stchris/untangle)
+[![Build Status](https://secure.travis-ci.org/stchris/untangle.png?branch=main)](http://travis-ci.org/stchris/untangle)
 [![PyPi version](https://img.shields.io/pypi/v/untangle.svg)](https://pypi.python.org/pypi/untangle)
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
@@ -31,7 +31,7 @@ Conda feedstock maintained by @htenkanen. Issues and questions about conda-forge
 
 Usage
 -----
-(See and run <a href="https://github.com/stchris/untangle/blob/master/examples.py">examples.py</a> or this blog post: [Read XML painlessly](http://pythonadventures.wordpress.com/2011/10/30/read-xml-painlessly/) for more info)
+(See and run <a href="https://github.com/stchris/untangle/blob/main/examples.py">examples.py</a> or this blog post: [Read XML painlessly](http://pythonadventures.wordpress.com/2011/10/30/read-xml-painlessly/) for more info)
 
 ```python
 import untangle
