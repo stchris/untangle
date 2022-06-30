@@ -8,6 +8,9 @@ Unreleased
 - fixed support for Python 3.6 ([#57](https://github.com/stchris/untangle/pull/57))
 - formatted code with black
 - `main` is now the default branch
+- Switch to Github Actions
+- dropped support for Python 3.4-3.6 and pypy
+- switch to pytest
 
 1.1.1
 - addded generic SAX feature toggle ([#26](https://github.com/stchris/untangle/pull/26))
