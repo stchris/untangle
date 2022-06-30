@@ -4,7 +4,7 @@
 """
 untangle
 --------
-.. image:: https://secure.travis-ci.org/stchris/untangle.png?branch=master
+.. image:: https://secure.travis-ci.org/stchris/untangle.png?branch=main
 
 untangle parses an XML document and returns a Python object which makes it
 easy to access the data you want.
