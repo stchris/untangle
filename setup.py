@@ -21,8 +21,6 @@ See http://github.com/stchris/untangle and
     http://readthedocs.org/docs/untangle/en/latest/
 """
 
-import os
-import sys
 import untangle
 
 from setuptools import setup
