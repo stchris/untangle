@@ -3,15 +3,18 @@
 
 import untangle
 
-from setuptools import setup
+from setuptools import setup, find_packages
 from pathlib import Path
+
+long_description = (Path(__file__).parent / "README.md").read_text()
 
 setup(
     name="untangle",
+    packages=find_packages(),
     version=untangle.__version__,
     description="Convert XML documents into Python objects",
     long_description_content_type="text/markdown",
-    long_description=(Path(__file__).parent / "README.md").read_text(),
+    long_description=long_description,
     author="Christian Stefanescu",
     author_email="hello@stchris.net",
     url="http://github.com/stchris//untangle",
