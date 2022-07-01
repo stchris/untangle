@@ -12,6 +12,7 @@ Unreleased
 - switch to poetry and pytest
 - dropped support for Python 3.4-3.6 and pypy
 - Prevent XML SAX vulnerability: External Entities injection ([#60](https://github.com/stchris/untangle/issues/60))
+- fixed setup.py warning ([#77](https://github.com/stchris/untangle/pull/77/))
 
 1.1.1
 - added generic SAX feature toggle ([#26](https://github.com/stchris/untangle/pull/26))
