@@ -4,11 +4,12 @@ on: push
 
 jobs:
   test:
-    name: Test
-    runs-on: ubuntu-latest
+    name: Test Python ${{ matrix.python-version }} (${{ matrix.os }})
     strategy:
       matrix:
         python-version: ["3.7", "3.8", "3.9", "3.10"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
 
@@ -26,48 +27,3 @@ jobs:
       - name: Run tests
         run: make test
 
-  publish:
-    name: Publish
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.10"
-
-      - name: Update setuptools, twine, wheel
-        run: >-
-          python -m
-          pip install --upgrade
-          setuptools twine wheel
-
-      - name: Install pypa/build
-        run: >-
-          python -m
-          pip install
-          build
-          --user
-
-      - name: Build a binary wheel and a source tarball
-        run: >-
-          python -m
-          build
-          --sdist
-          --wheel
-          --outdir dist/
-          .
-
-      - name: Publish to Test PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/
-
-      - name: Publish to PyPI
-        if: startsWith(github.ref, 'refs/tags')
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
