@@ -4,8 +4,16 @@
 compile:
 	python -m compileall -q untangle.py tests/tests.py
 
+setup:
+	python -m pip install poetry
+	poetry install
+
+lint:
+	poetry run flake8 .
+	poetry run black --check .
+
 test:
-	tox
+	poetry run pytest -v
 
 # needs python-stdeb
 package_deb:

@@ -7,7 +7,7 @@ untangle: Convert XML to Python objects
 =======================================
 
 `untangle <https://stchris.github.com/untangle/>`_ is a tiny Python library which converts an XML
-document to a Python object. It is available under the `MIT license <https://github.com/stchris/untangle/blob/master/LICENSE/>`_.
+document to a Python object. It is available under the `MIT license <https://github.com/stchris/untangle/blob/main/LICENSE/>`_.
 
 .. contents::
 
@@ -45,16 +45,14 @@ and assuming it's available in a variable called `xml`, we could use untangle li
 
 For text/data inbetween tags, this is described as cdata. After specifying the relevant element as explained above, the data/cdata can be accessed by adding ".cdata" (without the quotes) to the end of your dictionary call.
 
-For more examples, have a look at (and launch) `examples.py <https://github.com/stchris/untangle/blob/master/examples.py/>`_.
+For more examples, have a look at (and launch) `examples.py <https://github.com/stchris/untangle/blob/main/examples.py/>`_.
 
 Installation
 ------------
 
-It is recommended to use pip, which will always download the latest stable release: ::
+::
 
     pip install untangle
-
-untangle works with Python versions 2.6, 2.7, 3.3, 3.4, 3.5, 3.6 and pypy.
 
 Alternatively, you can install untangle with conda from conda-forge: ::
 
@@ -99,7 +97,7 @@ This will toggle the SAX handler feature described `here <https://docs.python.or
 Changelog
 ---------
 
-see https://github.com/stchris/untangle/blob/master/CHANGELOG.md
+see https://github.com/stchris/untangle/blob/main/CHANGELOG.md
 
 
 Indices and tables

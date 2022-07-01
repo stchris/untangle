@@ -7,9 +7,15 @@ Unreleased
 - dropped support for Python 2.6, 3.3
 - fixed support for Python 3.6 ([#57](https://github.com/stchris/untangle/pull/57))
 - formatted code with black
+- `main` is now the default branch
+- switch to Github Actions
+- switch to poetry and pytest
+- dropped support for Python 3.4-3.6 and pypy
+- Prevent XML SAX vulnerability: External Entities injection ([#60](https://github.com/stchris/untangle/issues/60))
+- fixed setup.py warning ([#77](https://github.com/stchris/untangle/pull/77/))
 
 1.1.1
-- addded generic SAX feature toggle ([#26](https://github.com/stchris/untangle/pull/26))
+- added generic SAX feature toggle ([#26](https://github.com/stchris/untangle/pull/26))
 - added support for `hasattribute`/`getattribute` ([#15](https://github.com/stchris/untangle/pull/15))
 - added support for `len()` on parsed objects ([https://github.com/stchris/untangle/commit/31f3078]())
 - fixed a potential bug when trying to detect URLs ([https://github.com/stchris/untangle/commit/cfa11d16]())

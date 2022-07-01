@@ -1,0 +1,4 @@
+<!DOCTYPE external [
+<!ENTITY ee SYSTEM "http://www.python.org/some.xml">
+]>
+<root>&ee;</root>

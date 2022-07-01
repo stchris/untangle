@@ -16,6 +16,8 @@
 import os
 import keyword
 from xml.sax import make_parser, handler
+from xml.sax.handler import feature_external_ges
+
 
 try:
     from StringIO import StringIO
@@ -26,7 +28,6 @@ try:
 
     def is_string(x):
         return isinstance(x, StringTypes)
-
 
 except ImportError:
 
@@ -173,8 +174,8 @@ def parse(filename, **parser_features):
     parses it and returns a Python object which represents the given
     document.
 
-    Extra arguments to this function are treated as feature values to pass
-    to ``parser.setFeature()``. For example, ``feature_external_ges=False``
+    Extra arguments to this function are treated as feature values that are
+    passed to ``parser.setFeature()``. For example, ``feature_external_ges=False``
     will set ``xml.sax.handler.feature_external_ges`` to False, disabling
     the parser's inclusion of external general (text) entities such as DTDs.
 
@@ -189,6 +190,8 @@ def parse(filename, **parser_features):
     if filename is None or (is_string(filename) and filename.strip()) == "":
         raise ValueError("parse() takes a filename, URL or XML string")
     parser = make_parser()
+    # See https://github.com/stchris/untangle/issues/60
+    parser.setFeature(feature_external_ges, False)
     for feature, value in parser_features.items():
         parser.setFeature(getattr(handler, feature), value)
     sax_handler = Handler()

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import unittest
@@ -7,7 +7,7 @@ import xml
 
 
 class FromStringTestCase(unittest.TestCase):
-    """ Basic parsing tests with input as string """
+    """Basic parsing tests with input as string"""
 
     def test_basic(self):
         o = untangle.parse("<a><b/><c/></a>")
@@ -118,7 +118,7 @@ class FromStringTestCase(unittest.TestCase):
 
 
 class InvalidTestCase(unittest.TestCase):
-    """ Test corner cases """
+    """Test corner cases"""
 
     def test_invalid_xml(self):
         self.assertRaises(xml.sax.SAXParseException, untangle.parse, "<unclosed>")
@@ -131,7 +131,7 @@ class InvalidTestCase(unittest.TestCase):
 
 
 class PomXmlTestCase(unittest.TestCase):
-    """ Tests parsing a Maven pom.xml """
+    """Tests parsing a Maven pom.xml"""
 
     def setUp(self):
         self.o = untangle.parse("tests/res/pom.xml")
@@ -164,7 +164,7 @@ class PomXmlTestCase(unittest.TestCase):
 
 
 class NamespaceTestCase(unittest.TestCase):
-    """ Tests for XMLs with namespaces """
+    """Tests for XMLs with namespaces"""
 
     def setUp(self):
         self.o = untangle.parse("tests/res/some.xslt")
@@ -197,10 +197,10 @@ class NamespaceTestCase(unittest.TestCase):
 
 
 class IterationTestCase(unittest.TestCase):
-    """ Tests various cases of iteration over child nodes. """
+    """Tests various cases of iteration over child nodes."""
 
     def test_multiple_children(self):
-        """ Regular case of iteration. """
+        """Regular case of iteration."""
         o = untangle.parse("<a><b/><b/></a>")
         cnt = 0
         for i in o.a.b:
@@ -208,8 +208,8 @@ class IterationTestCase(unittest.TestCase):
         self.assertEqual(2, cnt)
 
     def test_single_child(self):
-        """ Special case when there is only a single child element.
-            Does not work without an __iter__ implemented.
+        """Special case when there is only a single child element.
+        Does not work without an __iter__ implemented.
         """
         o = untangle.parse("<a><b/></a>")
         cnt = 0
@@ -219,7 +219,7 @@ class IterationTestCase(unittest.TestCase):
 
 
 class TwimlTestCase(unittest.TestCase):
-    """ Github Issue #5: can't dir the parsed object """
+    """Github Issue #5: can't dir the parsed object"""
 
     def test_twiml_dir(self):
         xml = """<?xml version="1.0" encoding="UTF-8"?>
@@ -232,24 +232,24 @@ class TwimlTestCase(unittest.TestCase):
 </Response>
         """
         o = untangle.parse(xml)
-        self.assertEqual([u"Response"], dir(o))
+        self.assertEqual(["Response"], dir(o))
         resp = o.Response
-        self.assertEqual([u"Gather", u"Redirect"], dir(resp))
+        self.assertEqual(["Gather", "Redirect"], dir(resp))
         gather = resp.Gather
         redir = resp.Redirect
-        self.assertEqual([u"Play"], dir(gather))
+        self.assertEqual(["Play"], dir(gather))
         self.assertEqual([], dir(redir))
         self.assertEqual(
-            u"http://example.com/calls/1/twiml?event=start", o.Response.Redirect.cdata
+            "http://example.com/calls/1/twiml?event=start", o.Response.Redirect.cdata
         )
 
 
 class UnicodeTestCase(unittest.TestCase):
-    """ Github issue #8: UnicodeEncodeError """
+    """Github issue #8: UnicodeEncodeError"""
 
     def test_unicode_file(self):
         o = untangle.parse("tests/res/unicode.xml")
-        self.assertEqual(u"ðÒÉ×ÅÔ ÍÉÒ", o.page.menu.name)
+        self.assertEqual("ðÒÉ×ÅÔ ÍÉÒ", o.page.menu.name)
 
     def test_lengths(self):
         o = untangle.parse("tests/res/unicode.xml")
@@ -263,11 +263,16 @@ class UnicodeTestCase(unittest.TestCase):
 
     def test_unicode_string(self):
         o = untangle.parse("<Element>valüé ◔‿◔</Element>")
-        self.assertEqual(u"valüé ◔‿◔", o.Element.cdata)
+        self.assertEqual("valüé ◔‿◔", o.Element.cdata)
+
+    def test_unicode_element(self):
+        o = untangle.parse("<Francés></Francés>")
+        self.assertTrue(o is not None)
+        self.assertTrue(o.Francés is not None)
 
 
 class FileObjects(unittest.TestCase):
-    """ Test reading from file-like objects """
+    """Test reading from file-like objects"""
 
     def test_file_object(self):
         with open("tests/res/pom.xml") as pom_file:
@@ -283,14 +288,14 @@ class FileObjects(unittest.TestCase):
 
 
 class Foo(object):
-    """ Used in UntangleInObjectsTestCase """
+    """Used in UntangleInObjectsTestCase"""
 
     def __init__(self):
         self.doc = untangle.parse('<a><b x="1">foo</b></a>')
 
 
 class UntangleInObjectsTestCase(unittest.TestCase):
-    """ tests usage of untangle in classes """
+    """tests usage of untangle in classes"""
 
     def test_object(self):
         foo = Foo()
@@ -299,7 +304,7 @@ class UntangleInObjectsTestCase(unittest.TestCase):
 
 
 class UrlStringTestCase(unittest.TestCase):
-    """ tests is_url() function """
+    """tests is_url() function"""
 
     def test_is_url(self):
         self.assertFalse(untangle.is_url("foo"))
@@ -310,7 +315,7 @@ class UrlStringTestCase(unittest.TestCase):
 
 
 class TestSaxHandler(unittest.TestCase):
-    """ Tests the SAX ContentHandler """
+    """Tests the SAX ContentHandler"""
 
     def test_empty_handler(self):
         h = untangle.Handler()
@@ -376,6 +381,13 @@ class TestEquals(unittest.TestCase):
         listA = [a, b]
         c = untangle.Element("c", "1")
         self.assertTrue(c in listA)
+
+
+class TestExternalEntityExpansion(unittest.TestCase):
+    def test_xxe(self):
+        # from https://pypi.org/project/defusedxml/#external-entity-expansion-remote
+        o = untangle.parse("tests/res/xxe.xml")
+        assert o.root.cdata == ""
 
 
 if __name__ == "__main__":
