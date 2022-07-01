@@ -17,6 +17,7 @@ setup(
     url="http://github.com/stchris//untangle",
     py_modules=["untangle"],
     install_requires=["defusedxml"],
+    include_package_data=True,
     license="MIT",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
