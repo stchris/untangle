@@ -1,6 +1,6 @@
 untangle
 --------
-.. image:: https://secure.travis-ci.org/stchris/untangle.png?branch=main
+.. image:: https://github.com/stchris/untangle/actions/workflows/build.yml/badge.svg
 
 untangle parses an XML document and returns a Python object which makes it
 easy to access the data you want.
