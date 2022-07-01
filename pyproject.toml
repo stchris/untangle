@@ -7,6 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
+defusedxml = "^0.7.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
