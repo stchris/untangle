@@ -115,8 +115,10 @@ class Element(object):
             self.cdata,
         )
 
-    def __nonzero__(self):
+    def __bool__(self):
         return self.is_root or self._name is not None
+
+    __nonzero__ = __bool__
 
     def __eq__(self, val):
         return self.cdata == val
