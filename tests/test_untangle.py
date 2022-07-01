@@ -383,6 +383,13 @@ class TestEquals(unittest.TestCase):
         self.assertTrue(c in listA)
 
 
+class TestExternalEntityExpansion(unittest.TestCase):
+    def test_xxe(self):
+        # from https://pypi.org/project/defusedxml/#external-entity-expansion-remote
+        o = untangle.parse("tests/res/xxe.xml")
+        assert o.root.cdata == ""
+
+
 if __name__ == "__main__":
     unittest.main()
 
