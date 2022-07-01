@@ -27,7 +27,6 @@ try:
     def is_string(x):
         return isinstance(x, StringTypes)
 
-
 except ImportError:
 
     def is_string(x):

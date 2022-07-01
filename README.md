@@ -1,7 +1,7 @@
 untangle
 ========
 
-[![Build Status](https://secure.travis-ci.org/stchris/untangle.png?branch=main)](http://travis-ci.org/stchris/untangle)
+[![Build Status](https://github.com/stchris/untangle/actions/workflows/build.yml/badge.svg)](https://github.com/stchris/untangle/actions)
 [![PyPi version](https://img.shields.io/pypi/v/untangle.svg)](https://pypi.python.org/pypi/untangle)
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
@@ -12,7 +12,7 @@ untangle
 * Children can be accessed with ``parent.child``, attributes with ``element['attribute']``.
 * You can call the ``parse()`` method with a filename, an URL or an XML string.
 * Substitutes ``-``, ``.`` and ``:`` with ``_`` ``<foobar><foo-bar/></foobar>`` can be accessed with ``foobar.foo_bar``, ``<foo.bar.baz/>`` can be accessed with ``foo_bar_baz`` and ``<foo:bar><foo:baz/></foo:bar>`` can be accessed with ``foo_bar.foo_baz``
-* Works with Python 2.7 and 3.4, 3.5, 3.6, 3.7, 3.8 and pypy
+* Works with Python 3.7 - 3.10
 
 Installation
 ------------

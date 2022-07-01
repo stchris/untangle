@@ -41,8 +41,8 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"untangle"
-copyright = u"2012, Christian Stefanescu"
+project = "untangle"
+copyright = "2012, Christian Stefanescu"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -185,8 +185,8 @@ latex_documents = [
     (
         "index",
         "untangle.tex",
-        u"untangle Documentation",
-        u"Christian Stefanescu",
+        "untangle Documentation",
+        "Christian Stefanescu",
         "manual",
     ),
 ]
@@ -217,7 +217,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ("index", "untangle", u"untangle Documentation", [u"Christian Stefanescu"], 1)
+    ("index", "untangle", "untangle Documentation", ["Christian Stefanescu"], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -233,8 +233,8 @@ texinfo_documents = [
     (
         "index",
         "untangle",
-        u"untangle Documentation",
-        u"Christian Stefanescu",
+        "untangle Documentation",
+        "Christian Stefanescu",
         "untangle",
         "One line description of project.",
         "Miscellaneous",
