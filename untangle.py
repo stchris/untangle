@@ -174,8 +174,8 @@ def parse(filename, **parser_features):
     parses it and returns a Python object which represents the given
     document.
 
-    Extra arguments to this function are treated as feature values to pass
-    to ``parser.setFeature()``. For example, ``feature_external_ges=False``
+    Extra arguments to this function are treated as feature values that are
+    passed to ``parser.setFeature()``. For example, ``feature_external_ges=False``
     will set ``xml.sax.handler.feature_external_ges`` to False, disabling
     the parser's inclusion of external general (text) entities such as DTDs.
 
