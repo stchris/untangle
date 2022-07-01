@@ -50,11 +50,9 @@ For more examples, have a look at (and launch) `examples.py <https://github.com/
 Installation
 ------------
 
-It is recommended to use pip, which will always download the latest stable release: ::
+::
 
     pip install untangle
-
-untangle works with Python versions 2.6, 2.7, 3.3, 3.4, 3.5, 3.6 and pypy.
 
 Alternatively, you can install untangle with conda from conda-forge: ::
 
