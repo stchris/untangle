@@ -16,6 +16,8 @@
 import os
 import keyword
 from xml.sax import make_parser, handler
+from xml.sax.handler import feature_external_ges
+
 
 try:
     from StringIO import StringIO
@@ -188,6 +190,8 @@ def parse(filename, **parser_features):
     if filename is None or (is_string(filename) and filename.strip()) == "":
         raise ValueError("parse() takes a filename, URL or XML string")
     parser = make_parser()
+    # See https://github.com/stchris/untangle/issues/60
+    parser.setFeature(feature_external_ges, False)
     for feature, value in parser_features.items():
         parser.setFeature(getattr(handler, feature), value)
     sax_handler = Handler()
