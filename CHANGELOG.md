@@ -2,18 +2,20 @@ Changelog
 ---------
 
 Unreleased
-- flake8 now runs as part of the unit tests. Fully replaced nose with tox as a test runner.
+
+1.2.0
+- (SECURITY) Prevent XML SAX vulnerability: External Entities injection ([#60](https://github.com/stchris/untangle/issues/60))
 - support for python keywords as element names ([#43](https://github.com/stchris/untangle/pull/43))
-- dropped support for Python 2.6, 3.3
-- fixed support for Python 3.6 ([#57](https://github.com/stchris/untangle/pull/57))
-- formatted code with black
 - support Element truthiness on Python 3 ([#68](https://github.com/stchris/untangle/pull/68/))
+- dropped support for Python 3.4-3.6 and pypy, untangle currently support Python 3.7-3.10
+- fixed setup.py warning ([#77](https://github.com/stchris/untangle/pull/77/))
+
+- dropped support for Python 2.6, 3.3
+- formatted code with black
+- flake8 linter enforced in CI
 - `main` is now the default branch
 - switch to Github Actions
 - switch to poetry and pytest
-- dropped support for Python 3.4-3.6 and pypy
-- Prevent XML SAX vulnerability: External Entities injection ([#60](https://github.com/stchris/untangle/issues/60))
-- fixed setup.py warning ([#77](https://github.com/stchris/untangle/pull/77/))
 
 1.1.1
 - added generic SAX feature toggle ([#26](https://github.com/stchris/untangle/pull/26))
