@@ -4,6 +4,7 @@ version = "1.2.0"
 description = "Converts XML to Python objects"
 authors = ["Christian Stefanescu <hello@stchris.net>"]
 license = "MIT"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
