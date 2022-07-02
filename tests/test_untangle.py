@@ -5,6 +5,8 @@ import unittest
 import untangle
 import xml
 
+import defusedxml
+
 
 class FromStringTestCase(unittest.TestCase):
     """Basic parsing tests with input as string"""
@@ -364,16 +366,16 @@ class ParserFeatureTestCase(unittest.TestCase):
     def test_valid_feature(self):
         # xml.sax.handler.feature_external_ges -> load external general (text)
         # entities, such as DTDs
-        doc = untangle.parse(self.bad_dtd_xml, feature_external_ges=False)
-        self.assertEqual(doc.foo["bar"], "baz")
+        with self.assertRaises(defusedxml.common.ExternalReferenceForbidden):
+            untangle.parse(self.bad_dtd_xml)
 
     def test_invalid_feature(self):
         with self.assertRaises(AttributeError):
             untangle.parse(self.bad_dtd_xml, invalid_feature=True)
 
     def test_invalid_external_dtd(self):
-        with self.assertRaises(IOError):
-            untangle.parse(self.bad_dtd_xml, feature_external_ges=True)
+        with self.assertRaises(defusedxml.common.ExternalReferenceForbidden):
+            untangle.parse(self.bad_dtd_xml)
 
 
 class TestEquals(unittest.TestCase):
@@ -393,11 +395,11 @@ class TestEquals(unittest.TestCase):
 class TestExternalEntityExpansion(unittest.TestCase):
     def test_xxe(self):
         # from https://pypi.org/project/defusedxml/#external-entity-expansion-remote
-        o = untangle.parse("tests/res/xxe.xml")
-        assert o.root.cdata == ""
+        with self.assertRaises(defusedxml.common.EntitiesForbidden):
+            untangle.parse("tests/res/xxe.xml")
 
 
 if __name__ == "__main__":
     unittest.main()
 
-# vim: set expandtab ts=4 sw=4:
+# vim: set expandtab ts=4 sw=4
