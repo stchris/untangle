@@ -2,7 +2,9 @@ Changelog
 ---------
 
 Unreleased
-- (SECURITY) Use [defusedxml](https://github.com/tiran/defusedxml) to prevent XML SAX vulnerabilities ([#93](https://github.com/stchris/untangle/issues/93))
+
+1.2.1
+- (SECURITY) Use [defusedxml](https://github.com/tiran/defusedxml) to prevent XML SAX vulnerabilities ([#94](https://github.com/stchris/untangle/pull/94))
 
 1.2.0
 - (SECURITY) Prevent XML SAX vulnerability: External Entities injection ([#60](https://github.com/stchris/untangle/issues/60))
