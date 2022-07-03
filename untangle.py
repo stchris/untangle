@@ -19,20 +19,11 @@ from defusedxml.sax import make_parser
 from xml.sax import handler
 
 
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
-try:
-    from types import StringTypes
+from io import StringIO
 
-    def is_string(x):
-        return isinstance(x, StringTypes)
 
-except ImportError:
-
-    def is_string(x):
-        return isinstance(x, str)
+def is_string(x):
+    return isinstance(x, str)
 
 
 __version__ = "1.2.1"
