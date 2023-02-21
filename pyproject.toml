@@ -15,7 +15,7 @@ pytest = "^7.1.2"
 flake8 = "^4.0.1"
 black = "^22.6.0"
 build = "^0.8.0"
-setuptools = "^62.6.0"
+setuptools = "^67.3.3"
 wheel = "^0.37.1"
 
 [build-system]
