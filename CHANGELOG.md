@@ -2,6 +2,7 @@ Changelog
 ---------
 
 Unreleased
+- added support for python 3.11
 
 1.2.1
 - (SECURITY) Use [defusedxml](https://github.com/tiran/defusedxml) to prevent XML SAX vulnerabilities ([#94](https://github.com/stchris/untangle/pull/94))
