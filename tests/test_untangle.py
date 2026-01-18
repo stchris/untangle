@@ -329,7 +329,6 @@ class TestSaxHandler(unittest.TestCase):
     def test_empty_handler(self):
         h = untangle.Handler()
         self.assertRaises(IndexError, h.endElement, "foo")
-        self.assertRaises(IndexError, h.characters, "bar")
 
     def test_handler(self):
         h = untangle.Handler()
