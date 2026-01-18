@@ -3,7 +3,7 @@
 
 import unittest
 import untangle
-import xml
+import xml.sax
 
 import defusedxml
 

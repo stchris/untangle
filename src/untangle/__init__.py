@@ -1,36 +1,27 @@
 """
- untangle
+untangle
 
- Converts xml to python objects.
+Converts xml to python objects.
 
- The only method you need to call is parse()
+The only method you need to call is parse()
 
- Partially inspired by xml2obj
- (http://code.activestate.com/recipes/149368-xml2obj/)
+Partially inspired by xml2obj
+(http://code.activestate.com/recipes/149368-xml2obj/)
 
- Author: Christian Stefanescu (http://0chris.com)
- License: MIT License - http://www.opensource.org/licenses/mit-license.php
+Author: Christian Stefanescu (http://0chris.com)
+License: MIT License - http://www.opensource.org/licenses/mit-license.php
 """
+
 import os
 import keyword
 from defusedxml.sax import make_parser
-from xml.sax import handler
+import xml.sax
+
+from io import StringIO
 
 
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
-try:
-    from types import StringTypes
-
-    def is_string(x):
-        return isinstance(x, StringTypes)
-
-except ImportError:
-
-    def is_string(x):
-        return isinstance(x, str)
+def is_string(x):
+    return isinstance(x, str)
 
 
 __version__ = "1.2.1"
@@ -132,7 +123,7 @@ class Element(object):
         return key in dir(self)
 
 
-class Handler(handler.ContentHandler):
+class Handler(xml.sax.handler.ContentHandler):
     """
     SAX handler which creates the Python object structure out of ``Element``s
     """
@@ -196,7 +187,7 @@ def parse(filename, **parser_features):
         raise ValueError("parse() takes a filename, URL or XML string")
     parser = make_parser()
     for feature, value in parser_features.items():
-        parser.setFeature(getattr(handler, feature), value)
+        parser.setFeature(getattr(xml.sax.handler, feature), value)
     sax_handler = Handler()
     parser.setContentHandler(sax_handler)
     if is_string(filename) and (os.path.exists(filename) or is_url(filename)):
