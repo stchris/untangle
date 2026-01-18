@@ -156,7 +156,8 @@ class Handler(xml.sax.handler.ContentHandler):
         self.elements.pop()
 
     def characters(self, cdata):
-        self.elements[-1].add_cdata(cdata)
+        if self.elements:
+            self.elements[-1].add_cdata(cdata)
 
 
 def parse(filename, **parser_features):
