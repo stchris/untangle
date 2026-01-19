@@ -1,5 +1,4 @@
-untangle
-========
+# untangle
 
 [![Build Status](https://github.com/stchris/untangle/actions/workflows/build.yml/badge.svg)](https://github.com/stchris/untangle/actions)
 [![PyPi version](https://img.shields.io/pypi/v/untangle.svg)](https://pypi.python.org/pypi/untangle)
@@ -9,20 +8,19 @@ untangle
 
 * Converts XML to a Python object.
 * Siblings with similar names are grouped into a list.
-* Children can be accessed with ``parent.child``, attributes with ``element['attribute']``.
-* You can call the ``parse()`` method with a filename, an URL or an XML string.
-* Substitutes ``-``, ``.`` and ``:`` with ``_`` ``<foobar><foo-bar/></foobar>`` can be accessed with ``foobar.foo_bar``, ``<foo.bar.baz/>`` can be accessed with ``foo_bar_baz`` and ``<foo:bar><foo:baz/></foo:bar>`` can be accessed with ``foo_bar.foo_baz``
+* Children can be accessed with `parent.child`, attributes with `element['attribute']`.
+* You can call the `parse()` method with a filename, an URL or an XML string.
+* Substitutes `-`, `.` and `:` with `_` `<foobar><foo-bar/></foobar>` can be accessed with `foobar.foo_bar`, `<foo.bar.baz/>` can be accessed with `foo_bar_baz` and `<foo:bar><foo:baz/></foo:bar>` can be accessed with `foo_bar.foo_baz`
 
-Installation
-------------
+## Installation
 
 With pip:
-```
+```bash
 pip install untangle
 ```
 
-Usage
------
+## Usage
+
 (See and run <a href="https://github.com/stchris/untangle/blob/main/examples.py">examples.py</a> or this blog post: [Read XML painlessly](http://pythonadventures.wordpress.com/2011/10/30/read-xml-painlessly/) for more info)
 
 ```python
@@ -30,7 +28,7 @@ import untangle
 obj = untangle.parse(resource)
 ```
 
-``resource`` can be:
+`resource` can be:
 
 * a URL
 * a filename
@@ -44,13 +42,12 @@ Running the above code and passing this XML:
 	<child name="child1"/>
 </root>
 ```
-allows it to be navigated from the ``untangle``d object like this:
+allows it to be navigated from the `untangle`d object like this:
 
 ```python
 obj.root.child['name'] # u'child1'
 ```
 
-Changelog
----------
+## Changelog
 
 see CHANGELOG.md
