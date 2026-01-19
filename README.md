@@ -48,6 +48,33 @@ allows it to be navigated from the `untangle`d object like this:
 obj.root.child['name'] # u'child1'
 ```
 
+## Development
+
+`untangle` uses [uv](https://docs.astral.sh/uv/) for builds and virtualenv management:
+```
+$ uv sync
+```
+
+Run tests:
+```
+$ uv run pytest
+```
+
+Run linter:
+```
+$ uv run ruff check .
+```
+
+Run formatter checks:
+```
+$ uv run ruff format --check
+```
+
+Run type hint checks:
+```
+$ uv run ty check .
+```
+
 ## Changelog
 
 see CHANGELOG.md
