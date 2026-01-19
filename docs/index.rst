@@ -54,10 +54,6 @@ Installation
 
     pip install untangle
 
-Alternatively, you can install untangle with conda from conda-forge: ::
-
-    conda install -c conda-forge untangle
-
 Motivation
 ----------
 
