@@ -4,6 +4,7 @@
 import unittest
 import untangle
 import xml.sax
+from xml.sax.xmlreader import AttributesImpl
 
 import defusedxml
 
@@ -332,13 +333,13 @@ class TestSaxHandler(unittest.TestCase):
 
     def test_handler(self):
         h = untangle.Handler()
-        h.startElement("foo", {})
+        h.startElement("foo", AttributesImpl({}))
         h.endElement("foo")
         self.assertEqual("foo", h.root.children[0]._name)
 
     def test_cdata(self):
         h = untangle.Handler()
-        h.startElement("foo", {})
+        h.startElement("foo", AttributesImpl({}))
         h.characters("baz")
         self.assertEqual("baz", h.root.children[0].cdata)
 

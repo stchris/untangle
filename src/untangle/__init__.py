@@ -16,6 +16,8 @@ import os
 import keyword
 from defusedxml.sax import make_parser
 import xml.sax
+import xml.sax.xmlreader
+import xml.sax.handler
 
 from io import StringIO
 
@@ -133,7 +135,7 @@ class Handler(xml.sax.handler.ContentHandler):
         self.root.is_root = True
         self.elements = []
 
-    def startElement(self, name, attributes):
+    def startElement(self, name: str, attrs: xml.sax.xmlreader.AttributesImpl) -> None:
         name = name.replace("-", "_")
         name = name.replace(".", "_")
         name = name.replace(":", "_")
@@ -142,9 +144,10 @@ class Handler(xml.sax.handler.ContentHandler):
         if keyword.iskeyword(name):
             name += "_"
 
-        attrs = dict()
-        for k, v in attributes.items():
-            attrs[k] = v
+        attrs_dict = dict()
+        for k, v in attrs.items():
+            attrs_dict[k] = v
+        element = Element(name, attrs_dict)
         element = Element(name, attrs)
         if len(self.elements) > 0:
             self.elements[-1].add_child(element)
@@ -155,9 +158,9 @@ class Handler(xml.sax.handler.ContentHandler):
     def endElement(self, name):
         self.elements.pop()
 
-    def characters(self, cdata):
+    def characters(self, content: str) -> None:
         if self.elements:
-            self.elements[-1].add_cdata(cdata)
+            self.elements[-1].add_cdata(content)
 
 
 def parse(filename, **parser_features):
