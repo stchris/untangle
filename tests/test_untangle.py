@@ -398,6 +398,230 @@ class TestExternalEntityExpansion(unittest.TestCase):
             untangle.parse("tests/res/xxe.xml")
 
 
+class ElementNameSanitizationTestCase(unittest.TestCase):
+    """Test handling of special characters in element names"""
+
+    def test_hyphen_replacement(self):
+        """Test hyphen replacement with underscore"""
+        o = untangle.parse("<root><foo-bar/></root>")
+        self.assertTrue(hasattr(o.root, "foo_bar"))
+
+    def test_dot_replacement(self):
+        """Test dot replacement with underscore"""
+        o = untangle.parse("<root><foo.bar/></root>")
+        self.assertTrue(hasattr(o.root, "foo_bar"))
+
+    def test_colon_replacement(self):
+        """Test colon replacement with underscore"""
+        o = untangle.parse("<root><foo:bar/></root>")
+        self.assertTrue(hasattr(o.root, "foo_bar"))
+
+    def test_multiple_special_chars(self):
+        """Test multiple special characters in same name"""
+        o = untangle.parse("<root><foo-bar:baz.qux/></root>")
+        self.assertTrue(hasattr(o.root, "foo_bar_baz_qux"))
+
+    def test_conflicting_names_after_sanitization(self):
+        """Test handling of names that conflict after sanitization"""
+        o = untangle.parse("<root><foo-bar/><foo_bar/></root>")
+        children = o.root.foo_bar
+        self.assertEqual(2, len(children))
+
+
+class CDataHandlingTestCase(unittest.TestCase):
+    """Test CDATA handling edge cases"""
+
+    def test_whitespace_only_cdata(self):
+        """Test handling of whitespace-only CDATA"""
+        o = untangle.parse("<root>   \n\t  </root>")
+        self.assertEqual("   \n\t  ", o.root.cdata)
+
+    def test_empty_cdata(self):
+        """Test handling of empty CDATA"""
+        o = untangle.parse("<root></root>")
+        self.assertEqual("", o.root.cdata)
+
+    def test_cdata_with_special_chars(self):
+        """Test CDATA with special XML characters"""
+        o = untangle.parse("<root>&lt;&gt;&amp;&quot;&apos;</root>")
+        self.assertEqual("<>&\"'", o.root.cdata)
+
+    def test_mixed_content(self):
+        """Test elements with mixed text and child elements"""
+        o = untangle.parse("<root>Before<child/>After</root>")
+        self.assertEqual("BeforeAfter", o.root.cdata)
+
+
+class LargeXmlTestCase(unittest.TestCase):
+    """Test performance with large XML documents"""
+
+    def test_large_xml_parsing(self):
+        """Test parsing of large XML documents"""
+        large_xml = "<root>" + "<item>data</item>" * 1000 + "</root>"
+        o = untangle.parse(large_xml)
+        self.assertEqual(1000, len(o.root.item))
+
+    def test_deep_nesting(self):
+        """Test parsing of deeply nested XML"""
+        nested_xml = "<root>"
+        for i in range(10):
+            nested_xml += f"<level{i}>"
+        nested_xml += "content"
+        for i in range(9, -1, -1):
+            nested_xml += f"</level{i}>"
+        nested_xml += "</root>"
+
+        o = untangle.parse(nested_xml)  # noqa: F841
+        path = "o.root"
+        for i in range(10):
+            path += f".level{i}"
+        path += ".cdata"
+        self.assertEqual("content", eval(path))
+
+
+class ErrorHandlingTestCase(unittest.TestCase):
+    """Additional error handling tests"""
+
+    def test_malformed_attributes(self):
+        """Test handling of malformed attributes"""
+        with self.assertRaises(xml.sax.SAXParseException):
+            untangle.parse("<root attr='unclosed></root>")
+
+    def test_duplicate_attributes(self):
+        """Test handling of duplicate attributes"""
+        with self.assertRaises(xml.sax.SAXParseException):
+            untangle.parse("<root attr='value1' attr='value2'></root>")
+
+    def test_invalid_xml_characters(self):
+        """Test handling of invalid XML characters"""
+        with self.assertRaises(xml.sax.SAXParseException):
+            o = untangle.parse("<root>\x00\x01\x02</root>")
+            self.assertEqual("\x00\x01\x02", o.root.cdata)
+
+
+class IntegrationTestCase(unittest.TestCase):
+    """Test with real-world XML formats"""
+
+    def test_rss_feed(self):
+        """Test parsing RSS feed format"""
+        rss_xml = """<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Test Feed</title>
+        <description>A test RSS feed</description>
+        <item>
+            <title>Item 1</title>
+            <description>First item</description>
+        </item>
+        <item>
+            <title>Item 2</title>
+            <description>Second item</description>
+        </item>
+    </channel>
+</rss>"""
+        o = untangle.parse(rss_xml)
+        self.assertEqual("Test Feed", o.rss.channel.title.cdata)
+        self.assertEqual("A test RSS feed", o.rss.channel.description.cdata)
+        self.assertEqual(2, len(o.rss.channel.item))
+        self.assertEqual("Item 1", o.rss.channel.item[0].title.cdata)
+
+    def test_atom_feed(self):
+        """Test parsing Atom feed format"""
+        atom_xml = """<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Example Feed</title>
+    <entry>
+        <title>Atom Entry</title>
+        <summary>Entry summary</summary>
+    </entry>
+</feed>"""
+        o = untangle.parse(atom_xml)
+        self.assertTrue(o.feed)
+
+    def test_svg_xml(self):
+        """Test parsing SVG XML"""
+        svg_xml = """<?xml version="1.0"?>
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="40" fill="red"/>
+    <rect x="10" y="10" width="30" height="30" fill="blue"/>
+</svg>"""
+        o = untangle.parse(svg_xml)
+        self.assertEqual("100", o.svg["width"])
+        self.assertEqual("100", o.svg["height"])
+
+
+class UrlParsingTestCase(unittest.TestCase):
+    """Enhanced URL parsing tests"""
+
+    def test_url_scheme_variations(self):
+        """Test various URL schemes"""
+        self.assertTrue(untangle.is_url("http://example.com"))
+        self.assertTrue(untangle.is_url("https://example.com"))
+        self.assertFalse(untangle.is_url("ftp://example.com"))
+        self.assertFalse(untangle.is_url("file://example.com"))
+
+    def test_url_with_port_and_path(self):
+        """Test URLs with ports and paths"""
+        self.assertTrue(untangle.is_url("http://example.com:8080/path"))
+        self.assertTrue(untangle.is_url("https://example.com:443/path/to/resource"))
+
+    def test_url_authentication(self):
+        """Test URLs with authentication"""
+        self.assertTrue(untangle.is_url("http://user:pass@example.com"))
+        self.assertTrue(untangle.is_url("https://user@example.com:8080"))
+
+    def test_invalid_urls(self):
+        """Test invalid URL formats"""
+        self.assertFalse(untangle.is_url("http//example.com"))  # missing colon
+        self.assertFalse(untangle.is_url("://example.com"))  # missing scheme
+        self.assertFalse(untangle.is_url("example.com"))  # missing scheme
+
+
+class MemoryManagementTestCase(unittest.TestCase):
+    """Test memory and resource management"""
+
+    def test_file_object_handling(self):
+        """Test various file-like objects"""
+        from io import BytesIO, StringIO
+
+        # Test StringIO
+        xml_content = "<root><child>test</child></root>"
+        string_io = StringIO(xml_content)
+        o = untangle.parse(string_io)
+        self.assertEqual("test", o.root.child.cdata)
+
+        # Test BytesIO
+        bytes_io = BytesIO(xml_content.encode("utf-8"))
+        o = untangle.parse(bytes_io)
+        self.assertEqual("test", o.root.child.cdata)
+
+
+class AttributeHandlingTestCase(unittest.TestCase):
+    """Enhanced attribute handling tests"""
+
+    def test_empty_attributes(self):
+        """Test elements with empty attributes"""
+        o = untangle.parse('<root attr=""></root>')
+        self.assertEqual("", o.root["attr"])
+
+    def test_attributes_with_special_chars(self):
+        """Test attributes with special characters"""
+        o = untangle.parse('<root attr="&lt;&gt;&amp;&quot;&apos;"></root>')
+        # XML entities are automatically decoded by the parser
+        self.assertEqual("<>&\"'", o.root["attr"])
+
+    def test_attributes_with_unicode(self):
+        """Test attributes with Unicode characters"""
+        o = untangle.parse('<root attr="valüé ◔‿◔"></root>')
+        self.assertEqual("valüé ◔‿◔", o.root["attr"])
+
+    def test_missing_attribute_access(self):
+        """Test accessing missing attributes"""
+        o = untangle.parse("<root></root>")
+        self.assertIsNone(o.root["missing"])
+        self.assertIsNone(o.root.get_attribute("missing"))
+
+
 if __name__ == "__main__":
     unittest.main()
 
