@@ -21,3 +21,8 @@ wheel = "^0.37.1"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+docs = [
+    "sphinx>=9.1.0",
+]
