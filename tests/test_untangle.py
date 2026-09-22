@@ -306,7 +306,15 @@ class PathLikeTestCase(unittest.TestCase):
         o = untangle.parse(Path("tests/res/pom.xml"))
         self.assertEqual("4.0.0", o.project.modelVersion.cdata)
 
-    def test_custom_pathlike(self):
+    def test_custom_pathlike_str(self):
+        class XmlPath:
+            def __fspath__(self):
+                return "tests/res/pom.xml"
+
+        o = untangle.parse(XmlPath())
+        self.assertEqual("4.0.0", o.project.modelVersion.cdata)
+
+    def test_custom_pathlike_bytes(self):
         class XmlPath:
             def __fspath__(self):
                 return b"tests/res/pom.xml"
