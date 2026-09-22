@@ -176,6 +176,8 @@ def parse(filename, **parser_features):
 
     Raises ``ValueError`` if the first argument is None / empty string.
 
+    Raises ``FileNotFoundError`` if a path-like argument does not exist.
+
     Raises ``AttributeError`` if a requested xml.sax feature is not found in
     ``xml.sax.handler``.
 
