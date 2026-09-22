@@ -25,6 +25,7 @@ pip install untangle
 
 ```python
 import untangle
+
 obj = untangle.parse(resource)
 ```
 
@@ -45,7 +46,7 @@ Running the above code and passing this XML:
 allows it to be navigated from the `untangle`d object like this:
 
 ```python
-obj.root.child['name'] # u'child1'
+obj.root.child["name"]  # u'child1'
 ```
 
 ## Development

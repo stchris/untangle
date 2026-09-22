@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # untangle documentation build configuration file, created by
 # sphinx-quickstart on Fri Apr  6 16:05:20 2012.
@@ -11,8 +10,8 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
 import os
+import sys
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the

@@ -12,14 +12,14 @@ Author: Christian Stefanescu (http://0chris.com)
 License: MIT License - http://www.opensource.org/licenses/mit-license.php
 """
 
-import os
 import keyword
-from defusedxml.sax import make_parser
+import os
 import xml.sax
-import xml.sax.xmlreader
 import xml.sax.handler
-
+import xml.sax.xmlreader
 from io import StringIO
+
+from defusedxml.sax import make_parser
 
 
 def is_string(x):
@@ -29,7 +29,7 @@ def is_string(x):
 __version__ = "1.2.1"
 
 
-class Element(object):
+class Element:
     """
     Representation of an XML element.
     """
@@ -81,7 +81,7 @@ class Element(object):
                 self.__dict__[key] = matching_children
                 return matching_children
         else:
-            raise AttributeError("'%s' has no attribute '%s'" % (self._name, key))
+            raise AttributeError(f"'{self._name}' has no attribute '{key}'")
 
     def __hasattribute__(self, name):
         if name in self.__dict__:
@@ -92,19 +92,10 @@ class Element(object):
         yield self
 
     def __str__(self):
-        return "Element <%s> with attributes %s, children %s and cdata %s" % (
-            self._name,
-            self._attributes,
-            self.children,
-            self.cdata,
-        )
+        return f"Element <{self._name}> with attributes {self._attributes}, children {self.children} and cdata {self.cdata}"
 
     def __repr__(self):
-        return "Element(name = %s, attributes = %s, cdata = %s)" % (
-            self._name,
-            self._attributes,
-            self.cdata,
-        )
+        return f"Element(name = {self._name}, attributes = {self._attributes}, cdata = {self.cdata})"
 
     def __bool__(self):
         return self.is_root or self._name is not None
@@ -144,7 +135,7 @@ class Handler(xml.sax.handler.ContentHandler):
         if keyword.iskeyword(name):
             name += "_"
 
-        attrs_dict = dict()
+        attrs_dict = {}
         for k, v in attrs.items():
             attrs_dict[k] = v
         element = Element(name, attrs_dict)
@@ -215,7 +206,7 @@ def is_url(string):
     Checks if the given string starts with 'http(s)'.
     """
     try:
-        return string.startswith("http://") or string.startswith("https://")
+        return string.startswith(("http://", "https://"))
     except AttributeError:
         return False
 

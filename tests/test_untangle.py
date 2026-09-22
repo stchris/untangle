@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 import unittest
+import xml.sax
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import untangle
-import xml.sax
 from xml.sax.xmlreader import AttributesImpl
 
 import defusedxml
+
+import untangle
 
 
 class FromStringTestCase(unittest.TestCase):
@@ -118,7 +118,7 @@ class FromStringTestCase(unittest.TestCase):
         self.assertTrue(hasattr(o.root, "child"))
         self.assertFalse(hasattr(o.root, "inexistent"))
 
-        self.assertEqual("child1", getattr(o.root, "child")[0]["name"])
+        self.assertEqual("child1", o.root.child[0]["name"])
 
     def test_python_keyword(self):
         o = untangle.parse("<class><return/><pass/><None/></class>")
@@ -323,16 +323,18 @@ class PathLikeTestCase(unittest.TestCase):
         self.assertEqual("4.0.0", o.project.modelVersion.cdata)
 
     def test_missing_path(self):
-        with TemporaryDirectory() as directory:
-            with self.assertRaises(FileNotFoundError):
-                untangle.parse(Path(directory) / "missing.xml")
+        with (
+            TemporaryDirectory() as directory,
+            self.assertRaises(FileNotFoundError),
+        ):
+            untangle.parse(Path(directory) / "missing.xml")
 
     def test_pathlike_preserves_entity_protection(self):
         with self.assertRaises(defusedxml.common.EntitiesForbidden):
             untangle.parse(Path("tests/res/xxe.xml"))
 
 
-class Foo(object):
+class Foo:
     """Used in UntangleInObjectsTestCase"""
 
     def __init__(self):
