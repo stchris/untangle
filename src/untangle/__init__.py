@@ -139,7 +139,6 @@ class Handler(xml.sax.handler.ContentHandler):
         for k, v in attrs.items():
             attrs_dict[k] = v
         element = Element(name, attrs_dict)
-        element = Element(name, attrs)
         if len(self.elements) > 0:
             self.elements[-1].add_child(element)
         else:
