@@ -167,7 +167,7 @@ def parse(filename, **parser_features):
     """
     Interprets the given string as a filename, URL or XML data string,
     parses it and returns a Python object which represents the given
-    document.
+    document. Path-like objects are read as filesystem paths.
 
     Extra arguments to this function are treated as feature values that are
     passed to ``parser.setFeature()``. For example, ``feature_external_ges=False``
@@ -175,6 +175,8 @@ def parse(filename, **parser_features):
     the parser's inclusion of external general (text) entities such as DTDs.
 
     Raises ``ValueError`` if the first argument is None / empty string.
+
+    Raises ``FileNotFoundError`` if a path-like argument does not exist.
 
     Raises ``AttributeError`` if a requested xml.sax feature is not found in
     ``xml.sax.handler``.
@@ -194,7 +196,10 @@ def parse(filename, **parser_features):
         parser.setFeature(getattr(xml.sax.handler, feature), value)
     sax_handler = Handler()
     parser.setContentHandler(sax_handler)
-    if is_string(filename) and (os.path.exists(filename) or is_url(filename)):
+    if isinstance(filename, os.PathLike):
+        with open(filename, "rb") as source:
+            parser.parse(source)
+    elif is_string(filename) and (os.path.exists(filename) or is_url(filename)):
         parser.parse(filename)
     else:
         if hasattr(filename, "read"):

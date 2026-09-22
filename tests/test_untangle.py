@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 import untangle
 import xml.sax
 from xml.sax.xmlreader import AttributesImpl
@@ -295,6 +297,39 @@ class FileObjects(unittest.TestCase):
             self.assertEqual("com.atlassian.confluence.plugin.base", parent.groupId)
             self.assertEqual("confluence-plugin-base", parent.artifactId)
             self.assertEqual("17", parent.version)
+
+
+class PathLikeTestCase(unittest.TestCase):
+    """Read filesystem paths without interpreting them as XML strings."""
+
+    def test_pathlib_path(self):
+        o = untangle.parse(Path("tests/res/pom.xml"))
+        self.assertEqual("4.0.0", o.project.modelVersion.cdata)
+
+    def test_custom_pathlike_str(self):
+        class XmlPath:
+            def __fspath__(self):
+                return "tests/res/pom.xml"
+
+        o = untangle.parse(XmlPath())
+        self.assertEqual("4.0.0", o.project.modelVersion.cdata)
+
+    def test_custom_pathlike_bytes(self):
+        class XmlPath:
+            def __fspath__(self):
+                return b"tests/res/pom.xml"
+
+        o = untangle.parse(XmlPath())
+        self.assertEqual("4.0.0", o.project.modelVersion.cdata)
+
+    def test_missing_path(self):
+        with TemporaryDirectory() as directory:
+            with self.assertRaises(FileNotFoundError):
+                untangle.parse(Path(directory) / "missing.xml")
+
+    def test_pathlike_preserves_entity_protection(self):
+        with self.assertRaises(defusedxml.common.EntitiesForbidden):
+            untangle.parse(Path("tests/res/xxe.xml"))
 
 
 class Foo(object):

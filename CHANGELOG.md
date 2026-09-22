@@ -2,6 +2,7 @@ Changelog
 ---------
 
 Unreleased
+- Support `os.PathLike` objects, including `pathlib.Path`, in `parse()`.
 
 1.2.1
 - (SECURITY) Use [defusedxml](https://github.com/tiran/defusedxml) to prevent XML SAX vulnerabilities ([#94](https://github.com/stchris/untangle/pull/94))

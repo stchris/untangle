@@ -31,7 +31,7 @@ obj = untangle.parse(resource)
 `resource` can be:
 
 * a URL
-* a filename
+* a filename (a string or an `os.PathLike` object such as `pathlib.Path`)
 * an XML string
 
 Running the above code and passing this XML:
