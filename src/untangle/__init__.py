@@ -206,7 +206,7 @@ def is_url(string):
     """
     try:
         return string.startswith(("http://", "https://"))
-    except AttributeError:
+    except AttributeError, TypeError:
         return False
 
 

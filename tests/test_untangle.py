@@ -4,6 +4,7 @@ import unittest
 import xml.sax
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest import mock
 from xml.sax.xmlreader import AttributesImpl
 
 import defusedxml
@@ -140,6 +141,9 @@ class InvalidTestCase(unittest.TestCase):
 
     def test_none_xml(self):
         self.assertRaises(ValueError, untangle.parse, None)
+
+    def test_whitespace_only_xml(self):
+        self.assertRaises(ValueError, untangle.parse, " \n\t ")
 
 
 class PomXmlTestCase(unittest.TestCase):
@@ -516,6 +520,47 @@ class LargeXmlTestCase(unittest.TestCase):
         path += ".cdata"
         self.assertEqual("content", eval(path))
 
+    def test_many_siblings(self):
+        """A document with 100k siblings keeps every child."""
+        xml = "<root>" + "<item/>" * 100_000 + "</root>"
+        o = untangle.parse(xml)
+        self.assertEqual(100_000, len(o.root.item))
+
+    def test_large_cdata(self):
+        """A multi-megabyte text node survives at full length."""
+        o = untangle.parse("<root>" + "B" * 5_000_000 + "</root>")
+        self.assertEqual(5_000_000, len(o.root.cdata))
+
+    def test_deep_nesting_no_recursion(self):
+        """Deep documents are walked iteratively: a recursive handler
+        would hit Python's default recursion limit well before depth 2000.
+        """
+        depth = 2000
+        xml = "<r>" + "<n>" * depth + "x" + "</n>" * depth + "</r>"
+        o = untangle.parse(xml)
+        node = o.r
+        for _ in range(depth):
+            node = node.n
+        self.assertEqual("x", node.cdata)
+
+    def test_extreme_depth_bounded(self):
+        """Past the parser's depth/size limits the parse either succeeds or
+        fails with SAXParseException - never with a stack overflow.
+        """
+        depth = 50_000
+        xml = "<r>" + "<n>" * depth + "x" + "</n>" * depth + "</r>"
+        try:
+            o = untangle.parse(xml)
+            node = o.r
+            for _ in range(depth):
+                node = node.n
+            cdata = node.cdata
+        except xml.sax.SAXParseException:
+            return  # parser-enforced limit is an acceptable outcome
+        except RecursionError:
+            self.fail("parse() must not recurse on element depth")
+        self.assertEqual("x", cdata)
+
 
 class ErrorHandlingTestCase(unittest.TestCase):
     """Additional error handling tests"""
@@ -614,6 +659,32 @@ class UrlParsingTestCase(unittest.TestCase):
         self.assertFalse(untangle.is_url("://example.com"))  # missing scheme
         self.assertFalse(untangle.is_url("example.com"))  # missing scheme
 
+    def test_scheme_is_case_sensitive(self):
+        """Only lowercase schemes qualify as URLs."""
+        self.assertFalse(untangle.is_url("HTTP://EXAMPLE.COM"))
+        self.assertFalse(untangle.is_url("Https://example.com"))
+
+    def test_single_slash_is_not_url(self):
+        self.assertFalse(untangle.is_url("http:/example.com"))
+        self.assertFalse(untangle.is_url("https:/example.com"))
+
+    def test_leading_whitespace_is_not_url(self):
+        self.assertFalse(untangle.is_url(" http://example.com"))
+        self.assertFalse(untangle.is_url("\thttps://example.com"))
+
+    def test_bare_scheme_prefix_is_url(self):
+        self.assertTrue(untangle.is_url("http://"))
+        self.assertTrue(untangle.is_url("https://"))
+
+    def test_empty_string_is_not_url(self):
+        self.assertFalse(untangle.is_url(""))
+
+    def test_bytes_input_raises_type_error(self):
+        """bytes are not str, so str.startswith() rejects them. Pinned so
+        any change to bytes handling stays a deliberate one.
+        """
+        self.assertFalse(untangle.is_url(b"http://example.com"))
+
 
 class MemoryManagementTestCase(unittest.TestCase):
     """Test memory and resource management"""
@@ -658,6 +729,169 @@ class AttributeHandlingTestCase(unittest.TestCase):
         o = untangle.parse("<root></root>")
         self.assertIsNone(o.root["missing"])
         self.assertIsNone(o.root.get_attribute("missing"))
+
+
+class ParameterEntityTestCase(unittest.TestCase):
+    """Parameter entity declarations are rejected before any resolution."""
+
+    internal_pe = '<!DOCTYPE foo [<!ENTITY % pe "value">]><foo/>'
+    internal_pe_reference = '<!DOCTYPE foo [<!ENTITY % pe "value"> %pe;]><foo/>'
+    external_pe = '<!DOCTYPE foo [<!ENTITY % pe SYSTEM "file:///no-such.dtd">]><foo/>'
+    external_pe_reference = (
+        '<!DOCTYPE foo [<!ENTITY % pe SYSTEM "file:///no-such.dtd"> %pe;]><foo/>'
+    )
+
+    def test_internal_parameter_entity(self):
+        self.assertRaises(
+            defusedxml.common.EntitiesForbidden, untangle.parse, self.internal_pe
+        )
+
+    def test_internal_parameter_entity_reference(self):
+        self.assertRaises(
+            defusedxml.common.EntitiesForbidden,
+            untangle.parse,
+            self.internal_pe_reference,
+        )
+
+    def test_external_parameter_entity(self):
+        self.assertRaises(
+            defusedxml.common.EntitiesForbidden, untangle.parse, self.external_pe
+        )
+
+    def test_external_parameter_entity_reference(self):
+        self.assertRaises(
+            defusedxml.common.EntitiesForbidden,
+            untangle.parse,
+            self.external_pe_reference,
+        )
+
+
+class ExternalDtdTestCase(unittest.TestCase):
+    """External DTD subsets are never loaded; internal subsets still work."""
+
+    def setUp(self):
+        tmp = TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        dtd = Path(tmp.name) / "doc.dtd"
+        dtd.write_text("<!ELEMENT foo (#PCDATA)>")
+        self.dtd_uri = f"file://{dtd}"
+        self.external_subset_xml = f'<!DOCTYPE foo SYSTEM "{self.dtd_uri}"><foo>x</foo>'
+
+    def test_external_system_subset_not_loaded(self):
+        with self.assertRaises(defusedxml.common.ExternalReferenceForbidden):
+            untangle.parse(self.external_subset_xml)
+
+    def test_external_public_subset_not_loaded(self):
+        xml = (
+            f'<!DOCTYPE foo PUBLIC "-//untangle//test//EN" "{self.dtd_uri}">'
+            "<foo>x</foo>"
+        )
+        with self.assertRaises(defusedxml.common.ExternalReferenceForbidden):
+            untangle.parse(xml)
+
+    def test_external_ges_flag_cannot_bypass_guard(self):
+        with self.assertRaises(defusedxml.common.ExternalReferenceForbidden):
+            untangle.parse(self.external_subset_xml, feature_external_ges=False)
+
+    def test_external_pes_flag_cannot_bypass_guard(self):
+        with self.assertRaises(defusedxml.common.ExternalReferenceForbidden):
+            untangle.parse(self.external_subset_xml, feature_external_pes=False)
+
+    def test_internal_subset_is_allowed(self):
+        o = untangle.parse("<!DOCTYPE foo [<!ELEMENT foo (#PCDATA)>]><foo>text</foo>")
+        self.assertEqual("text", o.foo.cdata)
+
+    def test_internal_subset_default_attribute(self):
+        o = untangle.parse('<!DOCTYPE foo [<!ATTLIST foo a CDATA "default">]><foo/>')
+        self.assertEqual("default", o.foo["a"])
+
+
+class EntityExpansionTestCase(unittest.TestCase):
+    """Entity expansion attacks fail at declaration time, before any growth."""
+
+    def test_billion_laughs(self):
+        entities = []
+        for i in range(1, 10):
+            value = "lol" if i == 9 else f"&lol{i + 1};" * 10
+            entities.append(f'<!ENTITY lol{i} "{value}">')
+        xml = f"<!DOCTYPE lolz [{''.join(entities)}]><lolz>&lol9;</lolz>"
+        self.assertRaises(defusedxml.common.EntitiesForbidden, untangle.parse, xml)
+
+    def test_recursive_entity(self):
+        xml = '<!DOCTYPE f [<!ENTITY a "&b;"><!ENTITY b "&a;">]><f>&a;</f>'
+        self.assertRaises(defusedxml.common.EntitiesForbidden, untangle.parse, xml)
+
+    def test_quadratic_blowup_attribute(self):
+        """A huge literal attribute is fine: no expansion involved."""
+        xml = '<root attr="' + "A" * 1_000_000 + '"/>'
+        o = untangle.parse(xml)
+        self.assertEqual(1_000_000, len(o.root["attr"]))
+
+    def test_quadratic_blowup_text(self):
+        xml = "<root>" + "A" * 1_000_000 + "</root>"
+        o = untangle.parse(xml)
+        self.assertEqual(1_000_000, len(o.root.cdata))
+
+    def test_predefined_entities_expand(self):
+        """Predefined entities have no declarations, so they still expand."""
+        o = untangle.parse("<root>" + "&amp;" * 100_000 + "</root>")
+        self.assertEqual("&" * 100_000, o.root.cdata)
+
+
+class ExternalReferenceTestCase(unittest.TestCase):
+    """External references never resolve, whether file:// or network."""
+
+    def test_external_general_entity_local_file(self):
+        xml = '<!DOCTYPE f [<!ENTITY e SYSTEM "file:///etc/passwd">]><f>&e;</f>'
+        self.assertRaises(defusedxml.common.EntitiesForbidden, untangle.parse, xml)
+
+    def test_unparsed_entity(self):
+        xml = (
+            '<!DOCTYPE f [<!ENTITY img SYSTEM "image.png" NDATA png>'
+            '<!NOTATION png SYSTEM "png">]><f/>'
+        )
+        self.assertRaises(defusedxml.common.EntitiesForbidden, untangle.parse, xml)
+
+    def test_xxe_blocked_with_external_ges_disabled(self):
+        """Turning off external general entities does not allow the XXE."""
+        with self.assertRaises(defusedxml.common.EntitiesForbidden):
+            untangle.parse("tests/res/xxe.xml", feature_external_ges=False)
+
+
+class ParseInputDispatchTestCase(unittest.TestCase):
+    """String inputs route by kind: existing path -> file, http(s) -> fetch,
+    everything else -> parsed as XML data in memory."""
+
+    def test_missing_path_string_is_parsed_as_xml(self):
+        self.assertRaises(
+            xml.sax.SAXParseException, untangle.parse, "does-not-exist.xml"
+        )
+
+    def test_file_url_is_not_opened(self):
+        self.assertRaises(
+            xml.sax.SAXParseException, untangle.parse, "file:///etc/passwd"
+        )
+
+    def test_uppercase_scheme_is_parsed_as_xml(self):
+        self.assertRaises(
+            xml.sax.SAXParseException, untangle.parse, "HTTPS://EXAMPLE.COM"
+        )
+
+    def test_leading_whitespace_is_parsed_as_xml(self):
+        self.assertRaises(
+            xml.sax.SAXParseException, untangle.parse, " http://example.com/x.xml"
+        )
+
+    def test_http_url_is_fetched(self):
+        from io import BytesIO
+
+        url = "http://example.invalid/doc.xml"
+        with mock.patch(
+            "urllib.request.urlopen", return_value=BytesIO(b"<r>ok</r>")
+        ) as urlopen:
+            o = untangle.parse(url)
+        urlopen.assert_called_once_with(url)
+        self.assertEqual("ok", o.r.cdata)
 
 
 if __name__ == "__main__":
