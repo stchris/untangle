@@ -2,7 +2,6 @@
 
 [![Build Status](https://github.com/stchris/untangle/actions/workflows/build.yml/badge.svg)](https://github.com/stchris/untangle/actions)
 [![PyPi version](https://img.shields.io/pypi/v/untangle.svg)](https://pypi.python.org/pypi/untangle)
-<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
 [Documentation](http://readthedocs.org/docs/untangle/en/latest/)
 
