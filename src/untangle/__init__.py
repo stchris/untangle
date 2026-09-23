@@ -26,7 +26,7 @@ def is_string(x):
     return isinstance(x, str)
 
 
-__version__ = "1.2.1"
+__version__ = "1.3.0"
 
 
 class Element:
@@ -206,7 +206,7 @@ def is_url(string):
     """
     try:
         return string.startswith(("http://", "https://"))
-    except AttributeError, TypeError:
+    except (AttributeError, TypeError):
         return False
 
 

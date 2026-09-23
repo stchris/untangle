@@ -2,9 +2,18 @@ Changelog
 ---------
 
 Unreleased
-- Support `os.PathLike` objects, including `pathlib.Path`, in `parse()`.
+
+1.3.0
+- Support `os.PathLike` objects, including `pathlib.Path`, in `parse()` ([#150](https://github.com/stchris/untangle/pull/150))
+- Drop support for Python 3.7-3.9 (untangle now requires Python 3.10+)
+- Add type hints
+- Store element attributes as plain `dict`s instead of the SAX `AttributesImpl`
+- Make `is_url()` return `False` for `bytes` instead of raising `TypeError`
 - Add regression tests for parameter entities, external DTDs, entity expansion,
-  external references, huge inputs and URL parsing behavior.
+  external references, huge inputs and URL parsing behavior
+- Port packaging and development environment to `uv`, dropping `poetry.lock` ([#142](https://github.com/stchris/untangle/pull/142))
+- Bump dependencies and GitHub Actions versions ([#151](https://github.com/stchris/untangle/pull/151))
+- Documentation, readthedocs and README updates ([#144](https://github.com/stchris/untangle/pull/144))
 
 1.2.1
 - (SECURITY) Use [defusedxml](https://github.com/tiran/defusedxml) to prevent XML SAX vulnerabilities ([#94](https://github.com/stchris/untangle/pull/94))

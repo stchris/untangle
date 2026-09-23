@@ -679,10 +679,8 @@ class UrlParsingTestCase(unittest.TestCase):
     def test_empty_string_is_not_url(self):
         self.assertFalse(untangle.is_url(""))
 
-    def test_bytes_input_raises_type_error(self):
-        """bytes are not str, so str.startswith() rejects them. Pinned so
-        any change to bytes handling stays a deliberate one.
-        """
+    def test_bytes_input_is_not_url(self):
+        """bytes are not str, so they are simply not URLs."""
         self.assertFalse(untangle.is_url(b"http://example.com"))
 
 
