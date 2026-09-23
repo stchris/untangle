@@ -15,6 +15,11 @@ dev = [
     "ruff>=0.16.8",
     "ty>=0.0.83",
 ]
+# 8.1 is the newest Sphinx series supporting Python 3.10 (our minimum);
+# uv forks the lock per interpreter: 8.1.x on 3.10, 9.x on 3.11+/3.12+.
+docs = [
+    "sphinx>=8.1",
+]
 
 [build-system]
 requires = ["uv_build>=0.12.17,<0.13.0"]
