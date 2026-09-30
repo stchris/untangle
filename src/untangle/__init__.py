@@ -46,6 +46,13 @@ class Element:
         Store child elements.
         """
         self.children.append(element)
+        # Attribute lookups cache either one child or a list of matching children.
+        # Drop only that cached lookup; reserved names refer to element storage.
+        cached = self.__dict__.get(element._name)
+        if isinstance(cached, Element) or (
+            isinstance(cached, list) and cached is not self.children
+        ):
+            del self.__dict__[element._name]
 
     def add_cdata(self, cdata):
         """
