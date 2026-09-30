@@ -896,3 +896,44 @@ if __name__ == "__main__":
     unittest.main()
 
 # vim: set expandtab ts=4 sw=4
+
+
+class ChildLookupCacheTestCase(unittest.TestCase):
+    def test_add_child_updates_cached_single_child(self):
+        parent = untangle.Element("root", {})
+        first = untangle.Element("item", {"id": "1"})
+        second = untangle.Element("item", {"id": "2"})
+        parent.add_child(first)
+        self.assertIs(parent.item, first)
+        parent.add_child(second)
+        self.assertEqual(len(parent.item), 2)
+        self.assertIs(parent.item[0], first)
+        self.assertIs(parent.item[1], second)
+
+    def test_add_child_updates_cached_child_list(self):
+        parent = untangle.Element("root", {})
+        children = [untangle.Element("item", {"id": str(i)}) for i in range(3)]
+        parent.add_child(children[0])
+        parent.add_child(children[1])
+        self.assertEqual(len(parent.item), 2)
+        parent.add_child(children[2])
+        self.assertEqual(len(parent.item), 3)
+        for actual, expected in zip(parent.item, children):
+            self.assertIs(actual, expected)
+
+    def test_add_child_preserves_unrelated_cached_lookup(self):
+        parent = untangle.Element("root", {})
+        first = untangle.Element("item", {})
+        other = untangle.Element("other", {})
+        parent.add_child(first)
+        self.assertIs(parent.item, first)
+        parent.add_child(other)
+        self.assertIs(parent.item, first)
+        self.assertIs(parent.other, other)
+
+    def test_reserved_child_name_preserves_children_storage(self):
+        parent = untangle.Element("root", {})
+        child = untangle.Element("children", {})
+        parent.add_child(child)
+        self.assertEqual(len(parent.children), 1)
+        self.assertIs(parent.children[0], child)
