@@ -2,6 +2,8 @@ Changelog
 ---------
 
 Unreleased
+- Drop support for Python 3.10 (untangle now requires Python 3.11+)
+- Add support for Python 3.15
 
 1.3.0
 - Support `os.PathLike` objects, including `pathlib.Path`, in `parse()` ([#150](https://github.com/stchris/untangle/pull/150))
