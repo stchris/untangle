@@ -17,7 +17,7 @@ import os
 import xml.sax
 import xml.sax.handler
 import xml.sax.xmlreader
-from io import StringIO
+from io import BytesIO, StringIO
 
 from defusedxml.sax import make_parser
 
@@ -156,6 +156,7 @@ class Handler(xml.sax.handler.ContentHandler):
 def parse(filename, **parser_features):
     """
     Interprets the given string as a filename, URL or XML data string,
+    and ``bytes`` as raw XML data,
     parses it and returns a Python object which represents the given
     document. Path-like objects are read as filesystem paths.
 
@@ -194,6 +195,10 @@ def parse(filename, **parser_features):
     else:
         if hasattr(filename, "read"):
             parser.parse(filename)
+        elif isinstance(filename, (bytes, bytearray)):
+            # Raw bytes (e.g. an HTTP response body) go to the parser undecoded so
+            # the encoding in the XML declaration is honored.
+            parser.parse(BytesIO(filename))
         else:
             parser.parse(StringIO(filename))
 

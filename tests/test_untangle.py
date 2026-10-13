@@ -286,6 +286,17 @@ class UnicodeTestCase(unittest.TestCase):
         self.assertTrue(o is not None)
         self.assertTrue(o.Francés is not None)
 
+    def test_bytes(self):
+        o = untangle.parse(b"<root><child>value</child></root>")
+        self.assertEqual("value", o.root.child.cdata)
+
+    def test_bytes_honors_declared_encoding(self):
+        data = '<?xml version="1.0" encoding="ISO-8859-1"?><a>caf\u00e9</a>'.encode(
+            "latin-1"
+        )
+        o = untangle.parse(data)
+        self.assertEqual("caf\u00e9", o.a.cdata)
+
 
 class FileObjects(unittest.TestCase):
     """Test reading from file-like objects"""
