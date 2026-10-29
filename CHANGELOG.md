@@ -2,6 +2,7 @@ Changelog
 ---------
 
 Unreleased
+- Avoid recursion errors when copying or unpickling parsed elements.
 - Drop support for Python 3.10 (untangle now requires Python 3.11+)
 - Add support for Python 3.15
 
