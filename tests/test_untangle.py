@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import copy
+import pickle
 import unittest
 import xml.sax
 from pathlib import Path
@@ -14,6 +16,35 @@ import untangle
 
 class FromStringTestCase(unittest.TestCase):
     """Basic parsing tests with input as string"""
+
+    def test_shallow_copy(self):
+        original = untangle.parse('<root id="1"><child>text</child></root>')
+        duplicate = copy.copy(original)
+        self.assertIsNot(duplicate, original)
+        self.assertIs(duplicate.children, original.children)
+        self.assertEqual(duplicate.root["id"], "1")
+
+    def test_deep_copy(self):
+        original = untangle.parse('<root><child id="1">text</child></root>')
+        # Populate the attribute caches before copying the tree.
+        child = original.root.child
+        duplicate = copy.deepcopy(original)
+        self.assertIsNot(duplicate.root, original.root)
+        self.assertIsNot(duplicate.root.child, child)
+        self.assertIs(duplicate.root.child, duplicate.root.children[0])
+        duplicate.root.child.add_cdata(" changed")
+        self.assertEqual(child.cdata, "text")
+        self.assertEqual(duplicate.root.child.cdata, "text changed")
+        self.assertEqual(duplicate.root.child["id"], "1")
+
+    def test_pickle_round_trip(self):
+        original = untangle.parse('<root><child id="1">text</child></root>')
+        for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
+            with self.subTest(protocol=protocol):
+                restored = pickle.loads(pickle.dumps(original, protocol=protocol))
+                self.assertTrue(restored.is_root)
+                self.assertEqual(restored.root.child.cdata, "text")
+                self.assertEqual(restored.root.child["id"], "1")
 
     def test_basic(self):
         o = untangle.parse("<a><b/><c/></a>")
