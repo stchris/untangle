@@ -32,5 +32,7 @@ jobs:
       - name: Smoke test (source distribution)
         run: uv run --isolated --no-project --with dist/*.tar.gz tests/test_untangle.py
 
-      - name: publish
-        run: uv publish
+      - name: Publish to PyPI (with attestations)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          attestations: true
