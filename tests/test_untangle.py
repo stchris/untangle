@@ -15,6 +15,33 @@ import untangle
 class FromStringTestCase(unittest.TestCase):
     """Basic parsing tests with input as string"""
 
+    def test_original_element_names(self):
+        doc = untangle.parse(
+            '<root xmlns:ns="urn:test"><foo-bar/><foo.bar/><foo_bar/>'
+            "<ns:child/><class/><café/></root>"
+        )
+        self.assertEqual(doc.root.original_name, "root")
+        self.assertEqual(
+            [child.original_name for child in doc.root.foo_bar],
+            ["foo-bar", "foo.bar", "foo_bar"],
+        )
+        self.assertEqual(doc.root.ns_child.original_name, "ns:child")
+        self.assertEqual(doc.root.class_.original_name, "class")
+        self.assertEqual(doc.root.café.original_name, "café")
+        self.assertEqual(len(doc.root.get_elements("foo_bar")), 3)
+
+    def test_original_name_for_manual_element(self):
+        element = untangle.Element("example", {})
+        self.assertEqual(element.original_name, "example")
+
+    def test_document_has_no_original_name(self):
+        self.assertIsNone(untangle.parse("<root/>").original_name)
+
+    def test_original_name_child_can_be_queried(self):
+        doc = untangle.parse("<root><original_name>value</original_name></root>")
+        self.assertEqual(doc.root.original_name, "root")
+        self.assertEqual(doc.root.get_elements("original_name")[0].cdata, "value")
+
     def test_basic(self):
         o = untangle.parse("<a><b/><c/></a>")
         self.assertTrue(o is not None)

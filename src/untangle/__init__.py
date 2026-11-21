@@ -34,12 +34,18 @@ class Element:
     Representation of an XML element.
     """
 
-    def __init__(self, name, attributes):
+    def __init__(self, name, attributes, original_name=None):
         self._name = name
+        self._original_name = name if original_name is None else original_name
         self._attributes = attributes
         self.children = []
         self.is_root = False
         self.cdata = ""
+
+    @property
+    def original_name(self):
+        """The XML element name before conversion to a Python attribute name."""
+        return self._original_name
 
     def add_child(self, element):
         """
@@ -127,6 +133,7 @@ class Handler(xml.sax.handler.ContentHandler):
         self.elements = []
 
     def startElement(self, name: str, attrs: xml.sax.xmlreader.AttributesImpl) -> None:
+        original_name = name
         name = name.replace("-", "_")
         name = name.replace(".", "_")
         name = name.replace(":", "_")
@@ -138,7 +145,7 @@ class Handler(xml.sax.handler.ContentHandler):
         attrs_dict = {}
         for k, v in attrs.items():
             attrs_dict[k] = v
-        element = Element(name, attrs_dict)
+        element = Element(name, attrs_dict, original_name=original_name)
         if len(self.elements) > 0:
             self.elements[-1].add_child(element)
         else:
