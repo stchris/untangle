@@ -4,6 +4,7 @@ Changelog
 Unreleased
 - Drop support for Python 3.10 (untangle now requires Python 3.11+)
 - Add support for Python 3.15
+- Run doctests (in `docs/*.rst` and module docstrings) as part of the pytest suite ([#159](https://github.com/stchris/untangle/issues/159))
 
 1.3.0
 - Support `os.PathLike` objects, including `pathlib.Path`, in `parse()` ([#150](https://github.com/stchris/untangle/pull/150))
