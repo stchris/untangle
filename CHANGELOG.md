@@ -2,6 +2,7 @@ Changelog
 ---------
 
 Unreleased
+- Preserve each element's XML name in the `original_name` property before converting punctuation and Python keywords for attribute access.
 - Drop support for Python 3.10 (untangle now requires Python 3.11+)
 - Add support for Python 3.15
 

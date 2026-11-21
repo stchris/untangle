@@ -72,6 +72,20 @@ untangle trades features for a simple API, which is why untangle substitutes ``-
 * ``<foo.bar.baz/>`` can be accessed with ``foo_bar_baz``
 * ``<foo:bar><foo:baz/></foo:bar>`` can be accessed with ``foo_bar.foo_baz``
 
+The ``original_name`` property preserves the XML name, including punctuation,
+namespace prefixes and Python keywords, so elements whose names normalize to
+the same attribute can still be distinguished::
+
+    >>> import untangle
+    >>> doc = untangle.parse('<root><foo-bar/><foo.bar/></root>')
+    >>> [child.original_name for child in doc.root.foo_bar]
+    ['foo-bar', 'foo.bar']
+
+The document wrapper returned by ``parse`` has ``original_name=None``. Child
+lookup, including ``get_elements(name)``, continues to use the normalized name.
+If a child itself is named ``original_name``, use
+``parent.get_elements('original_name')`` to access it.
+
 Encoding
 ---------
 
