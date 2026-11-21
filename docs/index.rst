@@ -72,6 +72,26 @@ untangle trades features for a simple API, which is why untangle substitutes ``-
 * ``<foo.bar.baz/>`` can be accessed with ``foo_bar_baz``
 * ``<foo:bar><foo:baz/></foo:bar>`` can be accessed with ``foo_bar.foo_baz``
 
+Some names, such as ``children``, ``cdata`` and ``is_root``, are already used
+by ``Element``. For an XML child with one of these names, use
+``parent.get_elements(name)``. This method always returns a list of matching
+direct children, even when there is only one match::
+
+    >>> import untangle
+    >>> doc = untangle.parse(
+    ...     '<root><children>first</children><other/><children>second</children></root>'
+    ... )
+    >>> [child.cdata for child in doc.root.get_elements('children')]
+    ['first', 'second']
+    >>> len(doc.root.children)  # The complete list of direct children
+    3
+    >>> doc.root.get_elements('missing')
+    []
+
+Pass the normalized name to ``get_elements``, for example ``foo_bar`` for
+``<foo-bar/>``. Square brackets, such as ``element['name']``, retrieve XML
+attributes rather than child elements.
+
 Encoding
 ---------
 

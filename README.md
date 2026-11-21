@@ -48,6 +48,15 @@ allows it to be navigated from the `untangle`d object like this:
 obj.root.child["name"]  # u'child1'
 ```
 
+For child names that conflict with `Element` attributes, such as `children`
+or `cdata`, use `get_elements(name)`. It returns a list of matching direct
+children, using the same normalized names as attribute access:
+
+```python
+obj = untangle.parse('<root><children>value</children></root>')
+obj.root.get_elements("children")[0].cdata  # 'value'
+```
+
 ## Development
 
 `untangle` uses [uv](https://docs.astral.sh/uv/) for builds and virtualenv management:
