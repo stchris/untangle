@@ -53,7 +53,7 @@ or `cdata`, use `get_elements(name)`. It returns a list of matching direct
 children, using the same normalized names as attribute access:
 
 ```python
-obj = untangle.parse('<root><children>value</children></root>')
+obj = untangle.parse("<root><children>value</children></root>")
 obj.root.get_elements("children")[0].cdata  # 'value'
 ```
 
