@@ -74,8 +74,8 @@ untangle trades features for a simple API, which is why untangle substitutes ``-
 
 Some names, such as ``children``, ``cdata`` and ``is_root``, are already used
 by ``Element``. For an XML child with one of these names, use
-``parent.get_elements(name)``. This method always returns a list of matching
-direct children, even when there is only one match::
+``parent.get_elements(name)``. With a non-empty name, this method returns a list
+of matching direct children, even when there is only one match::
 
     >>> import untangle
     >>> doc = untangle.parse(
@@ -87,6 +87,16 @@ direct children, even when there is only one match::
     3
     >>> doc.root.get_elements('missing')
     []
+
+If the name is omitted, ``None``, or an empty string, ``get_elements`` returns
+the complete ``children`` list itself, without filtering or copying it::
+
+    >>> doc.root.get_elements() is doc.root.children
+    True
+    >>> doc.root.get_elements(None) is doc.root.children
+    True
+    >>> doc.root.get_elements('') is doc.root.children
+    True
 
 Pass the normalized name to ``get_elements``, for example ``foo_bar`` for
 ``<foo-bar/>``. Square brackets, such as ``element['name']``, retrieve XML
