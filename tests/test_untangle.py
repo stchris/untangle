@@ -198,8 +198,8 @@ class NamespaceTestCase(unittest.TestCase):
         self.assertEqual("compact", template.table["class"])
         self.assertEqual("compact vam", template.table.tr.xsl_for_each.td["class"])
         self.assertEqual(
-            untangle.Element("", ""),
-            template.table.tr.xsl_for_each.td.xsl_apply_templates,
+            "",
+            template.table.tr.xsl_for_each.td.xsl_apply_templates.cdata,
         )
 
         last_template = stylesheet.xsl_template[-1]
@@ -207,8 +207,8 @@ class NamespaceTestCase(unittest.TestCase):
         self.assertEqual("m_var", last_template["match"])
         self.assertEqual("compact tac formula italic", last_template.p["class"])
         self.assertEqual(
-            untangle.Element("xsl_apply_templates", ""),
-            last_template.p.xsl_apply_templates,
+            "",
+            last_template.p.xsl_apply_templates.cdata,
         )
 
 
@@ -423,14 +423,29 @@ class TestEquals(unittest.TestCase):
     def test_equals(self):
         a = untangle.Element("a", "1")
         b = untangle.Element("b", "1")
-        self.assertTrue(a == b)
+        self.assertFalse(a == b)
+        self.assertEqual(a, a)
 
     def test_list_equals(self):
         a = untangle.Element("a", "1")
         b = untangle.Element("b", "1")
         listA = [a, b]
         c = untangle.Element("c", "1")
-        self.assertTrue(c in listA)
+        self.assertFalse(c in listA)
+
+    def test_parsed_siblings_have_distinct_identity(self):
+        root = untangle.parse("<root><item>same</item><item>same</item></root>")
+        first, second = root.root.item
+        self.assertNotEqual(first, second)
+        self.assertEqual([first, second].index(second), 1)
+        self.assertEqual(first, "same")
+        self.assertEqual("same", second)
+        self.assertNotEqual(first, "different")
+
+    def test_empty_elements_still_compare_to_empty_text(self):
+        element = untangle.parse("<root/>").root
+        self.assertEqual(element, "")
+        self.assertEqual("", element)
 
 
 class TestExternalEntityExpansion(unittest.TestCase):
