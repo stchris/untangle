@@ -61,7 +61,10 @@ class Element:
 
     def get_elements(self, name=None):
         """
-        Find a child element by name
+        Return direct children matching the normalized name.
+
+        If name is omitted or falsy (for example, None or an empty string),
+        return the complete children list.
         """
         if name:
             return [e for e in self.children if e._name == name]
