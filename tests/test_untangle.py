@@ -44,6 +44,24 @@ class FromStringTestCase(unittest.TestCase):
         self.assertTrue(o.a.b)
         self.assertTrue(o.a.c)
 
+    def test_public_metadata(self):
+        doc = untangle.parse('<root><foo-bar id="42"/><empty/></root>')
+        self.assertEqual(doc.root.foo_bar.get_name(), "foo_bar")
+        self.assertEqual(doc.root.foo_bar.get_attributes(), {"id": "42"})
+        attributes = doc.root.foo_bar.get_attributes()
+        attributes["id"] = "changed"
+        self.assertEqual(doc.root.foo_bar["id"], "42")
+        self.assertEqual(doc.root.empty.get_attributes(), {})
+        self.assertIsNone(doc.get_name())
+        self.assertEqual(doc.get_attributes(), {})
+
+    def test_metadata_method_child_names(self):
+        doc = untangle.parse("<root><get_name/><get_attributes/></root>")
+        self.assertEqual(doc.root.get_name(), "root")
+        self.assertEqual(doc.root.get_attributes(), {})
+        self.assertEqual(len(doc.root.get_elements("get_name")), 1)
+        self.assertEqual(len(doc.root.get_elements("get_attributes")), 1)
+
     def test_with_attributes(self):
         o = untangle.parse(
             """

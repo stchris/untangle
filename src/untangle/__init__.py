@@ -59,6 +59,14 @@ class Element:
         """
         return self._attributes.get(key)
 
+    def get_name(self):
+        """Return the normalized element name, or None for the document wrapper."""
+        return self._name
+
+    def get_attributes(self):
+        """Return a copy of the element's XML attributes as a dictionary."""
+        return dict(self._attributes or {})
+
     def get_elements(self, name=None):
         """
         Find a child element by name
