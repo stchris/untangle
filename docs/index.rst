@@ -48,6 +48,23 @@ For text/data inbetween tags, this is described as cdata. After specifying the r
 
 For more examples, have a look at (and launch) `examples.py <https://github.com/stchris/untangle/blob/main/examples.py/>`_.
 
+To inspect an element's name and all its XML attributes, use ``get_name()``
+and ``get_attributes()``::
+
+    >>> import untangle
+    >>> doc = untangle.parse('<root><foo-bar id="42"/></root>')
+    >>> doc.root.foo_bar.get_name()
+    'foo_bar'
+    >>> doc.root.foo_bar.get_attributes()
+    {'id': '42'}
+
+``get_name()`` returns the normalized name used for child lookup.
+``get_attributes()`` returns a dictionary copy, so changing that dictionary
+does not change the element. The document wrapper returned by ``parse()``
+has no element name and no attributes: these methods return ``None`` and
+``{}``, respectively. Children named ``get_name`` or ``get_attributes`` can
+be accessed through ``get_elements(name)``.
+
 Installation
 ------------
 
