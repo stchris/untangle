@@ -57,6 +57,27 @@ obj = untangle.parse("<root><children>value</children></root>")
 obj.root.get_elements("children")[0].cdata  # 'value'
 ```
 
+## Comparing elements
+
+Two `Element` objects compare by identity, so distinct XML nodes remain
+distinct in list membership checks and `list.index()`, even if their text
+matches. Comparing an element to a string still compares its `cdata`:
+
+```python
+import untangle
+
+obj = untangle.parse("<root><item>same</item><item>same</item></root>")
+first, second = obj.root.item
+assert first != second
+assert second not in [first]
+assert first == "same"
+assert first.cdata == second.cdata  # Compare text explicitly.
+```
+
+This changes element-to-element equality from earlier versions, which could
+equate unrelated nodes with matching text, including all empty nodes.
+Use `.cdata` on both sides when text equality is intended.
+
 ## Development
 
 `untangle` uses [uv](https://docs.astral.sh/uv/) for builds and virtualenv management:

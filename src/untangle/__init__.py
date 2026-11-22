@@ -103,6 +103,8 @@ class Element:
     __nonzero__ = __bool__
 
     def __eq__(self, val):
+        if isinstance(val, Element):
+            return self is val
         return self.cdata == val
 
     def __dir__(self):
