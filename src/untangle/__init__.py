@@ -3,7 +3,7 @@ untangle
 
 Converts xml to python objects.
 
-The only method you need to call is parse()
+Parse XML with parse() or an explicit file, string or URL entry point.
 
 Partially inspired by xml2obj
 (http://code.activestate.com/recipes/149368-xml2obj/)
@@ -14,6 +14,7 @@ License: MIT License - http://www.opensource.org/licenses/mit-license.php
 
 import keyword
 import os
+import urllib.request
 import xml.sax
 import xml.sax.handler
 import xml.sax.xmlreader
@@ -153,6 +154,62 @@ class Handler(xml.sax.handler.ContentHandler):
             self.elements[-1].add_cdata(content)
 
 
+def _create_parser(parser_features):
+    parser = make_parser()
+    for feature, value in parser_features.items():
+        parser.setFeature(getattr(xml.sax.handler, feature), value)
+    sax_handler = Handler()
+    parser.setContentHandler(sax_handler)
+    return parser, sax_handler
+
+
+def _parse_source(source, parser_features):
+    parser, sax_handler = _create_parser(parser_features)
+    parser.parse(source)
+    return sax_handler.root
+
+
+def parse_file(filename, **parser_features):
+    """Parse a filesystem path without guessing its contents or fetching a URL.
+
+    Accepts strings, bytes and path-like objects. Files are read in binary mode
+    so the XML declaration controls decoding, and are closed after parsing.
+    Missing files raise ``FileNotFoundError``. SAX features and entity
+    protection are the same as for :func:`parse`.
+    """
+    with open(os.fspath(filename), "rb") as source:
+        return _parse_source(source, parser_features)
+
+
+def parse_xml_string(xml_string, **parser_features):
+    """Parse XML text without checking the filesystem or fetching a URL.
+
+    Raises ``TypeError`` for non-string input and ``ValueError`` for empty or
+    whitespace-only text. SAX features and entity protection are the same as
+    for :func:`parse`.
+    """
+    if not isinstance(xml_string, str):
+        raise TypeError("parse_xml_string() takes an XML string")
+    if not xml_string.strip():
+        raise ValueError("parse_xml_string() takes a nonempty XML string")
+    return _parse_source(StringIO(xml_string), parser_features)
+
+
+def parse_url(url, **parser_features):
+    """Fetch and parse an HTTP or HTTPS URL without checking local paths.
+
+    Raises ``ValueError`` if the input does not start with ``http://`` or
+    ``https://``. The response is closed after parsing. SAX features and
+    entity protection are the same as for :func:`parse`.
+    """
+    if not is_url(url):
+        raise ValueError("parse_url() takes an http:// or https:// URL")
+    with urllib.request.urlopen(url) as response:
+        source = xml.sax.xmlreader.InputSource(url)
+        source.setByteStream(response)
+        return _parse_source(source, parser_features)
+
+
 def parse(filename, **parser_features):
     """
     Interprets the given string as a filename, URL or XML data string,
@@ -181,11 +238,7 @@ def parse(filename, **parser_features):
     """
     if filename is None or (is_string(filename) and filename.strip()) == "":
         raise ValueError("parse() takes a filename, URL or XML string")
-    parser = make_parser()
-    for feature, value in parser_features.items():
-        parser.setFeature(getattr(xml.sax.handler, feature), value)
-    sax_handler = Handler()
-    parser.setContentHandler(sax_handler)
+    parser, sax_handler = _create_parser(parser_features)
     if isinstance(filename, os.PathLike):
         with open(filename, "rb") as source:
             parser.parse(source)

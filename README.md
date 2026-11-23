@@ -34,6 +34,20 @@ obj = untangle.parse(resource)
 * a filename (a string or an `os.PathLike` object such as `pathlib.Path`)
 * an XML string
 
+When the input kind is known, use an explicit entry point to avoid guessing:
+
+```python
+obj = untangle.parse_file("document.xml")  # Also accepts pathlib.Path
+obj = untangle.parse_xml_string("<root/>")  # Always treated as XML text
+obj = untangle.parse_url("https://example.com/document.xml")
+```
+
+`parse_file()` opens a local path and reports missing files as
+`FileNotFoundError`. `parse_xml_string()` never checks local paths or fetches
+URLs. `parse_url()` fetches HTTP or HTTPS URLs. All three accept the same SAX
+feature arguments and retain the entity protections of `parse()`. Existing
+`parse()` calls continue to work, including calls with file-like objects.
+
 Running the above code and passing this XML:
 
 ```xml

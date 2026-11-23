@@ -25,6 +25,23 @@ can be:
 
 .. autofunction:: parse
 
+Use an explicit entry point when the kind of input is known. These functions
+do not guess whether the input is a local path, XML text or a URL. Existing
+``parse()`` calls remain supported, including file-like objects.
+
+.. autofunction:: parse_file
+
+.. autofunction:: parse_xml_string
+
+.. autofunction:: parse_url
+
+For example::
+
+    >>> import untangle
+    >>> doc = untangle.parse_xml_string('<root><child name="example"/></root>')
+    >>> doc.root.child['name']
+    'example'
+
 If you are looking for information on a specific function, class or method, this part of the documentation is for you.
 
 The object you get back represents the complete XML document. Child elements can be accessed with ``parent.child``, attributes with ``element['attribute']``. Siblings with similar names are grouped into a list.
