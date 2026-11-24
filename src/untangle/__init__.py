@@ -148,6 +148,18 @@ class Handler(xml.sax.handler.ContentHandler):
     def endElement(self, name):
         self.elements.pop()
 
+    def startElementNS(
+        self,
+        name: tuple[str | None, str],
+        qname: str | None,
+        attrs: xml.sax.xmlreader.AttributesNSImpl,
+    ) -> None:
+        attributes = {attrs.getQNameByName(key): value for key, value in attrs.items()}
+        self.startElement(name[1], xml.sax.xmlreader.AttributesImpl(attributes))
+
+    def endElementNS(self, name: tuple[str | None, str], qname: str | None) -> None:
+        self.endElement(name[1])
+
     def characters(self, content: str) -> None:
         if self.elements:
             self.elements[-1].add_cdata(content)
@@ -163,6 +175,9 @@ def parse(filename, **parser_features):
     passed to ``parser.setFeature()``. For example, ``feature_external_ges=False``
     will set ``xml.sax.handler.feature_external_ges`` to False, disabling
     the parser's inclusion of external general (text) entities such as DTDs.
+
+    With ``feature_namespaces=True``, elements use local names for child
+    access. Attributes retain their qualified names, such as ``xml:lang``.
 
     Raises ``ValueError`` if the first argument is None / empty string.
 
