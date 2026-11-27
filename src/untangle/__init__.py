@@ -72,6 +72,9 @@ class Element:
         return self.get_attribute(key)
 
     def __getattr__(self, key):
+        # copy and pickle probe attributes before restoring the instance state.
+        if "children" not in self.__dict__:
+            raise AttributeError(key)
         matching_children = [x for x in self.children if x._name == key]
         if matching_children:
             if len(matching_children) == 1:

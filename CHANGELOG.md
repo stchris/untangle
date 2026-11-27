@@ -2,6 +2,7 @@ Changelog
 ---------
 
 Unreleased
+- Avoid recursion errors when copying or unpickling parsed elements.
 - Drop support for Python 3.10 (untangle now requires Python 3.11+)
 - Add support for Python 3.15
 - Run doctests (in `docs/*.rst` and module docstrings) as part of the pytest suite ([#159](https://github.com/stchris/untangle/issues/159))
